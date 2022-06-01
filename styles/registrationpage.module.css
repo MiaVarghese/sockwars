@@ -1,0 +1,14 @@
+.box {
+  margin: auto;
+  width: 25%;
+  background-color: white;
+  padding: 10px;
+  text-align: center;
+}
+.info {
+  text-align: center;
+  padding: 10px;
+  background-clip: content-box;
+  position: relative;
+  margin-bottom: 20px;
+}
