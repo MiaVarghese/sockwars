@@ -3,7 +3,7 @@ import image from "./lock.png";
 import emailimg from "./email.png";
 import usernameimg from "./username.png";
 
-export default function Form() {
+export default function Register() {
   return (
     <div className={styles.box}>
       <h1>Sock War Registration</h1>
@@ -57,11 +57,11 @@ export default function Form() {
           <option value="" disabled selected hidden>
             Select a year...
           </option>{" "}
-          <option value="option 2">First </option> {" "}
-          <option value="option 3">Second </option>
-          <option value="option 4">Third </option>
-          <option value="option 5">Fourth </option>
-          <option value="option 6">Other </option>
+          <option value="First">First </option> {" "}
+          <option value="Second">Second </option>
+          <option value="Third">Third </option>
+          <option value="Fourth">Fourth </option>
+          <option value="Other">Other </option>
         </select>
       </div>
 

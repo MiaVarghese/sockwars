@@ -1,9 +1,3 @@
-<<<<<<< HEAD
-import "../styles/globals.css";
-
-function MyApp({ Component, pageProps }) {
-  return <Component {...pageProps} />;
-
 import '../styles/globals.css';
 import "bootstrap/dist/css/bootstrap.min.css";
 // import "../styles/Settings.module.css";
@@ -20,7 +14,6 @@ function MyApp({ Component, pageProps }) {
     <Component {...pageProps} />
   </div>
   )
->>>>>>> 87069ce87738d6621229f63a82547de0d4e5c256
 }
 
-export default MyApp;
+export default MyApp
