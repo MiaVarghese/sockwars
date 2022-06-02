@@ -5,19 +5,22 @@ import jwt from 'jsonwebtoken';
 
 export default async function handler(req, res){
     const user = new User({
-        userName: "user1",
-        email: "u@gmail.com",
-        password: "pass",
-        firstName: "mary",
-        lastName: "smith",
-        section: "trumpet",
+        userName: req.body.username,
+        email: req.body.email,
+        password: req.body.password,
+        firstName: req.body.firstName,
+        lastName: req.body.lastName,
+        gender: req.body.gender,
+        year: req.body.year,
+        section: req.body.section,
     });
 
-    const { userName } = req.body;
+    const name = req.body.username;
 
     try {
         await dbConnect();
-        var u = await User.findOne({userName: "user1"});
+        var u = await User.findOne({userName: name});
+
         if (u) {
             res.status(500).json({message: "User already exists"});
         } else {
