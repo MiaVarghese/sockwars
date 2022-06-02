@@ -2,7 +2,7 @@ import styles from '../styles/App.module.css'
 
 export default function Target() {
     return (
-        <div>
+        <div style={{paddingTop:"10px"}}>
             <div className={styles.rulesContainer}>
                 <h1 style={{textAlign: "center", paddingLeft:"20px", paddingRight: "20px"}}>Current Target:</h1>
 
