@@ -50,15 +50,6 @@ export default function Register() {
     // console.log(formData);
   }
 
-  async function registerUser() {
-    try {
-      const response = await axios.post(endPoint, formData);
-      console.log(response);
-    } catch(err) {
-      console.log(err);
-    }
-  }
-
   return (
     <div className={styles.box}>
       <form onSubmit={(e) => createUser(e)}>
