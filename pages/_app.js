@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 import "../styles/globals.css";
+=======
+import '../styles/globals.css';
+>>>>>>> 3c7854f7722127246a1726c4be943d907c1f3da9
 import "bootstrap/dist/css/bootstrap.min.css";
 // import "../styles/Settings.module.css";
 
@@ -15,9 +19,15 @@ function MyApp({ Component, pageProps }) {
         ></script>
       </Head>
 
+<<<<<<< HEAD
       <Component {...pageProps} />
     </div>
   );
+=======
+    <Component {...pageProps} />
+  </div>
+  )
+>>>>>>> 3c7854f7722127246a1726c4be943d907c1f3da9
 }
 
-export default MyApp;
+export default MyApp
