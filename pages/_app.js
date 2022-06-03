@@ -16,15 +16,9 @@ function MyApp({ Component, pageProps }) {
         ></script>
       </Head>
 
-<<<<<<< HEAD
       <Component {...pageProps} />
     </div>
   );
-=======
-    <Component {...pageProps} />
-  </div>
-  )
->>>>>>> 3c7854f7722127246a1726c4be943d907c1f3da9
 }
 
 export default MyApp
