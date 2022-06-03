@@ -4,7 +4,7 @@ import axios from "axios";
 
 import { useState, useEffect } from "react";
 
-const endPoint = process.env.NEXT_PUBLIC_REACT_APP_URL + "/register";
+const endPoint = process.env.NEXT_PUBLIC_REACT_APP_URL + "/auth/register";
 
 export default function Register() {
 
