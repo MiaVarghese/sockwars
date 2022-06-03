@@ -6,9 +6,9 @@ import jwt from 'jsonwebtoken';
 export default async function handler(req, res){
     try {
         await dbConnect();
-        const { username, password } = req.body;
+        const { userName, password } = req.body;
 
-        const user = await User.findOne({ username });
+        const user = await User.findOne({ userName });
         if (!user) {
             throw Error("User does not exist");
         } else if (!(password==user.password)) {
