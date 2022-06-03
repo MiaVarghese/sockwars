@@ -1,5 +1,5 @@
-import dbConnect from '../../lib/dbConnect'
-const User = require("../../models/user");
+import dbConnect from '../../../lib/dbConnect'
+const User = require("../../../models/user");
 
 import jwt from 'jsonwebtoken';
 
