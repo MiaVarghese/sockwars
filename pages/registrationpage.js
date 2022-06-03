@@ -1,7 +1,7 @@
 import styles from "../styles/registrationpage.module.css";
-import image from "./lock.png";
-import emailimg from "./email.png";
-import usernameimg from "./username.png";
+// import image from "./lock.png";
+// import emailimg from "./email.png";
+// import usernameimg from "./username.png";
 
 export default function Form() {
   return (
@@ -12,31 +12,31 @@ export default function Form() {
           type="text"
           placeholder="First Name "
           name="firstname"
-          size="45"
+          size="35"
         />
       </div>
 
       <div className={styles.info}>
-        <input type="text" placeholder="Last Name " name="lastname" size="45" />
+        <input type="text" placeholder="Last Name " name="lastname" size="35" />
       </div>
 
       <div className={styles.info}>
-        <input type="text" placeholder="Username" name="username" size="45" />
+        <input type="text" placeholder="Username" name="username" size="35" />
       </div>
 
       <div className={styles.info}>
-        <input type="text" placeholder="Email" name="email" size="45" />
+        <input type="text" placeholder="Email" name="email" size="35" />
       </div>
 
       <div className={styles.info}>
-        <input type="text" placeholder="Password" name="password" size="45" />
+        <input type="text" placeholder="Password" name="password" size="35" />
       </div>
       <div className={styles.info}>
         <input
           type="text"
           placeholder="Re-enter Password"
           name="reenterpassword"
-          size="45"
+          size="35"
         />
       </div>
       <div className={styles.info}>
