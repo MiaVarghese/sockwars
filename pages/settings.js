@@ -1,6 +1,37 @@
 //f1c40f - yellow
+import { useState, useEffect } from "react";
+import axios from "axios";
+
+const endPoint = process.env.NEXT_PUBLIC_REACT_APP_URL + "/users/accountInfo";
 
 export default function Settings() {
+    const [userInfo, setUserInfo] = useState();
+
+    useEffect(() => {
+        try {
+          fetchAccountInfo();
+        } catch(err) {
+          console.log(err);
+        }
+      }, []);
+
+    async function fetchAccountInfo() {
+        const config = {
+            headers:{
+                authorization: window.localStorage.getItem("token")
+            }
+        };
+
+        try {
+          const response = await axios.get(endPoint, config);
+          setUserInfo(response.data);
+          console.log(response.data);
+          console.log(userInfo);
+        } catch(err) {
+            console.log(err.response.data.message);
+        }
+    }
+
     return (
         <div class="container p-5">
             <div class="p-3 pb-5" style={{borderRadius: "10px", backgroundColor: "#2A3B4B"}}>
@@ -23,27 +54,27 @@ export default function Settings() {
                             <div className="row">
                                 <div class="mb-3 col-6">
                                     <label for="firstName" class="form-label">First name</label>
-                                    <input type="text" class="form-control" id="firstName" defaultValue="Mary"/>
+                                    <input type="text" class="form-control" id="firstName" defaultValue={userInfo.firstName}/>
                                 </div>
                                 <div class="mb-3 col-6">
                                     <label for="lastName" class="form-label">Last name</label>
-                                    <input type="text" class="form-control" id="lastName" defaultValue="Smith"/>
+                                    <input type="text" class="form-control" id="lastName" defaultValue={userInfo.lastName}/>
                                 </div>
                             </div>
                             <div className="row">
                                 <div class="mb-3 col-6">
                                     <label for="userName" class="form-label">Username</label>
-                                    <input type="text" class="form-control" id="userName" defaultValue="testuser" disabled/>
+                                    <input type="text" class="form-control" id="userName" defaultValue={userInfo.userName} disabled/>
                                 </div>
                                 <div class="mb-3 col-6">
                                     <label for="email" class="form-label">Email</label>
-                                    <input type="email" class="form-control" id="email" defaultValue="marysmith@gmail.com"/>
+                                    <input type="email" class="form-control" id="email" defaultValue={userInfo.email}/>
                                 </div>
                             </div>
                             <div className="row">
                                 <div class="mb-3 col-6">
                                     <label for="section" class="form-label">Section</label>
-                                    <input type="text" class="form-control" id="section" defaultValue="trumpet"/>
+                                    <input type="text" class="form-control" id="section" defaultValue={userInfo.section}/>
                                 </div>
                             </div>
                             <div style={{textAlign: "center"}}>

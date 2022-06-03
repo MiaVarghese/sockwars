@@ -2,28 +2,31 @@ import dbConnect from '../../../lib/dbConnect'
 const User = require("../../../models/user");
 
 import jwt from 'jsonwebtoken';
+import bcrypt from "bcrypt";
 
 export default async function handler(req, res){
-    const user = new User({
-        userName: req.body.username,
-        email: req.body.email,
-        password: req.body.password,
-        firstName: req.body.firstName,
-        lastName: req.body.lastName,
-        gender: req.body.gender,
-        year: req.body.year,
-        section: req.body.section,
-    });
-
-    const name = req.body.username;
+    const { userName, password } = req.body;
 
     try {
         await dbConnect();
-        var u = await User.findOne({userName: name});
+        var u = await User.findOne({userName});
 
         if (u) {
             res.status(500).json({message: "User already exists"});
         } else {
+            const salt = await bcrypt.genSalt(parseInt(process.env.PASSWORD_SALT));
+            if (!salt) {
+                throw Error("Something went wrong with bcrypt");
+            }
+
+            const hashedPw = await bcrypt.hash(password, salt);
+            if (!hashedPw) {
+                throw Error("Something went wrong with password hashing");
+            }
+
+            const user = new User(req.body);
+            console.log(user.password);
+            user.password = hashedPw;
             const newUser = await user.save();
 
             const token = jwt.sign({ id: newUser._id }, process.env.JWT_SECRET_KEY);
