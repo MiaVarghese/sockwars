@@ -1,8 +1,5 @@
-<<<<<<< HEAD
 import "../styles/globals.css";
-=======
-import '../styles/globals.css';
->>>>>>> 3c7854f7722127246a1726c4be943d907c1f3da9
+
 import "bootstrap/dist/css/bootstrap.min.css";
 // import "../styles/Settings.module.css";
 
