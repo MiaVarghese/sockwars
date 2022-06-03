@@ -12,7 +12,7 @@ export default async function handler(req, res){
         if (!user) {
             throw Error("User does not exist");
         } else if (!(password==user.password)) {
-            throw Error("Invalid credentials");
+            throw Error("Incorrect username or password");
         }
 
         const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET_KEY);

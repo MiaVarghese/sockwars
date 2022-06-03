@@ -42,8 +42,16 @@ export default function Login() {
 
             <form onSubmit={(e)=>loginUser(e)}>
                 <div className={styles.rulesContainer}>
+                    <h2 style={{textAlign: "center", paddingLeft:"20px", paddingRight: "20px", marginTop: "auto", fontSize: "40px"}}>Sign in</h2>
+                    {error ? 
+                        <div className="alert alert-danger m-1" role="alert">
+                            {error}
+                        </div>
+                    :
+                        <div></div>
+                    }
+
                     <div className={styles.username}>
-                        <h2 style={{textAlign: "center", paddingLeft:"20px", paddingRight: "20px", marginTop: "auto", fontSize: "40px"}}>Sign in</h2>
                         <label>Username:</label>
                         <input type="text" className='form-control' placeholder= "Enter Username" onChange={(e)=>handleChange(e)} name="userName" required></input>
                     </div>

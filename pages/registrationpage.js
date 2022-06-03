@@ -34,7 +34,8 @@ export default function Register() {
 
   async function createUser(e) {
     e.preventDefault();
-    console.log("clicked");
+    setError(null);
+
     if (formData.password===confirmPw) {
       try {
         const response = await axios.post(endPoint, formData);
@@ -42,10 +43,10 @@ export default function Register() {
         console.log(response.data.token);
         localStorage.setItem("token", response.data.token);
       } catch(err) {
-        console.log(err);
+        setError(err.response.data.message);
       }
     } else {
-
+      setError("Passwords do not match");
     }
     // console.log(formData);
   }
@@ -54,6 +55,14 @@ export default function Register() {
     <div className={styles.box}>
       <form onSubmit={(e) => createUser(e)}>
         <h1>Sock War Registration</h1>
+        {error ? 
+          <div className="alert alert-danger" role="alert">
+            {error}
+          </div>
+        :
+          <div></div>
+        }
+
         <div className={styles.info}>
           <input type="text" placeholder="First Name " name="firstName" onChange={(e) => handleChange(e)} size="45" />
         </div>
