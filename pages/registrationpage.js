@@ -11,7 +11,7 @@ export default function Register() {
   const [error, setError] = useState();
   const [confirmPw, setConfirmPw] = useState();
   const [formData, setFormData] = useState({
-    username: "",
+    userName: "",
     email: "",
     password: "",
     firstName: "",
@@ -72,7 +72,7 @@ export default function Register() {
         </div>
 
         <div className={styles.info}>
-          <input type="text" placeholder="Username" name="username" onChange={(e) => handleChange(e)} size="45" />
+          <input type="text" placeholder="Username" name="userName" onChange={(e) => handleChange(e)} size="45" />
         </div>
 
         <div className={styles.info}>

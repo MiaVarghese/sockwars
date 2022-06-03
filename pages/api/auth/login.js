@@ -2,6 +2,7 @@ import dbConnect from '../../../lib/dbConnect'
 const User = require("../../../models/user");
 
 import jwt from 'jsonwebtoken';
+import bcrypt from "bcrypt";
 
 export default async function handler(req, res){
     try {
@@ -11,7 +12,7 @@ export default async function handler(req, res){
         const user = await User.findOne({ userName });
         if (!user) {
             throw Error("User does not exist");
-        } else if (!(password==user.password)) {
+        } else if (!(await bcrypt.compare(password, user.password))) {
             throw Error("Incorrect username or password");
         }
 
