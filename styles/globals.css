@@ -18,3 +18,10 @@ a {
   box-sizing: border-box;
 }
 
+.nav-pills > button.active {
+  background-Color: goldenrod !important
+}
+
+.nav-pills > button, .nav-pills > button:hover {
+  color: goldenrod
+}

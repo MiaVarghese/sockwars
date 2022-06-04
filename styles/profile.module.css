@@ -1,0 +1,56 @@
+.container{
+    height: 100vh;
+}
+
+.card{
+    width: 70%;
+    border: none;
+    border-radius: 15px;
+    padding: 8px;
+    background-color: rgb(239, 229, 189);
+    position: relative;
+    height: 70%;
+}
+
+.upper{
+    height: 100px;
+}
+
+   .upper img{
+
+    width: 100%;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+
+   }
+
+
+
+   .profile img{
+
+    height: 80px;
+    width: 80px;
+   }
+
+   .profile{
+
+    position: absolute;
+
+    left: 38%;
+    height: 50px;
+    width: 90px;
+
+   }
+
+   .follow{
+
+    border-radius: 15px;
+    padding-left: 20px;
+    padding-right: 20px;
+    height: 35px;
+   }
+
+   .stats span{
+
+    font-size: 29px;
+   }

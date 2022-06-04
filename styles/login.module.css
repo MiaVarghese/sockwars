@@ -1,0 +1,36 @@
+.rulesContainer {
+  margin: auto;
+  width: fit-content;
+  background-color: rgb(239, 229, 189);
+  margin-top: 197px;
+  border-radius: 25px;
+}
+.password {
+  text-align: center;
+  padding: 10px;
+  background-clip: content-box;
+  position: relative;
+}
+.username {
+  text-align: center;
+  padding: 10px;
+  background-clip: content-box;
+  position: relative;
+}
+.submit {
+  text-align: center;
+  background-clip: content-box;
+  position: relative;
+}
+.notRegistered {
+  margin: auto;
+  text-align: center;
+  padding: 10px;
+  position: relative;
+}
+.h1 {
+  margin-top: auto;
+  color: rgb(241, 196, 15);
+  text-align: center;
+  font-size: 60px;
+}
