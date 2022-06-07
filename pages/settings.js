@@ -16,14 +16,14 @@ export default function Settings() {
       }, []);
 
     async function fetchAccountInfo() {
-        const config = {
-            headers:{
-                authorization: window.localStorage.getItem("token")
-            }
-        };
+        // const config = {
+        //     headers:{
+        //         authorization: window.localStorage.getItem("token")
+        //     }
+        // };
 
         try {
-          const response = await axios.get(endPoint, config);
+          const response = await axios.get(endPoint);
           setUserInfo(response.data);
           console.log(response.data);
           console.log(userInfo);

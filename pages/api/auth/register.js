@@ -1,8 +1,8 @@
 import dbConnect from '../../../lib/dbConnect'
 const User = require("../../../models/user");
-
 import jwt from 'jsonwebtoken';
 import bcrypt from "bcrypt";
+import { serialize } from "cookie";
 
 export default async function handler(req, res){
     const { userName, password } = req.body;
@@ -25,11 +25,19 @@ export default async function handler(req, res){
             }
 
             const user = new User(req.body);
-            console.log(user.password);
             user.password = hashedPw;
             const newUser = await user.save();
 
             const token = jwt.sign({ id: newUser._id }, process.env.JWT_SECRET_KEY);
+
+            const serialised = serialize("token", token, {
+                httpOnly: true,
+                sameSite: "strict",
+                maxAge: 60 * 60 * 24 * 30, //30 days
+                path: "/",
+            });
+
+            res.setHeader("Set-Cookie", serialised);
     
             res.status(201).json({token, user});
         }
