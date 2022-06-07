@@ -61,9 +61,30 @@ function matchTargets(players, d) {
     return matches;
 }
 
+//https://www.w3docs.com/snippets/javascript/how-to-randomize-shuffle-a-javascript-array.html
+function shuffle(array) {
+    let curId = array.length;
+    // There remain elements to shuffle
+    while (0 !== curId) {
+      // Pick a remaining element
+      let randId = Math.floor(Math.random() * curId);
+      curId -= 1;
+      // Swap it with the current element.
+      let tmp = array[curId];
+      array[curId] = array[randId];
+      array[randId] = tmp;
+    }
+    return array;
+  }
+
 export default async function handler(req, res){
-    console.log("here");
-    console.log(req.body)
-    var matches = matchTargets(req.body.players, 2);
+    for (var i=0; i<10; i++) {
+        var matches = matchTargets(req.body.players, 2);
+        if (matches!==[false]) {
+            break;
+        } else {
+            req.body.players = shuffle(req.body.players);
+        }
+    }
     res.json(matches);
 }

@@ -5,7 +5,7 @@ const matchEndPoint = process.env.NEXT_PUBLIC_REACT_APP_URL + "/match";
 
 export default function Target() {
     const players = {
-        players: [{"name": "Mary", "section": "trumpet"}, {"name": "Sam", "section": "clarinet"}]
+        players: [{"name": "Mary", "section": "trumpet"}, {"name": "Sam", "section": "trumpet"}]
     };
 
     async function fetchPlayers() {
@@ -24,6 +24,9 @@ export default function Target() {
 
         try {
             const response = await axios.post(matchEndPoint, players);
+            if (response.data[0]===false) {
+                console.log("Could not find a match. Try again later or enter a new distance value.")
+            }
             console.log(response.data);
         } catch(err) {
             console.log(err);
