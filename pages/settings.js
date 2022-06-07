@@ -34,6 +34,9 @@ export default function Settings() {
 
     return (
         <div class="container p-5">
+            {!userInfo ? 
+            <div> Loading </div>
+            :
             <div class="p-3 pb-5" style={{borderRadius: "10px", backgroundColor: "#2A3B4B"}}>
                 <h2 class="px-3 mb-1" style={{color: "white"}}>Settings</h2>
                 <hr className="mt-0" style={{color: "white"}}></hr>
@@ -128,6 +131,7 @@ export default function Settings() {
                     </div>
                 </div>
             </div>
+            }
         </div>
     )
 }

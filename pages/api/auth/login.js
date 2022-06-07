@@ -3,6 +3,7 @@ const User = require("../../../models/user");
 
 import jwt from 'jsonwebtoken';
 import bcrypt from "bcrypt";
+import { serialize } from "cookie";
 
 export default async function handler(req, res){
     try {
@@ -21,6 +22,16 @@ export default async function handler(req, res){
             throw Error("Couldn't sign token");
         }
 
+        const serialised = serialize("token", token, {
+            httpOnly: true,
+            sameSite: "strict",
+            maxAge: 60 * 60 * 24 * 30, //30 days
+            path: "/",
+        });
+
+        res.setHeader("Set-Cookie", serialised);
+
+        console.log("Signed in");
         res.status(200).json({token, user});
     } catch (err) {
         res.status(500).json({message: err.message});
