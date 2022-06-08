@@ -17,6 +17,10 @@ export default function Target() {
         }
     }
 
+    async function updateTargets() {
+        
+    }
+
     async function matchPlayers(e) {
         // e.preventDefault();
 
