@@ -1,5 +1,5 @@
 import styles from '../styles/login.module.css'
-
+import NavBar from "./components/NavBar";
 import { useState, useEffect } from "react";
 import axios from "axios";
 
@@ -38,6 +38,7 @@ export default function Login() {
 
     return (
         <div>
+            <NavBar />
             <h1 className={styles.h1}>Welcome to Sock Wars!</h1>
 
             <form onSubmit={(e)=>loginUser(e)}>

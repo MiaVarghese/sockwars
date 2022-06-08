@@ -1,9 +1,11 @@
 import styles from "../styles/confirmelim.module.css";
 import Head from "next/head";
+import NavBar from "./components/NavBar";
 
 export default function Form() {
   return (
     <div>
+      <NavBar />
       <Head>
         <title>Confirmed Eliminations</title>
         <link
