@@ -91,9 +91,9 @@ export default function Register() {
             <option value="" disabled selected hidden>
               Select a gender...
             </option>
-            <option value="Male">Male</option>
-            <option value="Female">Female</option>
-            <option value="Other">Other</option>
+            <option value="male">Male</option>
+            <option value="female">Female</option>
+            <option value="other">Other</option>
           </select>
         </div>
 
@@ -103,11 +103,11 @@ export default function Register() {
             <option value="" disabled selected hidden>
               Select a year...
             </option>
-            <option value="First">First </option>
-            <option value="Second">Second </option>
-            <option value="Third">Third </option>
-            <option value="Fourth">Fourth </option>
-            <option value="Other">Other </option>
+            <option value="first">First </option>
+            <option value="second">Second </option>
+            <option value="third">Third </option>
+            <option value="fourth">Fourth </option>
+            <option value="other">Other </option>
           </select>
         </div>
 
