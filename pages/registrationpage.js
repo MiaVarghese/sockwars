@@ -117,9 +117,18 @@ export default function Register() {
             <option value="" disabled selected hidden>
               Select a section...
             </option>
-            <option value="option 2">Option 1 </option>
-            <option value="option 3">Option 2 </option>
-            <option value="option 4">Option 3 </option>
+            <option value="baritone">Baritone </option>
+            <option value="clarinet">Clarinet </option>
+            <option value="color guard and twirler">Color Guard and Twirler </option>
+            <option value="drum major">Drum Major </option>
+            <option value="drumline">Drumline </option>
+            <option value="horn">Horn </option>
+            <option value="piccolo">Piccolo </option>
+            <option value="saxophone">Saxophone </option>
+            <option value="staff">Staff </option>
+            <option value="trombone">Trombone </option>
+            <option value="trumpet">Trumpet </option>
+            <option value="tuba">Tuba </option>
           </select>
         </div>
 
