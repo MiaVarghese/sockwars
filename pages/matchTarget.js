@@ -2,6 +2,7 @@ import axios from "axios";
 
 const usersEndPoint = process.env.NEXT_PUBLIC_REACT_APP_URL + "/users";
 const matchEndPoint = process.env.NEXT_PUBLIC_REACT_APP_URL + "/match";
+const createEndPoint = process.env.NEXT_PUBLIC_REACT_APP_URL + "playerStatus/create";
 
 export default function Target() {
     const players = {
@@ -17,8 +18,14 @@ export default function Target() {
         }
     }
 
-    async function updateTargets() {
-        
+    async function createPlayers(matches) {
+        const param = {gameId: 1, matches: matches}
+        try {
+            const response = await axios.post(createEndPoint, param);
+            console.log(response.data);
+        } catch(err) {
+            console.log(err);
+        }
     }
 
     async function matchPlayers(e) {
@@ -32,6 +39,8 @@ export default function Target() {
                 console.log("Could not find a match. Try again later or enter a new distance value.")
             }
             console.log(response.data);
+
+            createPlayers(response.data);
         } catch(err) {
             console.log(err);
         }
