@@ -1,29 +1,36 @@
 import { useState, useEffect } from 'react'
 import axios from "axios";
 
+import styles from '../../styles/App.module.css'
+
 const URL_PREFIX = process.env.NEXT_PUBLIC_REACT_APP_URL;
 
 function Create() {
-    const [gameNo, setGameNo] = useState(0)
     const [allUsers, setUsers] = useState([])
-    const [activePlayers, setActivePlayers] = useState([])
     const [startDate, setStartDate] = useState('')
     const [endDate, setEndDate] = useState('')
-    const [immunities, setImmunities] = useState([])
 
     useEffect(() => {
         axios.get(URL_PREFIX + "/users").then((response) => {
-            const users = response.data
+            let users = []
+            for(let i = 0; i < response.data.length; i++) {
+                users.push({
+                    id: response.data[i]._id,
+                    username: response.data[i].username,
+                    section: response.data[i].section,
+                })
+            }
             setUsers(users)
+            //console.log(users)
         })
     });
 
     const submitGame = () => {
         axios.post(URL_PREFIX + "/games/create", {
-            activePlayers: [],
+            activePlayers: allUsers,
             eliminatedPlayers: [],
-            startDate: '1995-12-17T03:24:00',//startDate,
-            endDate: '1995-12-17T03:24:00',//endDate,
+            startDate: startDate + ':00',
+            endDate: endDate + ':00',
             immunities: []
         })
         .then((response) => {
@@ -34,37 +41,36 @@ function Create() {
         });
     }
 
-    const submitGameX = async () => {
-        const response = await fetch('/api/comments', {
-            method: 'POST',
-            body: JSON.stringify({
-                gameNo: 1,
-                activePlayers: [],
-                eliminatedPlayers: [],
-                startDate: startDate,
-                endDate: endDate,
-                immunities: []
-            }),
-            headers: {
-                'Content-Type': 'application/json'
-            }
-        })
-        const data = await response.json()
-        //console.log(data)
-    }
-
     return (
         <>
-            <div>
+            <h1 style={{textAlign: "center", paddingLeft:"20px", paddingRight: "20px", color:"rgb(239, 229, 189)"}}>Create a new game:</h1>
+            <p></p>
+            <div style={{ margin:"auto", color:"rgb(239, 229, 189)", width: "fit-content"}}>
+                <label>Start Date: </label>
                 <input
-                    type='date'
+                    type='datetime-local'
                     onChange={e => {
                         console.log(typeof(e.target.value))
                         console.log(e.target.value)
                         setStartDate(e.target.value)
                     }}
                 />
-                <button onClick={submitGame}>Submit comment</button>
+            </div>
+            <p></p>
+            <div style={{ margin:"auto", color:"rgb(239, 229, 189)", width: "fit-content"}}>
+                <label>End Date: </label>
+                <input
+                    type='datetime-local'
+                    onChange={e => {
+                        console.log(typeof(e.target.value))
+                        console.log(e.target.value)
+                        setEndDate(e.target.value)
+                    }}
+                />
+            </div>
+            <p></p>
+            <div style={{ margin:"auto", width: "fit-content"}}>
+                <button class="btn btn-primary" onClick={submitGame} style={{backgroundColor:"rgb(239, 229, 189)", color:"black"}}>Create Game</button>
             </div>
             <hr />
             {/* {comments.map(comment => {
