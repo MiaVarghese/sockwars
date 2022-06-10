@@ -7,6 +7,7 @@ export default async function handler(req, res){
     try {
         // const players = [];
         const names = [];
+        console.log("here");
         var targets = [matches[(i+1)%matches.length].userName];
         var game = {
             gameId: gameId,
@@ -38,10 +39,16 @@ export default async function handler(req, res){
         // }
 
         // const result = await PlayerStatus.insertMany(players);
-        User.updateMany({userName: {$in: names}}, {$push: {gamesPlayed: game}});
-        console.log(result);
-        res.status(201).json(result);
+        // User.updateMany({userName: {$in: names}}, {$push: {gamesPlayed: {
+        //     gameId: gameId,
+        //     targets: [matches[(matches.find(userName)+1)%matches.length].userName],
+        //     eliminated: 0,
+        //     isActive: true,
+        //     isWinner: false
+        // }}});
+        // // console.log(result);
+        // res.status(201).json(result);
     } catch (err) {
-        res.status(500).json({message: err.message});
+        res.status(500).json({message: err});
     }
 }

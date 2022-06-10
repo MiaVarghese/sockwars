@@ -1,18 +1,24 @@
 import axios from "axios";
+import { useState, useEffect } from "react";
 
 const usersEndPoint = process.env.NEXT_PUBLIC_REACT_APP_URL + "/users";
 const matchEndPoint = process.env.NEXT_PUBLIC_REACT_APP_URL + "/match";
-const createEndPoint = process.env.NEXT_PUBLIC_REACT_APP_URL + "playerStatus/create";
+const createEndPoint = process.env.NEXT_PUBLIC_REACT_APP_URL + "/playerStatus/create";
 
 export default function Target() {
-    const players = {
-        players: [{"name": "Mary", "section": "trumpet"}, {"name": "Sam", "section": "trumpet"}]
-    };
+    // const players = {
+    //     players: [{"name": "Mary", "section": "trumpet"}, {"name": "Sam", "section": "trumpet"}]
+    // };
+    const [players, setPlayers] = useState();
+
+    useEffect(() => {
+        fetchPlayers();
+    }, [])
 
     async function fetchPlayers() {
         try {
             const response = await axios.get(usersEndPoint);
-            console.log(response.data);
+            setPlayers(response.data);
         } catch(err) {
             console.log(err.data.message);
         }
@@ -25,16 +31,20 @@ export default function Target() {
             console.log(response.data);
         } catch(err) {
             console.log(err);
+            console.log(err.data.message);
         }
     }
 
     async function matchPlayers(e) {
         // e.preventDefault();
 
-        // const p = fetchPlayers();
+        // const players = fetchPlayers();
+        // console.log("players", players);
 
         try {
-            const response = await axios.post(matchEndPoint, players);
+            // const players = fetchPlayers();
+            // console.log(players);
+            const response = await axios.post(matchEndPoint, {players: players});
             if (response.data[0]===false) {
                 console.log("Could not find a match. Try again later or enter a new distance value.")
             }
@@ -42,7 +52,7 @@ export default function Target() {
 
             createPlayers(response.data);
         } catch(err) {
-            console.log(err);
+            console.log(err.data.message);
         }
     }
 
