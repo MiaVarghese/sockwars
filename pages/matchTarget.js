@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 
 const usersEndPoint = process.env.NEXT_PUBLIC_REACT_APP_URL + "/users";
 const matchEndPoint = process.env.NEXT_PUBLIC_REACT_APP_URL + "/match";
-const createEndPoint = process.env.NEXT_PUBLIC_REACT_APP_URL + "/playerStatus/create";
+const createEndPoint = process.env.NEXT_PUBLIC_REACT_APP_URL + "/users/assignTarget";
 
 export default function Target() {
     // const players = {
