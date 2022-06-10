@@ -1,7 +1,52 @@
-import styles from '../styles/profile.module.css'
+import { useRouter } from "next/router";
+import { useState, useEffect } from "react";
+import axios from "axios";
+
+import styles from '../../styles/profile.module.css';
+
+const endPoint = process.env.NEXT_PUBLIC_REACT_APP_URL + "/users/";
 
 export default function Profile() {
+    const [profile, setProfile] = useState();
+    const router = useRouter();
+    const { userName } = router.query;
+
+    useEffect(() => {
+        fetchProfile();
+    }, []);
+
+    async function fetchProfile() {
+        try {
+            const response = await axios.get(endPoint + userName);
+            switch(response.data.year) {
+                case "first":
+                    response.data.year = "1st";
+                    break;
+                case "second":
+                    response.data.year = "2nd";
+                    break;
+                case "third":
+                    response.data.year = "3rd";
+                    break;
+                case "fourth":
+                    response.data.year = "4th";
+                    break;
+                case "other":
+                    response.data.year = "Other";
+                    break;
+                default:
+                    break;
+            }
+            setProfile(response.data);
+            console.log(response.data);
+        } catch(err) {
+            console.log(err.response.data.message);
+        }
+    }
+
     return (
+        <div>
+        {profile ?
         <div class="container d-flex justify-content-center align-items-center" style={{paddingTop:"25px"}}>     
             <div class="card" style={{backgroundColor: "rgb(239, 229, 189)"}}>
                 <div class="upper">
@@ -14,8 +59,8 @@ export default function Profile() {
                     </div>
                 </div>
                 <div class="mt-5 text-center">
-                    <h4 class="mb-0">John Doe</h4>
-                    <span class="text-muted d-block mb-2">4th Year</span>
+                    <h4 class="mb-0">{profile.firstName} {profile.lastName}</h4>
+                    <span class="text-muted d-block mb-2">{profile.year} Year</span>
                     <button class="btn btn-primary btn-sm follow">Edit Profile</button>
                     <div class="d-flex justify-content-between align-items-center mt-4 px-4">
                         <div class="stats">
@@ -33,6 +78,10 @@ export default function Profile() {
                     </div>
                 </div>
             </div>
+        </div>
+        :
+        <div>Loading</div>
+        }
         </div>
     )
 }
