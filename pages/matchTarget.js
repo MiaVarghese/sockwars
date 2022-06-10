@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 
 const usersEndPoint = process.env.NEXT_PUBLIC_REACT_APP_URL + "/users";
 const matchEndPoint = process.env.NEXT_PUBLIC_REACT_APP_URL + "/match";
-const createEndPoint = process.env.NEXT_PUBLIC_REACT_APP_URL + "/playerStatus/create";
+const createEndPoint = process.env.NEXT_PUBLIC_REACT_APP_URL + "/users/assignTarget";
 
 export default function Target() {
     // const players = {
@@ -27,11 +27,10 @@ export default function Target() {
     async function createPlayers(matches) {
         const param = {gameId: 1, matches: matches}
         try {
-            const response = await axios.post(createEndPoint, param);
+            const response = await axios.patch(createEndPoint, param);
             console.log(response.data);
         } catch(err) {
-            console.log(err);
-            console.log(err.data.message);
+            console.log(err.response.data.message);
         }
     }
 
