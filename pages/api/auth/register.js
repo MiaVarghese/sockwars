@@ -26,6 +26,7 @@ export default async function handler(req, res){
 
             const user = new User(req.body);
             user.password = hashedPw;
+            user.playedGames = [];
             const newUser = await user.save();
 
             const token = jwt.sign({ id: newUser._id }, process.env.JWT_SECRET_KEY);
