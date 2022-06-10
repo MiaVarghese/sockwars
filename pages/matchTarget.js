@@ -27,11 +27,10 @@ export default function Target() {
     async function createPlayers(matches) {
         const param = {gameId: 1, matches: matches}
         try {
-            const response = await axios.post(createEndPoint, param);
+            const response = await axios.patch(createEndPoint, param);
             console.log(response.data);
         } catch(err) {
-            console.log(err);
-            console.log(err.data.message);
+            console.log(err.response.data.message);
         }
     }
 

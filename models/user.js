@@ -7,9 +7,9 @@ const userSchema = new mongoose.Schema({
     firstName: {type: String, required: true},
     lastName: {type: String, required: true},
     gender: {type: String, required: true, enum: ["male", "female", "other"]},
-    year: {type: String, required: true,enum: ["first", "second", "third", "fourth", "other"]},
+    year: {type: String, required: true, enum: ["first", "second", "third", "fourth", "other"]},
     section: {type: String, required: true},
-    role: {type: String,required: true,enum: ["user", "admin"],default: "user"},
+    role: {type: String,required: true, enum: ["user", "admin"], default: "user"},
     gamesPlayed: [{
         gameId: Number,
         targets: [String],
