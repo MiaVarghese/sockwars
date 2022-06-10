@@ -9,3 +9,4 @@ const gameSchema = new mongoose.Schema({
 }, {collection: "Games"});
 
 module.exports = mongoose.models.Game || mongoose.model("Game", gameSchema);
+
