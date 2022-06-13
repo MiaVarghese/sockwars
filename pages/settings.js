@@ -43,39 +43,39 @@ export default function Settings() {
 
                 <div className="row px-4">
                     {/* Side Tabs */}
-                    <div className="col-2 nav flex-column nav-pills" id="pills-tab" role="tablist" aria-orientation="vertical">
+                    <div className="col-md-2 nav flex-column nav-pills" id="pills-tab" role="tablist" aria-orientation="vertical">
                         <button class="nav-link active" id="account-tab" data-bs-toggle="pill" data-bs-target="#pills-account" type="button" role="tab" aria-controls="pills-account" aria-selected="true">Account Details</button>
                         <button class="nav-link" id="profile-tab" data-bs-toggle="pill" data-bs-target="#pills-profile" type="button" role="tab" aria-controls="pills-profile" aria-selected="false">Password</button>
                         <button class="nav-link" id="messages-tab" data-bs-toggle="pill" data-bs-target="#pills-messages" type="button" role="tab" aria-controls="pills-messages" aria-selected="false">Notifications</button>
                     </div>
 
                     {/* Tab Content */}
-                    <div style={{backgroundColor: "", color: "white"}} class="col tab-content" id="pills-tabContent">
+                    <div style={{backgroundColor: "", color: "white"}} class="col-md-10 tab-content" id="pills-tabContent">
                         {/* Account Details Tab */}
                         <div class="tab-pane fade show active" id="pills-account" role="tabpanel" aria-labelledby="account-tab" tabindex="0">
                             <h3 style={{color: "goldenrod"}}>Account Details</h3>
                             <div className="row">
-                                <div class="mb-3 col-6">
+                                <div class="mb-3 col-sm-6">
                                     <label for="firstName" class="form-label">First name</label>
                                     <input type="text" class="form-control" id="firstName" defaultValue={userInfo.firstName}/>
                                 </div>
-                                <div class="mb-3 col-6">
+                                <div class="mb-3 col-sm-6">
                                     <label for="lastName" class="form-label">Last name</label>
                                     <input type="text" class="form-control" id="lastName" defaultValue={userInfo.lastName}/>
                                 </div>
                             </div>
                             <div className="row">
-                                <div class="mb-3 col-6">
+                                <div class="mb-3 col-sm-6">
                                     <label for="userName" class="form-label">Username</label>
                                     <input type="text" class="form-control" id="userName" defaultValue={userInfo.userName} disabled/>
                                 </div>
-                                <div class="mb-3 col-6">
+                                <div class="mb-3 col-sm-6">
                                     <label for="email" class="form-label">Email</label>
                                     <input type="email" class="form-control" id="email" defaultValue={userInfo.email}/>
                                 </div>
                             </div>
                             <div className="row">
-                                <div class="mb-3 col-6">
+                                <div class="mb-3 col-sm-6">
                                     <label for="section" class="form-label">Section</label>
                                     <input type="text" class="form-control" id="section" defaultValue={userInfo.section}/>
                                 </div>
@@ -90,25 +90,25 @@ export default function Settings() {
                             <h3 style={{color: "goldenrod", margin: "0px"}}>Password</h3>
                             <p style={{color: "lightgrey", fontSize: "13px"}}>Changing your password can not be undone.</p>
                             <div className="row">
-                                <div class="mb-3 col-6">
+                                <div class="mb-3 col-sm-6">
                                     <label for="oldPw" class="form-label">Current password</label>
                                     <input type="password" class="form-control" id="oldPw" placeholder="" disabled/>
                                 </div>
                             </div>
                             <div className="row">
-                                <div class="mb-3 col-6">
+                                <div class="mb-3 col-sm-6">
                                     <label for="newPw" class="form-label">New password</label>
                                     <input type="password" class="form-control" id="newPw" placeholder="" disabled/>
                                 </div>
                             </div>
                             <div className="row">
-                                <div class="mb-3 col-6">
+                                <div class="mb-3 col-sm-6">
                                     <label for="confirmNewPw" class="form-label">Confirm password</label>
                                     <input type="password" class="form-control" id="confirmNewPw" placeholder="" disabled/>
                                 </div>
                             </div>
 
-                            <button className="col-6 btn btn-primary">Change Password</button>
+                            <button className="col-sm-6 btn btn-primary">Change Password</button>
                         </div>
 
                         {/* Notifications Tab */}
