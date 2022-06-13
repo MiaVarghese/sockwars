@@ -1,5 +1,4 @@
 import dbConnect from '../../../lib/dbConnect'
-import auth from "../../../middleware/auth";
 
 import jwt from "jsonwebtoken";
 

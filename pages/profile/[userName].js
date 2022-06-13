@@ -12,8 +12,12 @@ export default function Profile() {
     const { userName } = router.query;
 
     useEffect(() => {
-        fetchProfile();
-    }, []);
+        try {
+            fetchProfile();
+        } catch(err) {
+            console.log(err);
+        }
+    }, [userName]);
 
     async function fetchProfile() {
         try {
@@ -38,9 +42,9 @@ export default function Profile() {
                     break;
             }
             setProfile(response.data);
-            console.log(response.data);
         } catch(err) {
-            console.log(err.response.data.message);
+            console.log(err);
+            // console.log(err.response.data.message);
         }
     }
 

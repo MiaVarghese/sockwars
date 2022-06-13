@@ -1,6 +1,7 @@
 import styles from '../styles/login.module.css'
 
 import { useState, useEffect } from "react";
+import Router from "next/router";
 import axios from "axios";
 
 const endPoint = process.env.NEXT_PUBLIC_REACT_APP_URL + "/auth/login";
@@ -27,8 +28,7 @@ export default function Login() {
       try {
         const response = await axios.post(endPoint, formData);
         console.log(response.data);
-        console.log(response.data.token);
-        localStorage.setItem("token", response.data.token);
+        Router.push("/");
       } catch(err) {
           console.log(err.response.data.message);
           setError(err.response.data.message);

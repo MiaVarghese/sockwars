@@ -1,7 +1,7 @@
 import styles from "../styles/registrationpage.module.css";
 
 import axios from "axios";
-
+import Router from "next/router";
 import { useState, useEffect } from "react";
 
 const endPoint = process.env.NEXT_PUBLIC_REACT_APP_URL + "/auth/register";
@@ -39,9 +39,7 @@ export default function Register() {
     if (formData.password===confirmPw) {
       try {
         const response = await axios.post(endPoint, formData);
-        console.log(response.data);
-        console.log(response.data.token);
-        localStorage.setItem("token", response.data.token);
+        Router.push("/");
       } catch(err) {
         setError(err.response.data.message);
       }
