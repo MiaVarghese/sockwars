@@ -22,7 +22,7 @@ export default function middleware(req) {
         }
     }
 
-    if (url.includes("/settings")) {
+    if (url.includes("/settings") || url.includes("/notifications")) {
         if (jwt) {
             try {
                 jwt.verify(token, process.env.JWT_SECRET_KEY);
