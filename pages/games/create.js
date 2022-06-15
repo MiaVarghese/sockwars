@@ -4,6 +4,8 @@ import axios from "axios";
 import styles from '../../styles/App.module.css'
 
 const URL_PREFIX = process.env.NEXT_PUBLIC_REACT_APP_URL;
+const matchEndPoint = process.env.NEXT_PUBLIC_REACT_APP_URL + "/match";
+const createEndPoint = process.env.NEXT_PUBLIC_REACT_APP_URL + "/users/assignTarget";
 
 function Create() {
     const [allUsers, setUsers] = useState([])
@@ -15,15 +17,14 @@ function Create() {
             let users = []
             for(let i = 0; i < response.data.length; i++) {
                 users.push({
-                    id: response.data[i]._id,
-                    username: response.data[i].username,
+                    // id: response.data[i]._id,
+                    userName: response.data[i].userName,
                     section: response.data[i].section,
                 })
             }
             setUsers(users)
-            //console.log(users)
         })
-    });
+    }, []);
 
     const submitGame = () => {
         axios.post(URL_PREFIX + "/games/create", {
@@ -35,10 +36,40 @@ function Create() {
         })
         .then((response) => {
             console.log(response)
+            try {
+                matchPlayers(response.data._id, response.data.activePlayers);
+            } catch(err) {
+                console.log(err);
+            }
         })
         .catch((error) => {
-            console.log(error)
+            console.log(error.response)
         });
+    }
+
+    async function createPlayers(matches, id) {
+        const param = {gameId: id, matches: matches}
+        try {
+            const response = await axios.patch(createEndPoint, param);
+            console.log(response.data);
+        } catch(err) {
+            console.log(err);
+            console.log(err.response.data.message);
+        }
+    }
+
+    async function matchPlayers(id, players) {
+        try {
+            const response = await axios.post(matchEndPoint, {players: players});
+            if (response.data[0]===false) {
+                console.log("Could not find a match. Try again later or enter a new distance value.")
+            } else {
+                createPlayers(response.data, id);
+            }
+        } catch(err) {
+            console.log(err);
+            console.log(err.data.message);
+        }
     }
 
     return (

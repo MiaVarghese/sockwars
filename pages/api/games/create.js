@@ -3,7 +3,7 @@ const Game = require("../../../models/game");
 
 export default async function handler(req, res){
     try {
-        console.log(req.body)
+        // console.log(req.body)
         await dbConnect();
         //console.log(req.body)
         const { activePlayers, eliminatedPlayers, startDate, endDate, immunities } = req.body;

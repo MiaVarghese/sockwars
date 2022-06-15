@@ -11,7 +11,7 @@ const userSchema = new mongoose.Schema({
     section: {type: String, required: true},
     role: {type: String,required: true, enum: ["user", "admin"], default: "user"},
     gamesPlayed: [{
-        gameId: Number,
+        gameId: String,
         targets: [String],
         eliminated: Number,
         isActive: Boolean,
