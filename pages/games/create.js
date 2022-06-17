@@ -17,8 +17,8 @@ function Create() {
             let users = []
             for(let i = 0; i < response.data.length; i++) {
                 users.push({
-                    // id: response.data[i]._id,
-                    userName: response.data[i].userName,
+                    id: response.data[i]._id,
+                    username: response.data[i].userName,
                     section: response.data[i].section,
                 })
             }
