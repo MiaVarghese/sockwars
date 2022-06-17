@@ -1,5 +1,8 @@
 import styles from '../styles/App.module.css'
 import { useState, useEffect } from 'react'
+import axios from "axios";
+
+const URL_PREFIX = process.env.NEXT_PUBLIC_REACT_APP_URL;
 
 export default function Target() {
     const [eliminated, setEliminated] = useState(false)
@@ -9,7 +12,32 @@ export default function Target() {
     });
 
     const confirmElim = () => {
-        console.log(eliminated)
+        if(eliminated) {
+            const loggedInUser = JSON.parse(localStorage.user)
+            const gamePlayed = loggedInUser.gamesPlayed.find(g => { 
+                return g.gameId === '62ab3acb1278f9a6391cafb6' //hard coded gameId, should be passed
+            })
+            console.log(gamePlayed)
+            axios.get(URL_PREFIX + "/users/" + gamePlayed.targets[gamePlayed.targets.length - 1])
+            .then((eliminated) => {
+                axios.patch(URL_PREFIX + "/users/removeTarget", {
+                    gameId: '62ab3acb1278f9a6391cafb6',
+                    eliminatorUsername: loggedInUser.userName,
+                    eliminated: eliminated.data, //pass the whole object instead of just username
+                    newTarget: "u3" //hard coded new target
+                })
+                console.log(eliminated.data)
+                .then((patchResponse) => {
+                    console.log(patchResponse)
+                })
+                .catch((error) => {
+                    console.log(error)
+                });
+            })
+            .catch((error) => {
+                console.log(error)
+            });
+        }
     }
 
     return (
