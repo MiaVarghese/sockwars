@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import jwt, { verify } from "jsonwebtoken";
+import jwt from "jsonwebtoken";
 
 const baseUrl = process.env.NEXT_PUBLIC_REACT_URL;
 

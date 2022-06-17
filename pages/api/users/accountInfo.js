@@ -1,23 +1,8 @@
 import dbConnect from "../../../lib/dbConnect";
-
 import jwt from "jsonwebtoken";
-
 const User = require("../../../models/user");
 
 export default async function handler(req, res) {
-  // const token = req.headers["authorization"];
-  // var userID = "";
-
-  // if (!token) {
-  //     return res.status(401).json({message: "Authorization denied"});
-  // }
-
-  // try {
-  //     const decoded = jwt.verify(token, process.env.JWT_SECRET_KEY);
-  //     userID = decoded.id;
-  // } catch(err) {
-  //     res.status(400).json({message: "Token is not valid"});
-  // }
 
   if (req.method === "GET") {
     try {

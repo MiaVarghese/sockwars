@@ -33,3 +33,7 @@
     bottom: 3px;
     color: lightgrey;
 }
+
+.noBorder {
+    border: none !important;
+}

@@ -6,6 +6,7 @@ import styles from '../../styles/App.module.css'
 const URL_PREFIX = process.env.NEXT_PUBLIC_REACT_APP_URL;
 const matchEndPoint = process.env.NEXT_PUBLIC_REACT_APP_URL + "/match";
 const createEndPoint = process.env.NEXT_PUBLIC_REACT_APP_URL + "/users/assignTarget";
+const notifEndPoint = process.env.NEXT_PUBLIC_REACT_APP_URL + "/notifications/sendAll";
 
 function Create() {
     const [allUsers, setUsers] = useState([])
@@ -65,10 +66,25 @@ function Create() {
                 console.log("Could not find a match. Try again later or enter a new distance value.")
             } else {
                 createPlayers(response.data, id);
+                sendNotification();
             }
         } catch(err) {
             console.log(err);
             console.log(err.data.message);
+        }
+    }
+
+    async function sendNotification() {
+        const params = {header: "Admin", message: "has created a new game", type: "new game"};
+
+        try {
+            const response = await axios.patch(notifEndPoint, params);
+            console.log(response);
+        } catch (err) {
+            console.log(err);
+            if (err.response.data.message) {
+                console.log(err.response.data.message);
+            }
         }
     }
 
@@ -101,7 +117,7 @@ function Create() {
             </div>
             <p></p>
             <div style={{ margin:"auto", width: "fit-content"}}>
-                <button class="btn btn-primary" onClick={submitGame} style={{backgroundColor:"rgb(239, 229, 189)", color:"black"}}>Create Game</button>
+                <button className="btn btn-primary" onClick={sendNotification} style={{backgroundColor:"rgb(239, 229, 189)", color:"black"}}>Create Game</button>
             </div>
             <hr />
             {/* {comments.map(comment => {
