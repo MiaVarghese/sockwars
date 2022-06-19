@@ -29,6 +29,9 @@ export default function Login() {
         const response = await axios.post(endPoint, formData);
         console.log(response.data);
         Router.push("/");
+        console.log(response.data.token);
+        localStorage.setItem("token", response.data.token);
+        localStorage.setItem("user", JSON.stringify(response.data.user));
       } catch(err) {
           console.log(err.response.data.message);
           setError(err.response.data.message);
