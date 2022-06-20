@@ -19,7 +19,7 @@ function Create() {
             for(let i = 0; i < response.data.length; i++) {
                 users.push({
                     id: response.data[i]._id,
-                    username: response.data[i].userName,
+                    userName: response.data[i].userName,
                     section: response.data[i].section,
                 })
             }
@@ -117,7 +117,7 @@ function Create() {
             </div>
             <p></p>
             <div style={{ margin:"auto", width: "fit-content"}}>
-                <button className="btn btn-primary" onClick={sendNotification} style={{backgroundColor:"rgb(239, 229, 189)", color:"black"}}>Create Game</button>
+                <button className="btn btn-primary" onClick={submitGame} style={{backgroundColor:"rgb(239, 229, 189)", color:"black"}}>Create Game</button>
             </div>
             <hr />
             {/* {comments.map(comment => {
