@@ -10,6 +10,12 @@ const userSchema = new mongoose.Schema({
     year: {type: String, required: true, enum: ["first", "second", "third", "fourth", "other"]},
     section: {type: String, required: true},
     role: {type: String,required: true, enum: ["user", "admin"], default: "user"},
+    notifications: [{
+        header: {type: String},
+        message: {type: String},
+        type: {type: String}, 
+        timeStamp: {type: Date}
+    }],
     gamesPlayed: [{
         gameId: String,
         targets: [String],

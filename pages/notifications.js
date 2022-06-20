@@ -1,13 +1,39 @@
 import { useState, useEffect } from "react";
+import axios from "axios";
+import EliminationNotif from "./components/notifications/EliminationNotif";
+import GeneralNotif from "./components/notifications/GeneralNotif";
 
-import styles from '../styles/notifications.module.css'
+import styles from "../styles/notifications.module.css";
+
+const endPoint = process.env.NEXT_PUBLIC_REACT_APP_URL + "/users/accountInfo";
 
 export default function Notifications() {
     const [notifs, setNotifs] = useState();
 
+    useEffect(() => {
+        try {
+          fetchNotifications();
+        } catch (err) {
+          console.log(err);
+        }
+      }, []);
+    
+      async function fetchNotifications() {
+        try {
+          const response = await axios.get(endPoint);
+          setNotifs(response.data.notifications);
+          console.log(response.data.notifications);
+        } catch (err) {
+          console.log(err);
+          if (err.response) {
+            console.log(err.response);
+          }
+        }
+      }
+
     return (
-        <div class="container p-5">
-            {notifs ? 
+        <div className="container p-5">
+            {!notifs ? 
             <div> Loading </div>
             :
             <div className="mx-5 p-3 pb-5" style={{borderRadius: "10px"}}>
@@ -15,71 +41,23 @@ export default function Notifications() {
 
                 <div>
                     <ul className="list-group list-group-flush">
-                        <li className="list-group-item" style={{background: "none", color: "white"}}>
-                            <div className="row">
-                                <div className="col-1 me-5 me-md-4 me-lg-0 text-center">
-                                    <i className="bi bi-person-circle" style={{fontSize: "45px"}}></i>
-                                </div>
-                                <div className="col">
-                                    <span style={{color: "goldenrod"}}>Person Name</span> 
-                                    <button type="button" style={{position: "absolute", top: "12px", right: "17px"}} className="btn-sm btn-close btn-close-white"></button>
-                                    <br/>
-                                    <span>has eliminated you</span> 
-                                    <br/>
-                                    <button className={styles.confirmBtn}>Confirm</button>
-                                    <button className={styles.denyBtn}>Deny</button>
-                                    <span className={styles.timeStamp}>timestamp</span>
-                                </div>
+                        {notifs.map((notif) => (
+                            <div >
+                                {notif.type==="elimination" ?
+                                    <EliminationNotif/>
+                                :
+                                    <GeneralNotif type={notif.type} header={notif.header} message={notif.message} time={notif.timeStamp} />
+                                }
+                                <hr className="m-0" style={{color: "lightgrey"}}></hr>
                             </div>
-                        </li>
+                        ))}
+                        <EliminationNotif/>
                         <hr className="m-0" style={{color: "lightgrey"}}></hr>
-                        <li className="list-group-item" style={{background: "none", color: "white"}}>
-                            <div className="row">
-                                <div className="col-1 me-5 me-md-4 me-lg-0 text-center">
-                                    <i className="bi bi-bandaid" style={{fontSize: "45px", color: "white"}}></i>
-                                </div>
-                                <div className="col">
-                                    <span style={{color: "goldenrod"}}>Immunity</span> 
-                                    <button type="button" style={{position: "absolute", top: "12px", right: "17px"}} className="btn-sm btn-close btn-close-white"></button>
-                                    <br/>
-                                    <span>New immunity, [immunity], is in effect</span> <br/>
-                                    <button className={styles.confirmBtn}>View</button>
-                                    <span className={styles.timeStamp}>timestamp</span>
-                                </div>
-                            </div>
-                        </li>
+                        <GeneralNotif type="immunity" header="Immunity" message="New immunity, [immunity], is in effect" />
                         <hr className="m-0" style={{color: "lightgrey"}}></hr>
-                        <li className="list-group-item" style={{background: "none", color: "white"}}>
-                            <div className="row">
-                                <div className="col-1 me-5 me-md-4 me-lg-0 text-center">
-                                    <i className="bi bi-person-circle" style={{fontSize: "45px", color: "white"}}></i>
-                                </div>
-                                <div className="col">
-                                    <span style={{color: "goldenrod"}}>Target</span> 
-                                    <button type="button" style={{position: "absolute", top: "12px", right: "17px"}} className="btn-sm btn-close btn-close-white"></button>
-                                    <br/>
-                                    <span>Your new target is ready</span> <br/>
-                                    <button className={styles.confirmBtn}>View</button>
-                                    <span className={styles.timeStamp}>timestamp</span>
-                                </div>
-                            </div>
-                        </li>
+                        <GeneralNotif type="target" header="Target" message="Your new target is ready" />
                         <hr className="m-0" style={{color: "lightgrey"}}></hr>
-                        <li className="list-group-item" style={{background: "none", color: "white"}}>
-                            <div className="row">
-                                <div className="col-1 me-5 me-md-4 me-lg-0 text-center">
-                                    <i className="bi bi-joystick" style={{fontSize: "45px", color: "white"}}></i>
-                                </div>
-                                <div className="col">
-                                    <span style={{color: "goldenrod"}}>Admin</span> 
-                                    <button type="button" style={{position: "absolute", top: "12px", right: "17px"}} className="btn-sm btn-close btn-close-white"></button>
-                                    <br/>
-                                    <span>has created a new game</span> <br/>
-                                    <button className={styles.confirmBtn}>View</button>
-                                    <span className={styles.timeStamp}>timestamp</span>
-                                </div>
-                            </div>
-                        </li>
+                        <GeneralNotif type="new game" header="Admin" message="has created a new game" />
                         <hr className="m-0" style={{color: "lightgrey"}}></hr>
                     </ul>
                 </div>

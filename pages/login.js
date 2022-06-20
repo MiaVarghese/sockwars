@@ -1,18 +1,20 @@
 import styles from '../styles/login.module.css'
 
-import { useState, useEffect } from "react";
+import { useState, useContext } from "react";
 import Router from "next/router";
 import axios from "axios";
+import { UserContext } from "./hooks/UserContext";
 
 const endPoint = process.env.NEXT_PUBLIC_REACT_APP_URL + "/auth/login";
 
 export default function Login() {
-
     const [error, setError] = useState();
     const [formData, setFormData] = useState({
       username: "",
       password: ""
     });
+
+    const { user, setUser } = useContext(UserContext);
   
     function handleChange(e) {
       setFormData((prevState) => ({
@@ -28,10 +30,8 @@ export default function Login() {
       try {
         const response = await axios.post(endPoint, formData);
         console.log(response.data);
+        setUser(response.data.user);
         Router.push("/");
-        console.log(response.data.token);
-        localStorage.setItem("token", response.data.token);
-        localStorage.setItem("user", JSON.stringify(response.data.user));
       } catch(err) {
           console.log(err.response.data.message);
           setError(err.response.data.message);
