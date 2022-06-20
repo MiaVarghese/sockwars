@@ -15,6 +15,8 @@ function ListGames() {
             console.log(response.data)
             for(let i = 0; i < response.data.length; i++) {
                 games.push(response.data[i])
+                console.log(response.data[i]._id)
+                console.log(typeof(response.data[i]._id))
             }
             setGames(games)
         })
@@ -26,7 +28,7 @@ function ListGames() {
             allGames.map((game, idx) => {
                 return (
                 <div>
-                    <Link href="/games/{game._id}">
+                    <Link href={`/games/${encodeURIComponent(game._id)}`}>
                         <a>Game {idx}</a>
                     </Link>
                 </div>
