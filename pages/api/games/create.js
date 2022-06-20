@@ -19,7 +19,7 @@ export default async function handler(req, res){
         })
         try {
             const newGame = await game.save()
-            console.log(typeof(game._id))
+            /*console.log(typeof(game._id))
             const updated = await User.updateMany(
                 {},
                 { $push: {"gamesPlayed": {
@@ -29,7 +29,7 @@ export default async function handler(req, res){
                     isActive: true,
                     isWinner: false
                 }}}
-            )
+            )*/
             res.status(201).json(game)
         } catch (err) {
             res.status(400).json({ message: err.message })
