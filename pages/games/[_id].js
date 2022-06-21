@@ -4,6 +4,7 @@ import axios from "axios";
 
 import styles from "../../styles/profile.module.css";
 
+const URL_PREFIX = process.env.NEXT_PUBLIC_REACT_APP_URL;
 const endPoint = process.env.NEXT_PUBLIC_REACT_APP_URL + "/games/";
 
 export default function Gamehistory() {
@@ -295,11 +296,24 @@ export default function Gamehistory() {
           break;
       }
       setGamehistory(response.data.activePlayers);
-      console.log(response.data.activePlayers);
+      console.log(response.data);
     } catch (err) {
       console.log(err);
     }
   }
+
+  const joinGame = () => {
+    axios.patch(URL_PREFIX + "/games/join", {
+      _id : _id,
+      userString: localStorage.user
+    })
+    .then((response) => {
+        console.log(response)
+    })
+    .catch((error) => {
+        console.log(error.response)
+    });
+}
 
   return (
     <div>
@@ -314,6 +328,10 @@ export default function Gamehistory() {
             width="300px"
             style={{ backgroundColor: "rgb(239, 229, 189)" }}
           >
+            <button type="button" class="btn btn-primary" onClick={joinGame}
+              style={{backgroundColor:"rgb(45, 64, 83)", marginTop:"3px", marginBottom:"10px"}}>
+              Join Game
+            </button>
             <div class="upper"></div>
             <span class="text-muted d-block mb-2 text-center">
               <p>Game #: {gamehistory._id}</p>

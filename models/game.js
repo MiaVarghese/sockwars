@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 
 const gameSchema = new mongoose.Schema({
-    activePlayers: [{ userName: String, section: String }],
+    activePlayers: [{ id: String, userName: String, section: String }],
     eliminatedPlayers: [{ id: String, userName: String, section: String, eliminator: String }],
     startDate: Date,
     endDate: Date,
