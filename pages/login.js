@@ -32,6 +32,8 @@ export default function Login() {
         console.log(response.data);
         //setUser(response.data.user);
         Router.push("/");
+        localStorage.setItem("token", response.data.token);
+        localStorage.setItem("user", JSON.stringify(response.data.user));
       } catch(err) {
           console.log(err.response.data.message);
           setError(err.response.data.message);
