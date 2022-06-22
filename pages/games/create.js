@@ -29,7 +29,7 @@ function Create() {
 
     const submitGame = () => {
         axios.post(URL_PREFIX + "/games/create", {
-            activePlayers: allUsers,
+            activePlayers: [],
             eliminatedPlayers: [],
             startDate: startDate + ':00',
             endDate: endDate + ':00',

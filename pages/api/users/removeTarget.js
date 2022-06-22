@@ -58,6 +58,7 @@ export default async function handler(req, res){
                     }
                 },
             )
+            res.status(201).json("Successfully removed target");
         } catch(err) {
             return res.status(400).json({message: err.message});
         }
