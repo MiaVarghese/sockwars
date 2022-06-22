@@ -2,6 +2,7 @@ import "../styles/globals.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 
 import Head from "next/head";
+import { GameProvider } from "./hooks/GameContext";
 
 function MyApp({ Component, pageProps }) {
 
@@ -12,7 +13,9 @@ function MyApp({ Component, pageProps }) {
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.3/font/bootstrap-icons.css"></link>
       </Head>
 
-      <Component {...pageProps} />
+      <GameProvider>
+        <Component {...pageProps} />
+      </GameProvider>
     </div>
   );
 }

@@ -2,7 +2,7 @@ import dbConnect from '../../../lib/dbConnect'
 const User = require("../../../models/user");
 
 export default async function handler(req, res){
-    const { header, message, type } = req.body;
+    const { header, message, type, game } = req.body;
 
     try {
         await dbConnect();
@@ -13,6 +13,7 @@ export default async function handler(req, res){
             message: message,
             type: type,
             timeStamp: new Date(),
+            gameId: game
         }
 
         const results = await User.updateMany({}, {$push: {notifications: obj}});

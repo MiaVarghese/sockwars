@@ -66,7 +66,7 @@ function Create() {
                 console.log("Could not find a match. Try again later or enter a new distance value.")
             } else {
                 createPlayers(response.data, id);
-                sendNotification();
+                sendNotification(id);
             }
         } catch(err) {
             console.log(err);
@@ -74,8 +74,8 @@ function Create() {
         }
     }
 
-    async function sendNotification() {
-        const params = {header: "Admin", message: "has created a new game", type: "new game"};
+    async function sendNotification(id) {
+        const params = {header: "Admin", message: "has created a new game", type: "new game", game: id};
 
         try {
             const response = await axios.patch(notifEndPoint, params);
