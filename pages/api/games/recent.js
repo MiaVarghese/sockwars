@@ -8,6 +8,7 @@ export default async function handler(req, res) {
 
     const games = await Game.find().sort({startDate: 1});
     const recent = games[games.length-1];
+
     if (recent.startDate <= new Date() && recent.endDate >= new Date()) {
         result.push(recent);
     } else if (games[games.length-2].startDate <= new Date() && games[games.length-2].endDate >= new Date()) {

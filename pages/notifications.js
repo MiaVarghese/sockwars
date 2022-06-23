@@ -21,7 +21,7 @@ export default function Notifications() {
       async function fetchNotifications() {
         try {
           const response = await axios.get(endPoint);
-          setNotifs(response.data.notifications);
+          setNotifs(response.data.notifications.reverse());
           console.log(response.data.notifications);
         } catch (err) {
           console.log(err);
@@ -46,9 +46,10 @@ export default function Notifications() {
                                 {notif.type==="elimination" ?
                                     <EliminationNotif/>
                                 :
-                                    <GeneralNotif type={notif.type} header={notif.header} message={notif.message} time={notif.timeStamp} />
+                                    <GeneralNotif type={notif.type} header={notif.header} message={notif.message} time={notif.timeStamp} gameId={notif.gameId} />
                                 }
                                 <hr className="m-0" style={{color: "lightgrey"}}></hr>
+                                {console.log(notif.gameId)}
                             </div>
                         ))}
                         <EliminationNotif/>

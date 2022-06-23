@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 
-const GameContext = React.createContext();
+export const GameContext = React.createContext();
 const endPoint = process.env.NEXT_PUBLIC_REACT_APP_URL + "/games/recent";
 
 export function GameProvider({ children }) {
@@ -21,6 +21,8 @@ export function GameProvider({ children }) {
             setCurrGame(response.data[0]);
             setNextGame(response.data[1]);
         }
+
+        console.log(response.data);
 
       } catch(err) {
         console.log(err);
