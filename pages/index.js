@@ -10,6 +10,9 @@ export default function App() {
       .get("https://sheet.best/api/sheets/fe557b31-4e38-489c-81db-d048fb75d6d8")
       .then((incomingData) => {
         setAPIdata(incomingData.data);
+      })
+      .catch((error) => {
+        console.log(error.response);
       });
   }, []);
 
