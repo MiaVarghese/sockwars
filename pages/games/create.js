@@ -12,9 +12,10 @@ function Create() {
     const [allUsers, setUsers] = useState([])
     const [startDate, setStartDate] = useState('')
     const [endDate, setEndDate] = useState('')
+    const [user, setUser] = useState({})
 
     useEffect(() => {
-        axios.get(URL_PREFIX + "/users").then((response) => {
+        /*axios.get(URL_PREFIX + "/users").then((response) => {
             let users = []
             for(let i = 0; i < response.data.length; i++) {
                 users.push({
@@ -24,7 +25,8 @@ function Create() {
                 })
             }
             setUsers(users)
-        })
+        })*/
+        setUser(JSON.parse(localStorage.user))
     }, []);
 
     const submitGame = () => {
@@ -90,6 +92,8 @@ function Create() {
 
     return (
         <>
+        {user != null && user.role === "admin" && (
+            <>
             <h1 style={{textAlign: "center", paddingLeft:"20px", paddingRight: "20px", color:"rgb(239, 229, 189)"}}>Create a new game:</h1>
             <p></p>
             <div style={{ margin:"auto", color:"rgb(239, 229, 189)", width: "fit-content"}}>
@@ -128,6 +132,13 @@ function Create() {
                 </div>
                 )
             })} */}
+            </>
+        )}
+        {user != null && user.role === "user" && (
+            <div>
+                <h2 style={{textAlign: "center", color: "rgb(241, 196, 15)"}}>You are not authorized to access this page</h2>
+            </div>
+        )}
         </>
     )
 }
