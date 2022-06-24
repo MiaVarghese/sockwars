@@ -9,6 +9,7 @@ export default async function handler(req, res) {
       await dbConnect();
       const { cookies } = req;
       const token = cookies.token;
+
       const decoded = jwt.verify(token, process.env.JWT_SECRET_KEY);
 
       const user = await User.findOne({ _id: decoded.id });

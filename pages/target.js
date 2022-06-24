@@ -2,6 +2,7 @@ import styles from '../styles/App.module.css';
 import { useState, useEffect, useContext } from 'react';
 import axios from "axios";
 import {GameContext} from "./hooks/GameContext";
+import {UserContext} from "./hooks/UserContext";
 
 const URL_PREFIX = process.env.NEXT_PUBLIC_REACT_APP_URL;
 
@@ -9,10 +10,13 @@ export default function Target() {
     const [eliminated, setEliminated] = useState(false)
     const [user, setUser] = useState();
     const { currGame, nextGame } = useContext(GameContext);
+    console.log(currGame);
+    const { userName, setUserName } = useContext(UserContext);
+    console.log(userName);
 
     useEffect(() => {
-        getUser();
-    }, []);
+        console.log(userName);
+    }, [userName]);
 
     async function getUser() {
         try {
