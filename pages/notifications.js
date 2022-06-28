@@ -1,9 +1,6 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
-import EliminationNotif from "./components/notifications/EliminationNotif";
-import GeneralNotif from "./components/notifications/GeneralNotif";
-
-import styles from "../styles/notifications.module.css";
+import Notification from "./components/Notification";
 
 const endPoint = process.env.NEXT_PUBLIC_REACT_APP_URL + "/users/accountInfo";
 
@@ -18,18 +15,18 @@ export default function Notifications() {
         }
       }, []);
     
-      async function fetchNotifications() {
-        try {
-          const response = await axios.get(endPoint);
-          setNotifs(response.data.notifications.reverse());
-          console.log(response.data.notifications);
-        } catch (err) {
-          console.log(err);
-          if (err.response) {
-            console.log(err.response);
-          }
+    async function fetchNotifications() {
+      try {
+        const response = await axios.get(endPoint);
+        setNotifs(response.data.notifications.reverse());
+        console.log(response.data.notifications);
+      } catch (err) {
+        console.log(err);
+        if (err.response) {
+          console.log(err.response);
         }
       }
+    }
 
     return (
         <div className="container p-5">
@@ -42,24 +39,13 @@ export default function Notifications() {
                 <div>
                     <ul className="list-group list-group-flush">
                         {notifs.map((notif) => (
-                            <div >
-                                {notif.type==="elimination" ?
-                                    <EliminationNotif header={notif.header} message={notif.message} time={notif.timeStamp} gameId={notif.gameId} id={notif._id} />
-                                :
-                                    <GeneralNotif type={notif.type} header={notif.header} message={notif.message} time={notif.timeStamp} gameId={notif.gameId} id={notif._id} />
-                                }
-                                <hr className="m-0" style={{color: "lightgrey"}}></hr>
-                                {console.log(notif.gameId)}
-                            </div>
+                            <Notification type={notif.type} header={notif.header} message={notif.message} time={notif.timeStamp} gameId={notif.gameId} id={notif._id} />
                         ))}
-                        <EliminationNotif/>
+                        
+                        {/* <Notification type="immunity" header="Immunity" message="New immunity, [immunity], is in effect" />
                         <hr className="m-0" style={{color: "lightgrey"}}></hr>
-                        <GeneralNotif type="immunity" header="Immunity" message="New immunity, [immunity], is in effect" />
-                        <hr className="m-0" style={{color: "lightgrey"}}></hr>
-                        <GeneralNotif type="target" header="Target" message="Your new target is ready" />
-                        <hr className="m-0" style={{color: "lightgrey"}}></hr>
-                        <GeneralNotif type="new game" header="Admin" message="has created a new game" />
-                        <hr className="m-0" style={{color: "lightgrey"}}></hr>
+                        <Notification type="target" header="Target" message="Your new target is ready" />
+                        <hr className="m-0" style={{color: "lightgrey"}}></hr> */}
                     </ul>
                 </div>
             </div>
