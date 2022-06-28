@@ -14,7 +14,6 @@ export default function middleware(req) {
         if (jwt) {
             try {
                 jwt.verify(token, process.env.JWT_SECRET_KEY);
-                console.log("verify");
                 return NextResponse.redirect(baseUrl + "/");
             } catch(err) {
                 return NextResponse.next();

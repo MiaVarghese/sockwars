@@ -14,7 +14,8 @@ const userSchema = new mongoose.Schema({
         header: {type: String},
         message: {type: String},
         type: {type: String}, 
-        timeStamp: {type: Date}
+        timeStamp: {type: Date},
+        gameId: {type: String}
     }],
     gamesPlayed: [{
         gameId: String,

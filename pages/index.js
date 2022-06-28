@@ -11,8 +11,8 @@ export default function App() {
       .then((incomingData) => {
         setAPIdata(incomingData.data);
       })
-      .catch((error) => {
-        console.log(error.response);
+      .catch((err)=> {
+        console.log(err.response);
       });
   }, []);
 
