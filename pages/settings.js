@@ -1,7 +1,7 @@
 //f1c40f - yellow
 import { useState, useEffect } from "react";
 import axios from "axios";
- 
+
 const endPoint = process.env.NEXT_PUBLIC_REACT_APP_URL + "/users/accountInfo";
 
 export default function Settings() {

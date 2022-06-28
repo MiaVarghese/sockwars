@@ -12,7 +12,7 @@ export default async function handler(req, res) {
   //     return res.status(401).json({message: "Authorization denied"});
   // }
 
-  // try {
+  // try {p
   //     const decoded = jwt.verify(token, process.env.JWT_SECRET_KEY);
   //     userID = decoded.id;
   // } catch(err) {
