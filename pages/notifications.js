@@ -44,9 +44,9 @@ export default function Notifications() {
                         {notifs.map((notif) => (
                             <div >
                                 {notif.type==="elimination" ?
-                                    <EliminationNotif/>
+                                    <EliminationNotif header={notif.header} message={notif.message} time={notif.timeStamp} gameId={notif.gameId} id={notif._id} />
                                 :
-                                    <GeneralNotif type={notif.type} header={notif.header} message={notif.message} time={notif.timeStamp} gameId={notif.gameId} />
+                                    <GeneralNotif type={notif.type} header={notif.header} message={notif.message} time={notif.timeStamp} gameId={notif.gameId} id={notif._id} />
                                 }
                                 <hr className="m-0" style={{color: "lightgrey"}}></hr>
                                 {console.log(notif.gameId)}

@@ -3,8 +3,10 @@ import axios from "axios";
 
 export const UserContext = React.createContext();
 
+const endPoint = process.env.NEXT_PUBLIC_REACT_APP_URL + "/auth/verify";
+
 export function UserProvider({ children }) {
-    const [userName, setUserName] = useState();
+    const [user, setUser] = useState();
 
     useEffect(() => {
         getUser();
@@ -12,8 +14,8 @@ export function UserProvider({ children }) {
 
     async function getUser() {
         try {
-            const response = axios.get(process.env.NEXT_PUBLIC_REACT_APP_URL + "/auth/verify");
-            setUserName(response.data);
+            const response = await axios.get(endPoint);
+            setUser(response.data);
         } catch (err) {
             if (err.response) {
                 console.log(err.response);
@@ -24,7 +26,7 @@ export function UserProvider({ children }) {
     }
 
     return (
-        <UserContext.Provider value={{userName, setUserName}} >
+        <UserContext.Provider value={{user, setUser}} >
             {children}
         </UserContext.Provider>
     )
