@@ -1,18 +1,18 @@
 import styles from '../styles/login.module.css'
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import Router from "next/router";
 import axios from "axios";
 
 const endPoint = process.env.NEXT_PUBLIC_REACT_APP_URL + "/auth/login";
 
 export default function Login() {
-
     const [error, setError] = useState();
     const [formData, setFormData] = useState({
       username: "",
       password: ""
     });
+
   
     function handleChange(e) {
       setFormData((prevState) => ({
@@ -27,9 +27,7 @@ export default function Login() {
 
       try {
         const response = await axios.post(endPoint, formData);
-        console.log(response.data);
         Router.push("/");
-        console.log(response.data.token);
         localStorage.setItem("token", response.data.token);
         localStorage.setItem("user", JSON.stringify(response.data.user));
       } catch(err) {
@@ -53,7 +51,7 @@ export default function Login() {
                     :
                         <div></div>
                     }
-
+                
                     <div className={styles.username}>
                         <label>Username:</label>
                         <input type="text" className='form-control' placeholder= "Enter Username" onChange={(e)=>handleChange(e)} name="userName" required></input>
