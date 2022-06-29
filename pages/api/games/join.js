@@ -18,7 +18,11 @@ export default async function handler(req, res) {
             eliminated: 0,
             isActive: true,
             isWinner: false
-        }}}
+          }},
+          $inc: {
+            "statistics.$.gamesPlayed" : 1
+          }
+        }
       )
       await Game.updateOne(
         { _id: _id },

@@ -23,7 +23,12 @@ const userSchema = new mongoose.Schema({
         eliminated: Number,
         isActive: Boolean,
         isWinner: Boolean
-    }]
+    }],
+    statistics: {
+        gamesPlayed: Number,
+        gamesWon: Number,
+        eliminations: Number
+    }
 }, {collection: "Users"});
 
 module.exports = mongoose.models.User || mongoose.model("User", userSchema);
