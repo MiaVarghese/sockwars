@@ -20,7 +20,7 @@ export default async function handler(req, res) {
             isWinner: false
           }},
           $inc: {
-            "statistics.$.gamesPlayed" : 1
+            "statistics.gamesPlayed" : 1
           }
         }
       )
