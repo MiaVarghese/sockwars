@@ -10,6 +10,7 @@ const endPoint = process.env.NEXT_PUBLIC_REACT_APP_URL + "/notifications/elimina
 export default function Target() {
     const [eliminated, setEliminated] = useState(false)
     const [target, setTarget] = useState();
+    const [prevTargets, setPrevTargets] = useState([]);
     const { currGame } = useContext(GameContext);
     const { user } = useContext(UserContext);
 
@@ -29,9 +30,12 @@ export default function Target() {
             }
 
             if (userGame && userGame.isActive) {
-                const targetName = userGame.targets[userGame.targets.length-1];
+                const targetName = userGame.targets.pop();
+                setPrevTargets(userGame.targets)
                 const response = await axios.get(URL_PREFIX + "/users/" + targetName);
                 setTarget(response.data);
+            } else {
+                setTarget({firstName: "N/A"});
             }
         } catch (err) {
             console.log(err);
@@ -110,7 +114,7 @@ export default function Target() {
                     </div>
                     <div style={{textAlign:"center"}}>
                         {/*<button type="submit" className="btn btn-secondary btn-sm" style={{backgroundColor:"rgb(45, 64, 83)", marginTop:"10px", marginBottom:"10px"}}>Submit</button>*/}
-                        <button type="button" className="btn btn-primary" data-bs-toggle="modal" data-bs-target="#confirmModal"
+                        <button disabled={target.firstName==="N/A"} type="button" className="btn btn-primary" data-bs-toggle="modal" data-bs-target="#confirmModal"
                             style={{backgroundColor:"rgb(45, 64, 83)", marginTop:"10px", marginBottom:"10px"}}>
                             Submit
                         </button>
@@ -144,8 +148,15 @@ export default function Target() {
                 </div>
                 <div style={{color:"rgb(239, 229, 189)", marginLeft:"40%", marginRight: "40%"}}>
                     <h3 style={{textAlign: "center"}}>Previous Targets:</h3>
-                    <p>1. Dawg One</p>
-                    <p>2. Dawg Two</p>
+                    {prevTargets.length===0 ?
+                        <div style={{textAlign: "center", color: "white"}}>None</div>
+                    :
+                        <ol>
+                        {prevTargets.map((target) => (
+                            <li>{target}</li>
+                        ))}
+                        </ol>
+                    }
                 </div>
             </div>
             }

@@ -50,9 +50,9 @@ export default function Register() {
   }
 
   return (
-    <div className={styles.box}>
-      <form onSubmit={(e) => createUser(e)}>
-        <h1>Sock War Registration</h1>
+    <div className="p-5">
+      <form style={{background: "white", margin: "auto"}} className="col-8 px-4" onSubmit={(e) => createUser(e)}>
+        <h1 style={{textAlign: "center"}}>Create Account</h1>
         {error ? 
           <div className="alert alert-danger" role="alert">
             {error}
@@ -61,57 +61,63 @@ export default function Register() {
           <div></div>
         }
 
-        <div className={styles.info}>
-          <input type="text" placeholder="First Name " name="firstName" onChange={(e) => handleChange(e)} size="45" />
+        <div className="row py-1">
+          <div className="col-6">
+            <input type="text" className="form-control" placeholder="First Name " name="firstName" onChange={(e) => handleChange(e)} />
+          </div>
+          <div className="col-6">
+            <input type="text" className="form-control" placeholder="Last Name" name="lastName" onChange={(e) => handleChange(e)} />
+          </div>
         </div>
 
-        <div className={styles.info}>
-          <input type="text" placeholder="Last Name" name="lastName" onChange={(e) => handleChange(e)} size="45" />
+        <div className="row py-1">
+          <div className="col-6">
+            <input type="text" className="form-control" placeholder="Username" name="userName" onChange={(e) => handleChange(e)} />
+          </div>
+          <div className="col-6">
+            <input type="text" className="form-control" placeholder="Email" name="email" onChange={(e) => handleChange(e)} />
+          </div>
         </div>
 
-        <div className={styles.info}>
-          <input type="text" placeholder="Username" name="userName" onChange={(e) => handleChange(e)} size="45" />
+        <div className="row py-1">
+          <div className="col-6">
+            <input type="password" className="form-control" placeholder="Password" name="password" onChange={(e) => handleChange(e)} />
+          </div>
+          <div className="col-6">
+            <input type="password" className="form-control" placeholder="Re-enter Password" name="confirmPw" onChange={(e) => onConfirmPwChanged(e)} />
+          </div>
         </div>
 
-        <div className={styles.info}>
-          <input type="text" placeholder="Email" name="email" onChange={(e) => handleChange(e)} size="45" />
+        <div className="row">
+          <div className="col-6">
+            Gender
+            <select className="form-control" name="gender" id="selectList" onChange={(e) => handleChange(e)}>
+              <option value="" disabled selected hidden>
+                Select a gender...
+              </option>
+              <option value="male">Male</option>
+              <option value="female">Female</option>
+              <option value="other">Other</option>
+            </select>
+          </div>
+          <div className="col-6">
+            Year
+            <select className="form-control" name="year" onChange={(e) => handleChange(e)}>
+              <option value="" disabled selected hidden>
+                Select a year...
+              </option>
+              <option value="first">First </option>
+              <option value="second">Second </option>
+              <option value="third">Third </option>
+              <option value="fourth">Fourth </option>
+              <option value="other">Other </option>
+            </select>
+          </div>
         </div>
 
-        <div className={styles.info}>
-          <input type="text" placeholder="Password" name="password" onChange={(e) => handleChange(e)} size="45" />
-        </div>
-        <div className={styles.info}>
-          <input type="text" placeholder="Re-enter Password" name="confirmPw" onChange={(e) => onConfirmPwChanged(e)} size="45"/>
-        </div>
-        <div className={styles.info}>
-          Gender
-          <select name="gender" id="selectList" onChange={(e) => handleChange(e)}>
-            <option value="" disabled selected hidden>
-              Select a gender...
-            </option>
-            <option value="male">Male</option>
-            <option value="female">Female</option>
-            <option value="other">Other</option>
-          </select>
-        </div>
-
-        <div className={styles.info}>
-          Year
-          <select name="year" onChange={(e) => handleChange(e)}>
-            <option value="" disabled selected hidden>
-              Select a year...
-            </option>
-            <option value="first">First </option>
-            <option value="second">Second </option>
-            <option value="third">Third </option>
-            <option value="fourth">Fourth </option>
-            <option value="other">Other </option>
-          </select>
-        </div>
-
-        <div className={styles.info}>
+        <div>
           Section
-          <select name="section" onChange={(e) => handleChange(e)}>
+          <select className="form-control" name="section" onChange={(e) => handleChange(e)}>
             <option value="" disabled selected hidden>
               Select a section...
             </option>
@@ -130,7 +136,7 @@ export default function Register() {
           </select>
         </div>
 
-        <button type="submit">Join!</button>
+        <button className="btn btn-primary" type="submit">Join!</button>
       </form>
     </div>
   );

@@ -16,6 +16,9 @@ export default function Pagination(props) {
 
     return (
         <nav>
+            {Math.ceil(props.numNotifs/props.perPage) <= 1 ?
+            ""
+            :
             <ul className="pagination">
                 <li className="page-item">
                     <Link href={{pathname: "/notifications", query: {page: props.page-1}}}>
@@ -31,6 +34,7 @@ export default function Pagination(props) {
                     </Link>
                 </li>
             </ul>
+            }
         </nav>
     )
 }

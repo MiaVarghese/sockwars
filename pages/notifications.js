@@ -59,6 +59,12 @@ export default function Notifications() {
                         {notifs.map((notif) => (
                             <Notification key={notif._id} type={notif.type} header={notif.header} message={notif.message} time={notif.timeStamp} gameId={notif.gameId} id={notif._id} />
                         ))}
+
+                        {notifs.length===0 ?
+                          <div style={{color: "white", margin: "auto"}}>No notifications</div>
+                          :
+                          <div></div>
+                        }
                         
                         {/* <Notification type="immunity" header="Immunity" message="New immunity, [immunity], is in effect" />
                         <hr className="m-0" style={{color: "lightgrey"}}></hr>
