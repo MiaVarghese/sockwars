@@ -56,7 +56,6 @@ export default function GeneralNotif(props) {
             }
 
             const response = await axios.patch(confirmEndPoint, params);
-            console.log(response);
             deleteNotification();
         } catch(err) {
             console.log(err);
@@ -77,8 +76,7 @@ export default function GeneralNotif(props) {
         <div>
             {show ?
                 <div>
-                    <li key={props.id} className="list-group-item" style={{background: "none", color: "white", border: "none"}}>
-                        {console.log(props)}
+                    <li className="list-group-item" style={{background: "none", color: "white", border: "none"}}>
                         <div className="row">
                             <div className="col-1 me-5 me-md-4 me-lg-0 text-center">
                                 <i className={getIcon()} style={{fontSize: "45px", color: "white"}}></i>
