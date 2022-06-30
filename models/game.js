@@ -1,13 +1,17 @@
 const mongoose = require("mongoose");
 
-const gameSchema = new mongoose.Schema({
-    activePlayers: [{ id: String, userName: String, section: String }],
-    eliminatedPlayers: [{ id: String, userName: String, section: String, eliminator: String }],
-    startDate: {type: Date, required: true},
-    endDate: {type: Date, required: true},
+const gameSchema = new mongoose.Schema(
+  {
+    activePlayers: [{ userName: String, section: String, eliminated: Number }],
+    eliminatedPlayers: [
+      { id: String, username: String, section: String, eliminator: String },
+    ],
+    startDate: Date,
+    endDate: Date,
     immunities: [String],
     winner: String,
-}, {collection: "Games"});
+  },
+  { collection: "Games" }
+);
 
 module.exports = mongoose.models.Game || mongoose.model("Game", gameSchema);
-

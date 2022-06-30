@@ -4,6 +4,8 @@ const Game = require("../../../models/game");
 
 export default async function handler(req, res){
     const { gameId, eliminatorUsername, eliminated, newTarget } = req.body;
+        //the eliminator username gets passed here
+        //the eliminated WHOLE OBJECT gets passed here
         //newTarget is the username of the new target
     try {
         await dbConnect();
@@ -19,7 +21,25 @@ export default async function handler(req, res){
                     },
                     $inc: {
                         "gamesPlayed.$[updateGamesPlayed].eliminated" : 1
+                    },
+                    $inc: {
+                        "statistics.$.eliminations" : 1
                     }
+                },
+                {
+                    "arrayFilters": [
+                        {"updateGamesPlayed.gameId" : gameId},
+                    ]
+                }
+            );
+            await User.updateOne(
+                {
+                    userName: eliminated.userName,
+                }, 
+                {
+                    $set: {   
+                        "gamesPlayed.$[updateGamesPlayed].isActive" : false
+                    },
                 },
                 {
                     "arrayFilters": [
