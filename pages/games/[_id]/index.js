@@ -2,7 +2,7 @@ import { useRouter } from "next/router";
 import { useState, useEffect } from "react";
 import axios from "axios";
 
-import styles from "../../styles/profile.module.css";
+import styles from "../../../styles/profile.module.css";
 
 const URL_PREFIX = process.env.NEXT_PUBLIC_REACT_APP_URL;
 const endPoint = process.env.NEXT_PUBLIC_REACT_APP_URL + "/games/";
@@ -15,6 +15,7 @@ export default function Gamehistory() {
 
   useEffect(() => {
     try {
+      console.log(_id)
       fetchGamehistory();
       //   fetchEliminatedPlyrs();
     } catch (err) {
