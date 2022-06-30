@@ -4,9 +4,10 @@ body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
     Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
-    background-image: url("/sockimg.png");
-    background-size: cover;
-    background-repeat: 'no-repeat';
+  background-image: url("/sockimg.png");
+  background-size: cover;
+  background-repeat: "no-repeat";
+  background-attachment: fixed;
 }
 
 a {
@@ -18,3 +19,11 @@ a {
   box-sizing: border-box;
 }
 
+.nav-pills > button.active {
+  background-color: goldenrod !important;
+}
+
+.nav-pills > button,
+.nav-pills > button:hover {
+  color: goldenrod;
+}

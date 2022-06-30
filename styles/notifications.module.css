@@ -1,0 +1,39 @@
+.confirmBtn {
+    border-radius: 15px;
+    padding: 0px 10px;
+    /* border-color: white;
+    border: solid;
+    border-width: 2px; */
+    background-color: goldenrod;
+    color: white;
+    border: none;
+    margin-right: 10px;
+    width: 100px;
+}
+
+.denyBtn {
+    border-radius: 15px;
+    padding: 0px 10px;
+    background: none;
+    color: goldenrod;
+    border-color: goldenrod;
+    border: solid;
+    border-width: 2px;
+    width: 100px;
+}
+
+.confirmBtn:hover, .denyBtn:hover {
+    filter: brightness(80%);
+}
+
+.timeStamp {
+    position: absolute;
+    font-size: 10px;
+    right: 5px;
+    bottom: 3px;
+    color: lightgrey;
+}
+
+.noBorder {
+    border: none !important;
+}
