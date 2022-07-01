@@ -39,7 +39,7 @@ export default function Login() {
 
     return (
         <div>
-            <h1 className={styles.h1}>Welcome to Sock Wars!</h1>
+            <h1 className={styles.header}>Welcome to Sock Wars!</h1>
 
             <form onSubmit={(e)=>loginUser(e)}>
                 <div className={styles.rulesContainer}>
@@ -63,7 +63,7 @@ export default function Login() {
                     </div>
 
                     <div className={styles.submit}>
-                        <button type="submit">Login</button>
+                        <button className="btn btn-primary" type="submit">Login</button>
                     </div>
 
                     <div className={styles.notRegistered}>

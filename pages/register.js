@@ -62,13 +62,13 @@ export default function Register() {
         }
 
         <div className="row pb-2">
-          <div className="col-6">
+          <div className="col-md-6">
             <label for="firstName" class="form-label">
               First name
             </label>
             <input type="text" className="form-control" id="firstName" onChange={(e) => handleChange(e)} required />
           </div>
-          <div className="col-6">
+          <div className="col-md-6">
             <label for="lastName" class="form-label">
               Last name
             </label>
@@ -77,13 +77,13 @@ export default function Register() {
         </div>
 
         <div className="row pb-2">
-          <div className="col-6">
+          <div className="col-md-6">
             <label for="userName" class="form-label">
               Username
             </label>
             <input type="text" className="form-control" id="userName" onChange={(e) => handleChange(e)} required />
           </div>
-          <div className="col-6">
+          <div className="col-md-6">
             <label for="email" class="form-label">
               Email
             </label>
@@ -92,13 +92,13 @@ export default function Register() {
         </div>
 
         <div className="row pb-2">
-          <div className="col-6">
+          <div className="col-md-6">
             <label for="password" class="form-label">
               Password
             </label>
             <input type="password" className="form-control" id="password" onChange={(e) => handleChange(e)} required />
           </div>
-          <div className="col-6">
+          <div className="col-md-6">
             <label for="confirmPassword" class="form-label">
               Confirm password
             </label>
@@ -107,7 +107,7 @@ export default function Register() {
         </div>
 
         <div className="row pb-2">
-          <div className="col-6">
+          <div className="col-md-6">
             <label for="gender" class="form-label">
               Gender
             </label>
@@ -120,7 +120,7 @@ export default function Register() {
               <option value="other">Other</option>
             </select>
           </div>
-          <div className="col-6">
+          <div className="col-md-6">
             <label for="year" class="form-label">
               Year
             </label>
@@ -138,7 +138,7 @@ export default function Register() {
         </div>
 
         <div className="row pb-3">
-          <div className="col-6">
+          <div className="col-md-6">
             <label for="section" class="form-label">
             Section
             </label>
