@@ -1,49 +1,14 @@
 //f1c40f - yellow
 import { useState, useEffect } from "react";
+import DetailsTab from "./components/DetailsTab";
+import NotificationsTab from "./components/NotificationsTab";
+import PasswordTab from "./components/PasswordTab";
+
 import axios from "axios";
-import DetailsTab from "../components/DetailsTab";
-import NotificationsTab from "../components/NotificationsTab";
-import PasswordTab from "../components/PasswordTab";
-
-
 const endPoint = process.env.NEXT_PUBLIC_REACT_APP_URL + "/users/accountInfo";
-const endPointPassword =
-  process.env.NEXT_PUBLIC_REACT_APP_URL + "/auth/changePassword";
 
 export default function Settings() {
-  const [userInfo, setUserInfo] = useState();
-  const [passwords, setPasswords] = useState();
-
-  const [passwordError, setPasswordError] = useState();
-  const [passwordSuccess, setPasswordSuccess] = useState();
-
-  useEffect(() => {
-    try {
-      fetchAccountInfo();
-    } catch (err) {
-      console.log(err);
-    }
-  }, []);
-
-  // Handle the input change and save it in a variable
-  const handleOnChange = (e) => {
-    e.persist();
-
-    setUserInfo((prev) => ({
-      ...prev,
-      [e.target.id]: e.target.value,
-    }));
-  };
-
-  // Handle the input change of passwords and save it in a variable
-  const handleOnChangePassword = (e) => {
-    e.persist();
-
-    setPasswords((prev) => ({
-      ...prev,
-      [e.target.id]: e.target.value,
-    }));
-  };
+  const [userInfo, setUserInfo] = useState(null);
 
   async function fetchAccountInfo() {
     // const config = {
@@ -58,9 +23,27 @@ export default function Settings() {
       console.log(response.data);
       console.log(userInfo);
     } catch (err) {
-      console.log(err.response.data.message);
+      console.log(err);
     }
   }
+
+  useEffect(() => {
+    try {
+      fetchAccountInfo();
+    } catch (err) {
+      console.log(err.response.data.message);
+    }
+  }, []);
+
+  // Handle the input change and save it in a variable
+  const handleOnChange = (e) => {
+    e.persist();
+
+    setUserInfo((prev) => ({
+      ...prev,
+      [e.target.id]: e.target.value,
+    }));
+  };
 
   async function updateAccountInfo() {
     // const config = {
@@ -78,27 +61,6 @@ export default function Settings() {
       console.log(userInfo);
     } catch (err) {
       console.log(err.response.data.message);
-    }
-  }
-
-  async function updatePassword() {
-    if (passwords.newPw !== passwords.confirmNewPw) {
-      setPasswordError("Confirm password is not the same as the new password.");
-      setPasswordSuccess(null);
-      return null;
-    }
-
-    try {
-      const response = await axios.put(endPointPassword, {
-        oldPassword: passwords.oldPw,
-        newPassword: passwords.newPw,
-      });
-
-      setPasswordSuccess("Successfully updated the password!");
-      setPasswordError(null);
-    } catch (err) {
-      setPasswordError(err.response.data.message);
-      setPasswordSuccess(null);
     }
   }
 
@@ -170,14 +132,18 @@ export default function Settings() {
             >
               {/* Account Details Tab */}
 
-<DetailsTab/>
+              <DetailsTab
+                userInfo={userInfo}
+                updateAccountInfo={updateAccountInfo}
+                handleOnChange={handleOnChange}
+              />
 
               {/* Password Tab */}
-<PasswordTab/>
+              <PasswordTab />
 
               {/* Notifications Tab */}
 
-<NotificationsTab/>
+              <NotificationsTab />
             </div>
           </div>
         </div>
