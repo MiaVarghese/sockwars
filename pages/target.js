@@ -8,7 +8,9 @@ const URL_PREFIX = process.env.NEXT_PUBLIC_REACT_APP_URL;
 const endPoint = process.env.NEXT_PUBLIC_REACT_APP_URL + "/notifications/elimination";
 
 export default function Target() {
-    const [eliminated, setEliminated] = useState(false)
+    const [eliminated, setEliminated] = useState(false);
+    const [success, setSuccess] = useState(false);
+    const [error, setError] = useState(false);
     const [target, setTarget] = useState();
     const [prevTargets, setPrevTargets] = useState([]);
     const { currGame } = useContext(GameContext);
@@ -44,6 +46,8 @@ export default function Target() {
 
     async function confirmElim() {
         try {
+            setSuccess(false);
+            setError(false);
             if (eliminated) {
                 const response = await axios.patch(endPoint, {
                     targetId: target._id,
@@ -51,51 +55,12 @@ export default function Target() {
                     gameId: currGame._id
                 });
                 console.log(response);
+                setSuccess(true);
             }
         } catch(err) {
+            setError(true);
             console.log(err);
         }
-        // try {
-        //     if (!eliminated) {
-        //         return;
-        //     }
-
-        //     const response = axios.patch(URL_PREFIX + "/users/removeTarget", {
-        //         gameId: currGame._id,
-        //         eliminatorUsername: user.userName,
-        //         eliminated: target,
-        //     });
-        // } catch (err) {
-        //     console.log(err);
-        // }
-
-
-
-        // if(eliminated) {
-        //     const gamePlayed = user.gamesPlayed.find(g => { 
-        //         return g.gameId === '62ab3acb1278f9a6391cafb6' //hard coded gameId, should be passed
-        //     })
-        //     console.log(gamePlayed)
-        //     axios.get(URL_PREFIX + "/users/" + gamePlayed.targets[gamePlayed.targets.length - 1])
-        //     .then((response) => {
-        //         axios.patch(URL_PREFIX + "/users/removeTarget", {
-        //             gameId: '62ab3acb1278f9a6391cafb6',
-        //             eliminatorUsername: user.userName,
-        //             eliminated: response.data, //pass the whole object instead of just username
-        //             newTarget: "u3" //hard coded new target
-        //         })
-        //         console.log(response.data)
-        //         .then((patchResponse) => {
-        //             console.log(patchResponse)
-        //         })
-        //         .catch((error) => {
-        //             console.log(error)
-        //         });
-        //     })
-        //     .catch((error) => {
-        //         console.log(error)
-        //     });
-        // }
     }
 
     return (
@@ -103,7 +68,23 @@ export default function Target() {
             {!target ?
             <div>Loading </div>
             :
-            <div>            
+            <div>        
+                {success ?
+                    <div className="alert alert-success col-4 mb-3" style={{margin: "auto"}} role="alert">
+                        Confirmation request was successfully sent to target!
+                    </div>
+                :
+                    <div></div>
+                }   
+
+                {error ?
+                    <div class="alert alert-danger col-4 mb-3" style={{margin: "auto"}} role="alert">
+                        An error occurred
+                    </div>
+                :
+                    <div></div>
+                } 
+
                 <div className={styles.rulesContainer}>
                     <h1 style={{textAlign: "center", paddingLeft:"20px", paddingRight: "20px"}}>Current Target:</h1>
 
