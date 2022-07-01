@@ -66,13 +66,13 @@ export default function Register() {
             <label for="firstName" class="form-label">
               First name
             </label>
-            <input type="text" className="form-control" id="firstName" onChange={(e) => handleChange(e)} />
+            <input type="text" className="form-control" id="firstName" onChange={(e) => handleChange(e)} required />
           </div>
           <div className="col-6">
             <label for="lastName" class="form-label">
               Last name
             </label>
-            <input type="text" className="form-control" id="lastName" onChange={(e) => handleChange(e)} />
+            <input type="text" className="form-control" id="lastName" onChange={(e) => handleChange(e)} required />
           </div>
         </div>
 
@@ -81,13 +81,13 @@ export default function Register() {
             <label for="userName" class="form-label">
               Username
             </label>
-            <input type="text" className="form-control" id="userName" onChange={(e) => handleChange(e)} />
+            <input type="text" className="form-control" id="userName" onChange={(e) => handleChange(e)} required />
           </div>
           <div className="col-6">
             <label for="email" class="form-label">
               Email
             </label>
-            <input type="email" className="form-control" id="email" onChange={(e) => handleChange(e)} />
+            <input type="email" className="form-control" id="email" onChange={(e) => handleChange(e)} required />
           </div>
         </div>
 
@@ -96,13 +96,13 @@ export default function Register() {
             <label for="password" class="form-label">
               Password
             </label>
-            <input type="password" className="form-control" id="password" onChange={(e) => handleChange(e)} />
+            <input type="password" className="form-control" id="password" onChange={(e) => handleChange(e)} required />
           </div>
           <div className="col-6">
             <label for="confirmPassword" class="form-label">
               Confirm password
             </label>
-            <input type="password" className="form-control" id="confirmPassword" onChange={(e) => onConfirmPwChanged(e)} />
+            <input type="password" className="form-control" id="confirmPassword" onChange={(e) => onConfirmPwChanged(e)} required />
           </div>
         </div>
 
@@ -111,7 +111,7 @@ export default function Register() {
             <label for="gender" class="form-label">
               Gender
             </label>
-            <select className="form-control" id="gender" onChange={(e) => handleChange(e)}>
+            <select className="form-control" id="gender" onChange={(e) => handleChange(e)} required>
               <option value="" disabled selected hidden>
                 Select a gender...
               </option>
@@ -124,7 +124,7 @@ export default function Register() {
             <label for="year" class="form-label">
               Year
             </label>
-            <select className="form-control" id="year" onChange={(e) => handleChange(e)}>
+            <select className="form-control" id="year" onChange={(e) => handleChange(e)} required>
               <option value="" disabled selected hidden>
                 Select a year...
               </option>
@@ -142,7 +142,7 @@ export default function Register() {
             <label for="section" class="form-label">
             Section
             </label>
-            <select className="form-control" id="section" onChange={(e) => handleChange(e)}>
+            <select className="form-control" id="section" onChange={(e) => handleChange(e)} required>
               <option value="" disabled selected hidden>
                 Select a section...
               </option>
