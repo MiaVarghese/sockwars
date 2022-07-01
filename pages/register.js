@@ -51,7 +51,7 @@ export default function Register() {
 
   return (
     <div className="p-5">
-      <form style={{background: "white", margin: "auto"}} className="col-8 px-4" onSubmit={(e) => createUser(e)}>
+      <form style={{color: "white", margin: "auto", backgroundColor: "#2A3B4B"}} className="col-8 px-4 py-3" onSubmit={(e) => createUser(e)}>
         <h1 style={{textAlign: "center"}}>Create Account</h1>
         {error ? 
           <div className="alert alert-danger" role="alert">
@@ -61,37 +61,57 @@ export default function Register() {
           <div></div>
         }
 
-        <div className="row py-1">
+        <div className="row pb-2">
           <div className="col-6">
-            <input type="text" className="form-control" placeholder="First Name " name="firstName" onChange={(e) => handleChange(e)} />
+            <label for="firstName" class="form-label">
+              First name
+            </label>
+            <input type="text" className="form-control" id="firstName" onChange={(e) => handleChange(e)} />
           </div>
           <div className="col-6">
-            <input type="text" className="form-control" placeholder="Last Name" name="lastName" onChange={(e) => handleChange(e)} />
-          </div>
-        </div>
-
-        <div className="row py-1">
-          <div className="col-6">
-            <input type="text" className="form-control" placeholder="Username" name="userName" onChange={(e) => handleChange(e)} />
-          </div>
-          <div className="col-6">
-            <input type="text" className="form-control" placeholder="Email" name="email" onChange={(e) => handleChange(e)} />
+            <label for="lastName" class="form-label">
+              Last name
+            </label>
+            <input type="text" className="form-control" id="lastName" onChange={(e) => handleChange(e)} />
           </div>
         </div>
 
-        <div className="row py-1">
+        <div className="row pb-2">
           <div className="col-6">
-            <input type="password" className="form-control" placeholder="Password" name="password" onChange={(e) => handleChange(e)} />
+            <label for="userName" class="form-label">
+              Username
+            </label>
+            <input type="text" className="form-control" id="userName" onChange={(e) => handleChange(e)} />
           </div>
           <div className="col-6">
-            <input type="password" className="form-control" placeholder="Re-enter Password" name="confirmPw" onChange={(e) => onConfirmPwChanged(e)} />
+            <label for="email" class="form-label">
+              Email
+            </label>
+            <input type="email" className="form-control" id="email" onChange={(e) => handleChange(e)} />
           </div>
         </div>
 
-        <div className="row">
+        <div className="row pb-2">
           <div className="col-6">
-            Gender
-            <select className="form-control" name="gender" id="selectList" onChange={(e) => handleChange(e)}>
+            <label for="password" class="form-label">
+              Password
+            </label>
+            <input type="password" className="form-control" id="password" onChange={(e) => handleChange(e)} />
+          </div>
+          <div className="col-6">
+            <label for="confirmPassword" class="form-label">
+              Confirm password
+            </label>
+            <input type="password" className="form-control" id="confirmPassword" onChange={(e) => onConfirmPwChanged(e)} />
+          </div>
+        </div>
+
+        <div className="row pb-2">
+          <div className="col-6">
+            <label for="gender" class="form-label">
+              Gender
+            </label>
+            <select className="form-control" id="gender" onChange={(e) => handleChange(e)}>
               <option value="" disabled selected hidden>
                 Select a gender...
               </option>
@@ -101,8 +121,10 @@ export default function Register() {
             </select>
           </div>
           <div className="col-6">
-            Year
-            <select className="form-control" name="year" onChange={(e) => handleChange(e)}>
+            <label for="year" class="form-label">
+              Year
+            </label>
+            <select className="form-control" id="year" onChange={(e) => handleChange(e)}>
               <option value="" disabled selected hidden>
                 Select a year...
               </option>
@@ -115,28 +137,34 @@ export default function Register() {
           </div>
         </div>
 
-        <div>
-          Section
-          <select className="form-control" name="section" onChange={(e) => handleChange(e)}>
-            <option value="" disabled selected hidden>
-              Select a section...
-            </option>
-            <option value="baritone">Baritone </option>
-            <option value="clarinet">Clarinet </option>
-            <option value="color guard and twirler">Color Guard and Twirler </option>
-            <option value="drum major">Drum Major </option>
-            <option value="drumline">Drumline </option>
-            <option value="horn">Horn </option>
-            <option value="piccolo">Piccolo </option>
-            <option value="saxophone">Saxophone </option>
-            <option value="staff">Staff </option>
-            <option value="trombone">Trombone </option>
-            <option value="trumpet">Trumpet </option>
-            <option value="tuba">Tuba </option>
-          </select>
+        <div className="row pb-3">
+          <div className="col-6">
+            <label for="section" class="form-label">
+            Section
+            </label>
+            <select className="form-control" id="section" onChange={(e) => handleChange(e)}>
+              <option value="" disabled selected hidden>
+                Select a section...
+              </option>
+              <option value="baritone">Baritone </option>
+              <option value="clarinet">Clarinet </option>
+              <option value="color guard and twirler">Color Guard and Twirler </option>
+              <option value="drum major">Drum Major </option>
+              <option value="drumline">Drumline </option>
+              <option value="horn">Horn </option>
+              <option value="piccolo">Piccolo </option>
+              <option value="saxophone">Saxophone </option>
+              <option value="staff">Staff </option>
+              <option value="trombone">Trombone </option>
+              <option value="trumpet">Trumpet </option>
+              <option value="tuba">Tuba </option>
+            </select>
+          </div>
         </div>
 
-        <button className="btn btn-primary" type="submit">Join!</button>
+        <div style={{textAlign: "center"}}>
+          <button className="btn btn-warning col-6" type="submit">Join!</button>
+        </div>
       </form>
     </div>
   );
