@@ -42,10 +42,11 @@ export default function Gamehistory() {
             href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css"
             rel="stylesheet"
           ></link>
+          <h1>LEADERBOARD</h1>
 
-          <div className={styles.header}>
+          {/* <div className={styles.header}>
             <h1>LEADERBOARD</h1>
-          </div>
+          </div> */}
           <div className={styles.box}>
             Game #:
             <h3>{currGame._id}</h3>
