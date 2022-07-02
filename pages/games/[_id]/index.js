@@ -3,17 +3,19 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 
 import styles from "../../../styles/profile.module.css";
-
+import EditModal from "../../components/EditModal.js";
 const URL_PREFIX = process.env.NEXT_PUBLIC_REACT_APP_URL;
 const endPoint = process.env.NEXT_PUBLIC_REACT_APP_URL + "/games/";
 
 export default function Gamehistory() {
   const [gamehistory, setGamehistory] = useState();
+  const [user, setUser] = useState({});
 
   const router = useRouter();
   const { _id } = router.query;
 
   useEffect(() => {
+    setUser(JSON.parse(localStorage.user))
     try {
       console.log(_id)
       fetchGamehistory();
@@ -21,12 +23,12 @@ export default function Gamehistory() {
     } catch (err) {
       console.log(err);
     }
-  }, [_id]);
+  }, [_id]); //https://stackoverflow.com/questions/53601931/custom-useeffect-second-argument
 
   async function fetchGamehistory() {
     try {
       const response = await axios.get(endPoint + _id);
-      switch (response.data.startDate[5] + response.data.startDate[6]) {
+      /*switch (response.data.startDate[5] + response.data.startDate[6]) {
         case "01":
           response.data.startDate =
             "Jan. " +
@@ -295,8 +297,10 @@ export default function Gamehistory() {
           break;
         default:
           break;
-      }
-      setGamehistory(response.data.activePlayers);
+      }*/ 
+      response.data.shortStartDate = response.data.startDate.substring(0, 10)
+      response.data.shortEndDate = response.data.endDate.substring(0, 10)
+      setGamehistory(response.data);
       console.log(response.data);
     } catch (err) {
       console.log(err);
@@ -317,6 +321,13 @@ export default function Gamehistory() {
       });
   };
 
+  const handleChange = (e, key) => {
+    setGamehistory((prevState) => ({
+      ...prevState,
+      [key]: e.target.value,
+    }));
+  }
+
   return (
     <div>
       {gamehistory ? (
@@ -330,6 +341,11 @@ export default function Gamehistory() {
             width="300px"
             style={{ backgroundColor: "rgb(239, 229, 189)" }}
           >
+            <EditModal
+              shortStartDate={gamehistory.shortStartDate}
+              shortEndDate={gamehistory.shortEndDate}
+              handleChange={handleChange}
+            />
             <button
               type="button"
               class="btn btn-primary"
@@ -356,18 +372,20 @@ export default function Gamehistory() {
             </div>
             <div class="mt-5 text-center">
               <h4 class="mb-0">
-                {gamehistory.startDate} - {gamehistory.endDate}
+                {gamehistory.shortStartDate} - {gamehistory.shortEndDate}
               </h4>
               <span class="text-muted d-block mb-2">
                 Active Players:
-                {gamehistory.map((gh) => (
+                {gamehistory.activePlayers.map((gh) => (
                   <div>{gh.username}</div>
                 ))}{" "}
               </span>
 
               <span class="text-muted d-block mb-2">
                 Eliminated Players:
-                {/* {gamehistory.eliminatedPlayers} - */}
+                {gamehistory.eliminatedPlayers.map((gh) => (
+                  <div>{gh.username}</div>
+                ))}{" "}
               </span>
               <div class="d-flex justify-content-between align-items-center mt-4 px-4"></div>
             </div>

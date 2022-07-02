@@ -11,14 +11,9 @@ function Create() {
   const [startDate, setStartDate] = useState('');
   const [endDate, setEndDate] = useState('');
   const [user, setUser] = useState({});
-  const [immunities, setImmunities] = useState([]);
+  const [immunities, setImmunities] = useState([""]);
   const [success, setSuccess] = useState(false);
   const [error, setError] = useState(false);
-  const [fields, setFields] = useState([{
-    id: 1,
-    firstName: "",
-    lastName: ""
-  }]);
 
   useEffect(() => {
       /*axios.get(URL_PREFIX + "/users").then((response) => {
@@ -38,12 +33,13 @@ function Create() {
   const submitGame = () => {
       setSuccess(false);
       setError(false);
+
       axios.post(URL_PREFIX + "/games/create", {
           activePlayers: [],
           eliminatedPlayers: [],
           startDate: startDate + ':00',
           endDate: endDate + ':00',
-          immunities: []
+          immunities: immunities.length === 1 & immunities[0] === "" ? [] : immunities
       })
       .then((response) => {
           console.log(response);
@@ -101,21 +97,22 @@ function Create() {
   }
 
   const handleChangeInput = (i, e) => {
-    console.log(e.target.value);
-    const values = [...fields]
-    values[i][e.target.name] = e.target.value
-    setFields(values)
+    //console.log(e.target.value);
+    const values = [...immunities]
+    values[i] = e.target.value
+    setImmunities(values)
   }
   
   
   const handleAdd = (id) => {
-    setFields([...fields, { id: id + 2, firstName: '', lastName: '' }])
+    setImmunities([...immunities, ""])
   }
   
   const handleSubtract = (i) => {
-    const values = [...fields]
+    console.log(i)
+    const values = [...immunities]
     values.splice(i, 1)
-    setFields([...values])
+    setImmunities(values)
   }
 
   return (
@@ -166,21 +163,21 @@ function Create() {
           </div>
           <p></p>
           <h5 style={{textAlign: "center", paddingLeft:"20px", paddingRight: "20px", color:"rgb(239, 229, 189)"}}>You may add immunities below:</h5>
-          {fields.map((field, i) => (
-            <div key={field.id} style={{ color:"rgb(239, 229, 189)", margin:"auto", width: "fit-content"}}>
+          {immunities.map((field, i) => (
+            <div style={{ color:"rgb(239, 229, 189)", margin:"auto", width: "fit-content"}}>
               <label>Immunity {i+1}:</label>
               <input
                 type="text"
-                placeholder="Enter First Name"
+                placeholder="Enter immunity"
                 name="firstName"
-                value={field.firstName}
+                value={field}
                 onChange={e => handleChangeInput(i, e)}
                 style={{marginLeft:"3px"}}
               />
               <button onClick={() => handleAdd(i)} className="btn btn-outline-success btn-sm" style={{marginLeft:"5px"}}>
                 Add
               </button>
-              <button disabled={field.id === 1} onClick={() => handleSubtract(i)} className="btn btn-outline-danger btn-sm" style={{marginLeft:"5px"}}>
+              <button disabled={i===0} onClick={() => handleSubtract(i)} className="btn btn-outline-danger btn-sm" style={{marginLeft:"5px"}}>
                 Del
               </button>
             </div>

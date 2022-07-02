@@ -9,7 +9,7 @@ export default function EditModal(props) {
                 <div class="modal-dialog">
                     <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                        <h5 class="modal-title" id="exampleModalLabel">Edit Game</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
@@ -17,11 +17,17 @@ export default function EditModal(props) {
                         <div className="row">
                             <div className="col-6">
                                 <label for="startDate" class="form-label">Start Date</label>
-                                <input type="date" className="form-control" id="startDate" defaultValue={props.data.startDate}/>
+                                <input type="date" className="form-control" id="startDate" 
+                                    value={props.data ? props.data.startDate : ""}
+                                    onChange={(e) => props.data.handleChange(e, 'shortStartDate')}
+                                />
                             </div>
                             <div className="col-6">
                                 <label for="endDate" class="form-label">End Date</label>
-                                <input type="date" className="form-control" id="endDate" defaultValue={props.data.endDate}/>
+                                <input type="date" className="form-control" id="endDate" 
+                                    value={props.data ? props.data.endDate : ""}
+                                    onChange={(e) => props.data.handleChange(e, 'shortEndDate')}
+                                />
                             </div>
                         </div>
 
