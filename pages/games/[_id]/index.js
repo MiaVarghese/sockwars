@@ -10,6 +10,7 @@ const endPoint = process.env.NEXT_PUBLIC_REACT_APP_URL + "/games/";
 export default function Gamehistory() {
   const [gamehistory, setGamehistory] = useState();
   const [user, setUser] = useState({});
+  const [disableJoin, setDisableJoin] = useState(false); //will be used to disable the join button if the game has already started
 
   const router = useRouter();
   const { _id } = router.query;
@@ -301,7 +302,10 @@ export default function Gamehistory() {
       response.data.shortStartDate = response.data.startDate.substring(0, 10)
       response.data.shortEndDate = response.data.endDate.substring(0, 10)
       setGamehistory(response.data);
-      console.log(response.data);
+      var current = new Date();
+      var gameStart = new Date(response.data.startDate);
+      const disable = gameStart < current;
+      setDisableJoin(disable); 
     } catch (err) {
       console.log(err);
     }
@@ -339,7 +343,7 @@ export default function Gamehistory() {
             class="card"
             border="0"
             width="300px"
-            style={{ backgroundColor: "rgb(239, 229, 189)" }}
+            style={{ backgroundColor: "rgb(239, 229, 189)"}}
           >
             <EditModal
               shortStartDate={gamehistory.shortStartDate}
@@ -348,13 +352,15 @@ export default function Gamehistory() {
             />
             <button
               type="button"
-              class="btn btn-primary"
+              class="btn btn-primary btn-sm"
               onClick={joinGame}
               style={{
                 backgroundColor: "rgb(45, 64, 83)",
                 marginTop: "3px",
                 marginBottom: "10px",
+                width: "100px"
               }}
+              disabled={disableJoin}
             >
               Join Game
             </button>
