@@ -14,7 +14,8 @@ const userSchema = new mongoose.Schema({
         header: {type: String},
         message: {type: String},
         type: {type: String}, 
-        timeStamp: {type: Date}
+        timeStamp: {type: Date},
+        gameId: {type: String}
     }],
     gamesPlayed: [{
         gameId: String,
@@ -22,7 +23,12 @@ const userSchema = new mongoose.Schema({
         eliminated: Number,
         isActive: Boolean,
         isWinner: Boolean
-    }]
+    }],
+    statistics: {
+        gamesPlayed: Number,
+        gamesWon: Number,
+        eliminations: Number
+    }
 }, {collection: "Users"});
 
 module.exports = mongoose.models.User || mongoose.model("User", userSchema);

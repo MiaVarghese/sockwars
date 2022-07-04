@@ -81,16 +81,16 @@ export default function Profile() {
               </button>
               <div class="d-flex justify-content-between align-items-center mt-4 px-4">
                 <div class="stats">
-                  <h6 class="mb-0">Tagged</h6>
-                  <span>8</span>
+                  <h6 class="mb-0">Games Played</h6>
+                  <span>{profile.statistics.gamesPlayed}</span>
                 </div>
                 <div class="stats">
-                  <h6 class="mb-0">Tagged by</h6>
-                  <span>N/A</span>
+                  <h6 class="mb-0">Games Won</h6>
+                  <span>{profile.statistics.gamesWon}</span>
                 </div>
                 <div class="stats">
-                  <h6 class="mb-0">Rank</h6>
-                  <span>12</span>
+                  <h6 class="mb-0">Eliminations</h6>
+                  <span>{profile.statistics.eliminations}</span>
                 </div>
               </div>
             </div>

@@ -1,29 +1,14 @@
 //f1c40f - yellow
 import { useState, useEffect } from "react";
+import DetailsTab from "./components/DetailsTab";
+import NotificationsTab from "./components/NotificationsTab";
+import PasswordTab from "./components/PasswordTab";
+
 import axios from "axios";
- 
 const endPoint = process.env.NEXT_PUBLIC_REACT_APP_URL + "/users/accountInfo";
 
 export default function Settings() {
-  const [userInfo, setUserInfo] = useState();
-
-  useEffect(() => {
-    try {
-      fetchAccountInfo();
-    } catch (err) {
-      console.log(err);
-    }
-  }, []);
-
-  // Handle the input change and save it in a variable
-  const handleOnChange = (e) => {
-    e.persist();
-
-    setUserInfo((prev) => ({
-      ...prev,
-      [e.target.id]: e.target.value,
-    }));
-  };
+  const [userInfo, setUserInfo] = useState(null);
 
   async function fetchAccountInfo() {
     // const config = {
@@ -38,9 +23,27 @@ export default function Settings() {
       console.log(response.data);
       console.log(userInfo);
     } catch (err) {
-      console.log(err.response.data.message);
+      console.log(err);
     }
   }
+
+  useEffect(() => {
+    try {
+      fetchAccountInfo();
+    } catch (err) {
+      console.log(err.response.data.message);
+    }
+  }, []);
+
+  // Handle the input change and save it in a variable
+  const handleOnChange = (e) => {
+    e.persist();
+
+    setUserInfo((prev) => ({
+      ...prev,
+      [e.target.id]: e.target.value,
+    }));
+  };
 
   async function updateAccountInfo() {
     // const config = {
@@ -128,196 +131,19 @@ export default function Settings() {
               id="pills-tabContent"
             >
               {/* Account Details Tab */}
-              <div
-                class="tab-pane fade show active"
-                id="pills-account"
-                role="tabpanel"
-                aria-labelledby="account-tab"
-                tabindex="0"
-              >
-                <h3 style={{ color: "goldenrod" }}>Account Details</h3>
-                <div className="row">
-                  <div class="mb-3 col-sm-6">
-                    <label for="firstName" class="form-label">
-                      First name
-                    </label>
-                    <input
-                      type="text"
-                      class="form-control"
-                      id="firstName"
-                      defaultValue={userInfo.firstName}
-                      onChange={handleOnChange}
-                    />
-                  </div>
-                  <div class="mb-3 col-sm-6">
-                    <label for="lastName" class="form-label">
-                      Last name
-                    </label>
-                    <input
-                      type="text"
-                      class="form-control"
-                      id="lastName"
-                      defaultValue={userInfo.lastName}
-                      onChange={handleOnChange}
-                    />
-                  </div>
-                </div>
-                <div className="row">
-                  <div class="mb-3 col-sm-6">
-                    <label for="userName" class="form-label">
-                      Username
-                    </label>
-                    <input
-                      type="text"
-                      class="form-control"
-                      id="userName"
-                      defaultValue={userInfo.userName}
-                      disabled
-                      onChange={handleOnChange}
-                    />
-                  </div>
-                  <div class="mb-3 col-sm-6">
-                    <label for="email" class="form-label">
-                      Email
-                    </label>
-                    <input
-                      type="email"
-                      class="form-control"
-                      id="email"
-                      defaultValue={userInfo.email}
-                      onChange={handleOnChange}
-                    />
-                  </div>
-                </div>
-                <div className="row">
-                  <div class="mb-3 col-sm-6">
-                    <label for="section" class="form-label">
-                      Section
-                    </label>
-                    <input
-                      type="text"
-                      class="form-control"
-                      id="section"
-                      defaultValue={userInfo.section}
-                      onChange={handleOnChange}
-                    />
-                  </div>
-                </div>
-                <div style={{ textAlign: "center" }}>
-                  <button
-                    className="btn btn-primary"
-                    onClick={updateAccountInfo}
-                  >
-                    Save Changes
-                  </button>
-                </div>
-              </div>
+
+              <DetailsTab
+                userInfo={userInfo}
+                updateAccountInfo={updateAccountInfo}
+                handleOnChange={handleOnChange}
+              />
 
               {/* Password Tab */}
-              <div
-                class="tab-pane fade"
-                id="pills-profile"
-                role="tabpanel"
-                aria-labelledby="rofile-tab"
-                tabindex="0"
-              >
-                <h3 style={{ color: "goldenrod", margin: "0px" }}>Password</h3>
-                <p style={{ color: "lightgrey", fontSize: "13px" }}>
-                  Changing your password can not be undone.
-                </p>
-                <div className="row">
-                  <div class="mb-3 col-sm-6">
-                    <label for="oldPw" class="form-label">
-                      Current password
-                    </label>
-                    <input
-                      type="password"
-                      class="form-control"
-                      id="oldPw"
-                      placeholder=""
-                    />
-                  </div>
-                </div>
-                <div className="row">
-                  <div class="mb-3 col-sm-6">
-                    <label for="newPw" class="form-label">
-                      New password
-                    </label>
-                    <input
-                      type="password"
-                      class="form-control"
-                      id="newPw"
-                      placeholder=""
-                    />
-                  </div>
-                </div>
-                <div className="row">
-                  <div class="mb-3 col-sm-6">
-                    <label for="confirmNewPw" class="form-label">
-                      Confirm password
-                    </label>
-                    <input
-                      type="password"
-                      class="form-control"
-                      id="confirmNewPw"
-                      placeholder=""
-                    />
-                  </div>
-                </div>
-
-                <button className="col-sm-6 btn btn-primary">
-                  Change Password
-                </button>
-              </div>
+              <PasswordTab />
 
               {/* Notifications Tab */}
-              <div
-                class="tab-pane fade"
-                id="pills-messages"
-                role="tabpanel"
-                aria-labelledby="messages-tab"
-                tabindex="0"
-              >
-                <h3 style={{ color: "goldenrod", margin: "0px" }}>
-                  Notifications
-                </h3>
-                <p style={{ color: "lightgrey", fontSize: "13px" }}>
-                  Adjust your email notification settings
-                </p>
-                <div class="form-check form-switch">
-                  <input
-                    class="form-check-input"
-                    type="checkbox"
-                    id="start"
-                    defaultChecked
-                  />
-                  <label class="form-check-label" for="start">
-                    New game has started
-                  </label>
-                </div>
-                <div class="form-check form-switch">
-                  <input
-                    class="form-check-input"
-                    type="checkbox"
-                    id="newImmunity"
-                    defaultChecked
-                  />
-                  <label class="form-check-label" for="newImmunity">
-                    New immunity
-                  </label>
-                </div>
-                <div class="form-check form-switch">
-                  <input
-                    class="form-check-input"
-                    type="checkbox"
-                    id="confirmElim"
-                    defaultChecked
-                  />
-                  <label class="form-check-label" for="confirmElim">
-                    Confirm elimination
-                  </label>
-                </div>
-              </div>
+
+              <NotificationsTab />
             </div>
           </div>
         </div>

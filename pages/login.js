@@ -1,9 +1,8 @@
 import styles from '../styles/login.module.css'
 
-import { useState, useContext } from "react";
+import { useState } from "react";
 import Router from "next/router";
 import axios from "axios";
-//import { UserContext } from "./hooks/UserContext";
 
 const endPoint = process.env.NEXT_PUBLIC_REACT_APP_URL + "/auth/login";
 
@@ -14,7 +13,6 @@ export default function Login() {
       password: ""
     });
 
-    //const { user, setUser } = useContext(UserContext);
   
     function handleChange(e) {
       setFormData((prevState) => ({
@@ -29,8 +27,6 @@ export default function Login() {
 
       try {
         const response = await axios.post(endPoint, formData);
-        console.log(response.data);
-        //setUser(response.data.user);
         Router.push("/");
         localStorage.setItem("token", response.data.token);
         localStorage.setItem("user", JSON.stringify(response.data.user));
@@ -43,7 +39,7 @@ export default function Login() {
 
     return (
         <div>
-            <h1 className={styles.h1}>Welcome to Sock Wars!</h1>
+            <h1 className={styles.header}>Welcome to Sock Wars!</h1>
 
             <form onSubmit={(e)=>loginUser(e)}>
                 <div className={styles.rulesContainer}>
@@ -55,7 +51,7 @@ export default function Login() {
                     :
                         <div></div>
                     }
-
+                
                     <div className={styles.username}>
                         <label>Username:</label>
                         <input type="text" className='form-control' placeholder= "Enter Username" onChange={(e)=>handleChange(e)} name="userName" required></input>
@@ -67,7 +63,7 @@ export default function Login() {
                     </div>
 
                     <div className={styles.submit}>
-                        <button type="submit">Login</button>
+                        <button className="btn btn-primary" type="submit">Login</button>
                     </div>
 
                     <div className={styles.notRegistered}>

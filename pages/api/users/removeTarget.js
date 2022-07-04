@@ -4,27 +4,16 @@ const Game = require("../../../models/game");
 
 export default async function handler(req, res){
     const { gameId, eliminatorUsername, eliminated, newTarget } = req.body;
+        //the eliminator username gets passed here
+        //the eliminated WHOLE OBJECT gets passed here
         //newTarget is the username of the new target
     try {
         await dbConnect();
-        /*var eliminator;
-        var g;
-        try {
-            eliminator = await User.findOne({userName: eliminatedUsername});
-            g = await Game.findOne({_id: gameId});
-        } catch(err) {
-            return res.status(500).json({message: err.message});
-        }*/
         
         try {
             await User.updateOne(
                 {
                     userName: eliminatorUsername,
-                    /*gamesPlayed: {
-                        "$elemMatch": {
-                            gameId: gameId
-                        }
-                    }*/ //Do not need elem match with array filters?
                 }, 
                 {
                     $push: {   
@@ -32,7 +21,25 @@ export default async function handler(req, res){
                     },
                     $inc: {
                         "gamesPlayed.$[updateGamesPlayed].eliminated" : 1
+                    },
+                    $inc: {
+                        "statistics.$.eliminations" : 1
                     }
+                },
+                {
+                    "arrayFilters": [
+                        {"updateGamesPlayed.gameId" : gameId},
+                    ]
+                }
+            );
+            await User.updateOne(
+                {
+                    userName: eliminated.userName,
+                }, 
+                {
+                    $set: {   
+                        "gamesPlayed.$[updateGamesPlayed].isActive" : false
+                    },
                 },
                 {
                     "arrayFilters": [
@@ -62,16 +69,6 @@ export default async function handler(req, res){
         } catch(err) {
             return res.status(400).json({message: err.message});
         }
-
-        // const result = await PlayerStatus.insertMany(players);
-        // User.updateMany({userName: {$in: names}}, {$push: {gamesPlayed: {
-        //     gameId: gameId,
-        //     targets: [matches[(matches.find(userName)+1)%matches.length].userName],
-        //     eliminated: 0,
-        //     isActive: true,
-        //     isWinner: false
-        // }}});
-        // // console.log(result);
         res.status(201).json("Successfully removed target");
     } catch (err) {
         res.status(500).json({message: err});

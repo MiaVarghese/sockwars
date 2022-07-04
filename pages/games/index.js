@@ -8,6 +8,7 @@ const URL_PREFIX = process.env.NEXT_PUBLIC_REACT_APP_URL;
 
 function ListGames() {
     const [allGames, setGames] = useState([])
+    const [user, setUser] = useState({})
 
     useEffect(() => {
         axios.get(URL_PREFIX + "/games").then((response) => {
@@ -20,21 +21,30 @@ function ListGames() {
             }
             setGames(games)
         })
+        setUser(JSON.parse(localStorage.user))
     }, []);
 
     return (
         <>
+        <h1 style={{textAlign: "center", paddingLeft:"20px", paddingRight: "20px", color:"rgb(239, 229, 189)"}}>Games:</h1>
+        <div style={{ margin:"auto", color:"rgb(239, 229, 189)", width: "fit-content"}} class="form-group">
         {allGames.length > 0 && (
             allGames.map((game, idx) => {
                 return (
                 <div>
-                    <Link href={`/games/${encodeURIComponent(game._id)}`}>
+                    <Link style={{color:"white"}} href={`/games/${encodeURIComponent(game._id)}`}>
                         <a>Game {idx}</a>
-                    </Link>
+                    </Link> 
+                    {user != null && user.role === "admin" && (
+                        <Link style={{marginLeft:"10px"}} href={`/games/${encodeURIComponent(game._id)}/immunities`}>
+                            <a>Add Immunity</a>
+                        </Link> 
+                    )}
                 </div>
                 )
             })
         )}
+        </div>
         </>
     )
 }
