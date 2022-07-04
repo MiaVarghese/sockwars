@@ -1,6 +1,28 @@
 import styles from '../styles/App.module.css'
+import { useState, useEffect } from "react";
+import axios from "axios";
 
 export default function Home() {
+    const endPoint = process.env.NEXT_PUBLIC_REACT_APP_URL + "/games/immunity"
+    
+    useEffect(() => {
+        try {
+            fetchImmunities();
+        } catch (err) {
+          console.log(err);
+        }
+      }, []);
+
+    async function fetchImmunities() {        
+        try {
+          const response = await axios.get(endPoint);
+          console.log(response.data);
+
+        } catch (err) {
+          console.log(err);
+        }
+      }
+
     return (
         <div>
             <h1 className={styles.h1}>SOCK WARS</h1>

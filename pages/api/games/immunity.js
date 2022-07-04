@@ -1,5 +1,4 @@
 import dbConnect from "../../../lib/dbConnect";
-
 const Game = require("../../../models/game");
 
 export default async function handler(req, res) {
