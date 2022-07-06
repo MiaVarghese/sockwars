@@ -82,6 +82,10 @@ export default async function handler(req, res){
     try {
         await dbConnect();
         const game = await Game.findOne({_id: req.body.gameId});
+        if (game.status!=="pending") {
+            throw Error("Targets already matched");
+        }
+
         console.log(req.body.gameId);
         var players = game.activePlayers;
 
@@ -93,6 +97,11 @@ export default async function handler(req, res){
                 players = shuffle(players);
             }
         }
+
+        if (matches===[false]) {
+            throw Error("Match could not be found. Please try again.");
+        }
+
         res.json(matches);
     } catch(err) {
         res.status(500).json({ message: err.message });

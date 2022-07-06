@@ -1,5 +1,6 @@
 import dbConnect from '../../../lib/dbConnect'
 const User = require("../../../models/user");
+const Game = require("../../../models/game");
 
 export default async function handler(req, res){
     const { gameId, matches } = req.body;
@@ -21,6 +22,11 @@ export default async function handler(req, res){
                 }
             }
         }
+
+        const game = await Game.findOne({_id: gameId});
+        game.status = "ongoing";
+        await game.save();
+
         res.status(201).json("Successfully assigned targets");
     } catch (err) {
         res.status(500).json({message: err});

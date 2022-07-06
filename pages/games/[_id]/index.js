@@ -97,7 +97,7 @@ export default function Gamehistory() {
                 Join Game
               </button>
             :
-              <button type="button" className="btn btn-primary" onClick={matchPlayers} style={{backgroundColor: "rgb(45, 64, 83)", marginTop: "3px", marginBottom: "10px",}} disabled = {new Date() < lockDate}>
+              <button type="button" className="btn btn-primary" onClick={matchPlayers} style={{backgroundColor: "rgb(45, 64, 83)", marginTop: "3px", marginBottom: "10px",}} disabled = {new Date() < lockDate || game.status!=="pending"}>
                 Match Targets
               </button>
             }
@@ -120,7 +120,7 @@ export default function Gamehistory() {
               <span className="text-muted d-block mb-2">
                 Active Players:
                 {game.activePlayers.map((gh) => (
-                  <div>{gh.username}</div>
+                  <div>{gh.userName}</div>
                 ))}{" "}
               </span>
 
