@@ -71,14 +71,11 @@ function Create() {
       }
   }
 
-  async function matchPlayers(id, players) {
+  async function matchPlayers() {
       try {
-          const response = await axios.post(matchEndPoint, {players: players});
+          const response = await axios.post(matchEndPoint);
           if (response.data[0]===false) {
               console.log("Could not find a match. Try again later or enter a new distance value.")
-          } else {
-              createPlayers(response.data, id);
-              sendNotification(id);
           }
       } catch(err) {
           console.log(err);
