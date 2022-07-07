@@ -39,40 +39,7 @@ export default function Login() {
 
     return (
         <div>
-            <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-                <div class="container-fluid">
-                    <a class="navbar-brand">Sock Wars</a>
-                    
-                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
-                        <span class="navbar-toggler-icon"></span>
-                    </button>
-                    
-                    
-                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                        <li class="nav-item">
-                            <a class="nav-link" href="/immunity">Immunities</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="/target">Target</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">Report Elimination</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="/">Leaderboard</a>
-                        </li>
-                    </ul>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/register">Register</a>
-                    </li>
-
-                    <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="#">Login</a>
-                    </li>
-                </div>
-            </nav>
-
-            <h1 className={styles.h1}>Welcome to Sock Wars!</h1>
+            <h1 className={styles.header}>Welcome to Sock Wars!</h1>
 
             <form onSubmit={(e)=>loginUser(e)}>
                 <div className={styles.rulesContainer}>
@@ -96,7 +63,7 @@ export default function Login() {
                     </div>
 
                     <div className={styles.submit}>
-                        <button type="submit">Login</button>
+                        <button className="btn btn-primary" type="submit">Login</button>
                     </div>
 
                     <div className={styles.notRegistered}>

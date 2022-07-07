@@ -8,8 +8,11 @@ const URL_PREFIX = process.env.NEXT_PUBLIC_REACT_APP_URL;
 const endPoint = process.env.NEXT_PUBLIC_REACT_APP_URL + "/notifications/elimination";
 
 export default function Target() {
-    const [eliminated, setEliminated] = useState(false)
+    const [eliminated, setEliminated] = useState(false);
+    const [success, setSuccess] = useState(false);
+    const [error, setError] = useState(false);
     const [target, setTarget] = useState();
+    const [prevTargets, setPrevTargets] = useState([]);
     const { currGame } = useContext(GameContext);
     const { user } = useContext(UserContext);
 
@@ -29,9 +32,12 @@ export default function Target() {
             }
 
             if (userGame && userGame.isActive) {
-                const targetName = userGame.targets[userGame.targets.length-1];
+                const targetName = userGame.targets.pop();
+                setPrevTargets(userGame.targets)
                 const response = await axios.get(URL_PREFIX + "/users/" + targetName);
                 setTarget(response.data);
+            } else {
+                setTarget({firstName: "N/A"});
             }
         } catch (err) {
             console.log(err);
@@ -40,6 +46,8 @@ export default function Target() {
 
     async function confirmElim() {
         try {
+            setSuccess(false);
+            setError(false);
             if (eliminated) {
                 const response = await axios.patch(endPoint, {
                     targetId: target._id,
@@ -47,51 +55,12 @@ export default function Target() {
                     gameId: currGame._id
                 });
                 console.log(response);
+                setSuccess(true);
             }
         } catch(err) {
+            setError(true);
             console.log(err);
         }
-        // try {
-        //     if (!eliminated) {
-        //         return;
-        //     }
-
-        //     const response = axios.patch(URL_PREFIX + "/users/removeTarget", {
-        //         gameId: currGame._id,
-        //         eliminatorUsername: user.userName,
-        //         eliminated: target,
-        //     });
-        // } catch (err) {
-        //     console.log(err);
-        // }
-
-
-
-        // if(eliminated) {
-        //     const gamePlayed = user.gamesPlayed.find(g => { 
-        //         return g.gameId === '62ab3acb1278f9a6391cafb6' //hard coded gameId, should be passed
-        //     })
-        //     console.log(gamePlayed)
-        //     axios.get(URL_PREFIX + "/users/" + gamePlayed.targets[gamePlayed.targets.length - 1])
-        //     .then((response) => {
-        //         axios.patch(URL_PREFIX + "/users/removeTarget", {
-        //             gameId: '62ab3acb1278f9a6391cafb6',
-        //             eliminatorUsername: user.userName,
-        //             eliminated: response.data, //pass the whole object instead of just username
-        //             newTarget: "u3" //hard coded new target
-        //         })
-        //         console.log(response.data)
-        //         .then((patchResponse) => {
-        //             console.log(patchResponse)
-        //         })
-        //         .catch((error) => {
-        //             console.log(error)
-        //         });
-        //     })
-        //     .catch((error) => {
-        //         console.log(error)
-        //     });
-        // }
     }
 
     return (
@@ -134,7 +103,23 @@ export default function Target() {
             {!target ?
             <div>Loading </div>
             :
-            <div>            
+            <div>        
+                {success ?
+                    <div className="alert alert-success col-4 mb-3" style={{margin: "auto"}} role="alert">
+                        Confirmation request was successfully sent to target!
+                    </div>
+                :
+                    <div></div>
+                }   
+
+                {error ?
+                    <div class="alert alert-danger col-4 mb-3" style={{margin: "auto"}} role="alert">
+                        An error occurred
+                    </div>
+                :
+                    <div></div>
+                } 
+
                 <div className={styles.rulesContainer}>
                     <h1 style={{textAlign: "center", paddingLeft:"20px", paddingRight: "20px"}}>Current Target:</h1>
 
@@ -145,7 +130,7 @@ export default function Target() {
                     </div>
                     <div style={{textAlign:"center"}}>
                         {/*<button type="submit" className="btn btn-secondary btn-sm" style={{backgroundColor:"rgb(45, 64, 83)", marginTop:"10px", marginBottom:"10px"}}>Submit</button>*/}
-                        <button type="button" className="btn btn-primary" data-bs-toggle="modal" data-bs-target="#confirmModal"
+                        <button disabled={target.firstName==="N/A"} type="button" className="btn btn-primary" data-bs-toggle="modal" data-bs-target="#confirmModal"
                             style={{backgroundColor:"rgb(45, 64, 83)", marginTop:"10px", marginBottom:"10px"}}>
                             Submit
                         </button>
@@ -179,8 +164,15 @@ export default function Target() {
                 </div>
                 <div style={{color:"rgb(239, 229, 189)", marginLeft:"40%", marginRight: "40%"}}>
                     <h3 style={{textAlign: "center"}}>Previous Targets:</h3>
-                    <p>1. Dawg One</p>
-                    <p>2. Dawg Two</p>
+                    {prevTargets.length===0 ?
+                        <div style={{textAlign: "center", color: "white"}}>None</div>
+                    :
+                        <ol>
+                        {prevTargets.map((target) => (
+                            <li>{target}</li>
+                        ))}
+                        </ol>
+                    }
                 </div>
             </div>
             }

@@ -11,6 +11,7 @@ export default async function handler(req, res){
         const sDate = new Date(startDate) //convert the date strings into Date object
         const eDate = new Date(endDate)
         const game = new Game({
+            status: "pending",
             activePlayers: activePlayers,
             eliminatedPlayers: eliminatedPlayers,
             startDate: sDate,
