@@ -8,7 +8,8 @@ const URL_PREFIX = process.env.NEXT_PUBLIC_REACT_APP_URL;
 const endPoint = process.env.NEXT_PUBLIC_REACT_APP_URL + "/games/";
 
 export default function Gamehistory() {
-  const [gamehistory, setGamehistory] = useState();
+  const [gamehistory, setGamehistory] = useState(); //the info about the game
+  const [gameEdit, setGameEdit] = useState(); //the game object that will be edited
   const [user, setUser] = useState({});
   const [disableJoin, setDisableJoin] = useState(false); //will be used to disable the join button if the game has already started
 
@@ -25,6 +26,7 @@ export default function Gamehistory() {
       console.log(err);
     }
   }, [_id]); //https://stackoverflow.com/questions/53601931/custom-useeffect-second-argument
+    //if _id has changed then get new user
 
   async function fetchGamehistory() {
     try {
@@ -301,7 +303,9 @@ export default function Gamehistory() {
       }*/ 
       response.data.shortStartDate = response.data.startDate.substring(0, 10)
       response.data.shortEndDate = response.data.endDate.substring(0, 10)
+      console.log(response.data)
       setGamehistory(response.data);
+      setGameEdit(response.data);
       var current = new Date();
       var gameStart = new Date(response.data.startDate);
       const disable = gameStart < current;
@@ -326,7 +330,8 @@ export default function Gamehistory() {
   };
 
   const handleChange = (e, key) => {
-    setGamehistory((prevState) => ({
+    console.log(gamehistory)
+    setGameEdit((prevState) => ({
       ...prevState,
       [key]: e.target.value,
     }));
@@ -334,7 +339,7 @@ export default function Gamehistory() {
 
   return (
     <div>
-      {gamehistory ? (
+      {gamehistory && gameEdit ? (
         <div
           class="container d-flex justify-content-center align-items-center"
           style={{ paddingTop: "50px" }}
@@ -346,8 +351,7 @@ export default function Gamehistory() {
             style={{ backgroundColor: "rgb(239, 229, 189)"}}
           >
             <EditModal
-              shortStartDate={gamehistory.shortStartDate}
-              shortEndDate={gamehistory.shortEndDate}
+              gameEdit={gameEdit}
               handleChange={handleChange}
             />
             <button
