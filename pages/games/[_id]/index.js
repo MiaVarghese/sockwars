@@ -7,6 +7,7 @@ const URL_PREFIX = process.env.NEXT_PUBLIC_REACT_APP_URL;
 const endPoint = process.env.NEXT_PUBLIC_REACT_APP_URL + "/games/";
 const matchEndPoint = process.env.NEXT_PUBLIC_REACT_APP_URL + "/match";
 const assignEndPoint = process.env.NEXT_PUBLIC_REACT_APP_URL + "/users/assignTarget";
+const unjoinEndPoint = process.env.NEXT_PUBLIC_REACT_APP_URL + "/games/unjoin";
 
 export default function Gamehistory() {
   const [game, setGame] = useState();
@@ -22,9 +23,10 @@ export default function Gamehistory() {
     try {
       if (_id) {
         if (user) {
-          for (var i=0; i<user.gamesPlayed; i++) {
+          for (var i=0; i<user.gamesPlayed.length; i++) {
             if (user.gamesPlayed[i].gameId===_id) {
               setHasJoined(true);
+              console.log("here");
               break;
             }
           }
@@ -64,6 +66,16 @@ export default function Gamehistory() {
       });
   };
 
+  async function unjoin() {
+    try {
+      const response = await axios.patch(unjoinEndPoint, {gameId: _id, userName: user.userName});
+      setHasJoined(false);
+      console.log(response.data);
+    } catch(err) {
+      console.log(err.response.data);
+    }
+  }
+
   async function matchPlayers() {
     try {
         console.log(_id);
@@ -102,10 +114,18 @@ export default function Gamehistory() {
             width="300px"
             style={{ backgroundColor: "rgb(239, 229, 189)" }}
           >
-            {user.role==="admin" ?
-              <button type="button" className="btn btn-primary" onClick={joinGame} style={{backgroundColor: "rgb(45, 64, 83)", marginTop: "3px", marginBottom: "10px",}} disabled = {new Date() > lockDate || hasJoined}>
-                Join Game
-              </button>
+            {user.role==="user" ?
+              <>
+                {hasJoined ?
+                <button type="button" className="btn btn-danger" onClick={unjoin} style={{marginTop: "3px", marginBottom: "10px",}} disabled = {new Date() > lockDate}>
+                  Leave Game
+                </button>
+                :
+                <button type="button" className="btn btn-primary" onClick={joinGame} style={{backgroundColor: "rgb(45, 64, 83)", marginTop: "3px", marginBottom: "10px",}} disabled = {new Date() > lockDate}>
+                  Join Game
+                </button>
+                }
+              </>
             :
               <button type="button" className="btn btn-primary" onClick={matchPlayers} style={{backgroundColor: "rgb(45, 64, 83)", marginTop: "3px", marginBottom: "10px",}} disabled = {new Date() < lockDate || game.status!=="pending"}>
                 Match Targets
@@ -129,8 +149,8 @@ export default function Gamehistory() {
               </h4>
               <span className="text-muted d-block mb-2">
                 Active Players:
-                {game.activePlayers.map((gh) => (
-                  <div>{gh.userName}</div>
+                {game.activePlayers.map((player) => (
+                  <div key={player.userName}>{player.userName}</div>
                 ))}
                 {game.activePlayers.length===0 ?
                   <div>None</div>
@@ -142,7 +162,7 @@ export default function Gamehistory() {
               <span className="text-muted d-block mb-2">
                 Eliminated Players:
                 {game.eliminatedPlayers.map((player) => (
-                  <div>{player.userName}</div>
+                  <div key={player.userName}>{player.userName}</div>
                 ))}
                 {game.eliminatedPlayers.length===0 ?
                   <div>None</div>
