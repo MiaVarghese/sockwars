@@ -1,10 +1,14 @@
 import dbConnect from "../../../lib/dbConnect";
+
 const Game = require("../../../models/game");
 
 export default async function handler(req, res) {
     try{
         await dbConnect();
         let game = await Game.findOne({_id:req.body.id});
+        //console.log("HELLO")
+        //console.log(req.body)
+        //console.log(req.body.id)
         let immunities = game.immunities;
         let currentDate = new Date();
 

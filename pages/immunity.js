@@ -1,22 +1,31 @@
 import styles from '../styles/App.module.css'
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import axios from "axios";
+import { GameContext } from "./hooks/GameContext";
 
 export default function Home() {
     const endPoint = process.env.NEXT_PUBLIC_REACT_APP_URL + "/games/immunity"
-    
+    const { currGame } = useContext(GameContext);
+
     useEffect(() => {
         try {
-            fetchImmunities();
+            if (currGame){
+                //console.log(currGame);
+                fetchImmunities();
+            }
         } catch (err) {
-          console.log(err);
+          
+            console.log(err);
+          
         }
-      }, []);
+      }, [currGame]);
 
     async function fetchImmunities() {        
         try {
-          const response = await axios.get(endPoint);
-          console.log(response.data);
+            //console.log(currGame._id);
+            const response = await axios.get(endPoint, {id : currGame._id});
+          
+            //console.log(response.data);
 
         } catch (err) {
           console.log(err);
