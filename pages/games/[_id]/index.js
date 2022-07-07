@@ -10,6 +10,7 @@ const assignEndPoint = process.env.NEXT_PUBLIC_REACT_APP_URL + "/users/assignTar
 
 export default function Gamehistory() {
   const [game, setGame] = useState();
+  const [hasJoined, setHasJoined] = useState(false);
   const [lockDate, setLockDate] = useState();
 
   const { user } = useContext(UserContext);
@@ -20,12 +21,21 @@ export default function Gamehistory() {
   useEffect(() => {
     try {
       if (_id) {
+        if (user) {
+          for (var i=0; i<user.gamesPlayed; i++) {
+            if (user.gamesPlayed[i].gameId===_id) {
+              setHasJoined(true);
+              break;
+            }
+          }
+        }
+
         fetchGame();
       }
     } catch (err) {
       console.log(err);
     }
-  }, [_id]);
+  }, [_id, user]);
 
   async function fetchGame() {
     try {
@@ -92,8 +102,8 @@ export default function Gamehistory() {
             width="300px"
             style={{ backgroundColor: "rgb(239, 229, 189)" }}
           >
-            {user.role==="user" ?
-              <button type="button" className="btn btn-primary" onClick={joinGame} style={{backgroundColor: "rgb(45, 64, 83)", marginTop: "3px", marginBottom: "10px",}} disabled = {new Date() > lockDate}>
+            {user.role==="admin" ?
+              <button type="button" className="btn btn-primary" onClick={joinGame} style={{backgroundColor: "rgb(45, 64, 83)", marginTop: "3px", marginBottom: "10px",}} disabled = {new Date() > lockDate || hasJoined}>
                 Join Game
               </button>
             :
@@ -121,12 +131,24 @@ export default function Gamehistory() {
                 Active Players:
                 {game.activePlayers.map((gh) => (
                   <div>{gh.userName}</div>
-                ))}{" "}
+                ))}
+                {game.activePlayers.length===0 ?
+                  <div>None</div>
+                  :
+                  <div></div>
+                }
               </span>
 
               <span className="text-muted d-block mb-2">
                 Eliminated Players:
-                {/* {gamehistory.eliminatedPlayers} - */}
+                {game.eliminatedPlayers.map((player) => (
+                  <div>{player.userName}</div>
+                ))}
+                {game.eliminatedPlayers.length===0 ?
+                  <div>None</div>
+                  :
+                  <div></div>
+                }
               </span>
               <div className="d-flex justify-content-between align-items-center mt-4 px-4"></div>
             </div>

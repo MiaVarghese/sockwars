@@ -60,29 +60,6 @@ function Create() {
       });
   }
 
-  async function createPlayers(matches, id) {
-      const param = {gameId: id, matches: matches}
-      try {
-          const response = await axios.patch(createEndPoint, param);
-          console.log(response.data);
-      } catch(err) {
-          console.log(err);
-          console.log(err.response.data.message);
-      }
-  }
-
-  async function matchPlayers() {
-      try {
-          const response = await axios.post(matchEndPoint);
-          if (response.data[0]===false) {
-              console.log("Could not find a match. Try again later or enter a new distance value.")
-          }
-      } catch(err) {
-          console.log(err);
-          console.log(err.data.message);
-      }
-  }
-
   async function sendNotification(id) {
       const params = {header: "Admin", message: "has created a new game", type: "new game", game: id};
 
