@@ -82,7 +82,7 @@ export default function Gamehistory() {
         setError(null);
         const response = await axios.post(matchEndPoint, {gameId: _id});
         console.log(response.data);
-        // assignTargets(response.data);
+        assignTargets(response.data);
     } catch(err) {
         setError(err.response.data.message);
         console.log(err.response);
