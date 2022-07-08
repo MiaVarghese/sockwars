@@ -13,6 +13,7 @@ export default function Gamehistory() {
   const [game, setGame] = useState();
   const [hasJoined, setHasJoined] = useState(false);
   const [lockDate, setLockDate] = useState();
+  const [error, setError] = useState();
 
   const { user } = useContext(UserContext);
 
@@ -78,15 +79,12 @@ export default function Gamehistory() {
 
   async function matchPlayers() {
     try {
-        console.log(_id);
+        setError(null);
         const response = await axios.post(matchEndPoint, {gameId: _id});
-        if (response.data[0]===false) {
-            console.log("Could not find a match. Try again later or enter a new distance value.")
-        }
         console.log(response.data);
-        assignTargets(response.data);
+        // assignTargets(response.data);
     } catch(err) {
-        console.log(err);
+        setError(err.response.data.message);
         console.log(err.response);
     }
   }
@@ -103,17 +101,23 @@ export default function Gamehistory() {
   return (
     <div>
       {game && lockDate && user ? (
-        <div
-          className="container d-flex justify-content-center align-items-center"
-          style={{ paddingTop: "50px" }}
-        >
+        <div className="container px-5" style={{ paddingTop: "50px", width: "50%" }}>
 
+          {error ? 
+            <div class="alert alert-danger" role="alert">
+              {error}
+            </div>
+            :
+            <div></div>
+          }
+          
           <div
             className="card"
             border="0"
             width="300px"
             style={{ backgroundColor: "rgb(239, 229, 189)" }}
           >
+
             {user.role==="user" ?
               <>
                 {hasJoined ?

@@ -55,7 +55,7 @@ function matchTargets(players, d) {
         matches = result[1];
         // console.log(matches);
         if (size==result[1].length) {
-            return [false];
+            return false;
         }
     }
 
@@ -86,19 +86,18 @@ export default async function handler(req, res){
             throw Error("Targets already matched");
         }
 
-        console.log(req.body.gameId);
         var players = game.activePlayers;
 
         for (var i=0; i<10; i++) {
             var matches = matchTargets(players, 2);
-            if (matches!==[false]) {
+            if (matches!==false) {
                 break;
             } else {
                 players = shuffle(players);
             }
         }
 
-        if (matches===[false]) {
+        if (matches===false) {
             throw Error("Match could not be found. Please try again.");
         }
 
