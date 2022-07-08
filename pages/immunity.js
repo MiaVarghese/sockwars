@@ -20,7 +20,7 @@ export default function Home() {
                             <a class="nav-link" href="/target">Target</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#">Report Elimination</a>
+                            <a class="nav-link" href="/elimpage">Report Elimination</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="/">Leaderboard</a>

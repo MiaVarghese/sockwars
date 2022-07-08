@@ -39,6 +39,42 @@ export default function Login() {
 
     return (
         <div>
+            <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+                <div class="container-fluid">
+                    <a class="navbar-brand">Sock Wars</a>
+                    
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    
+                    
+                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                        <li class="nav-item">
+                            <a class="nav-link" href="/immunity">Immunities</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/target">Target</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/elimpage">Report Elimination</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/">Leaderboard</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/rules">Rules</a>
+                        </li>
+                    </ul>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/register">Register</a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="#">Login</a>
+                    </li>
+                </div>
+            </nav>
+            
             <h1 className={styles.header}>Welcome to Sock Wars!</h1>
 
             <form onSubmit={(e)=>loginUser(e)}>

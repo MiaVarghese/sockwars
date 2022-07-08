@@ -84,10 +84,13 @@ export default function Target() {
                             <a class="nav-link active" aria-current="page" href="#">Target</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#">Report Elimination</a>
+                            <a class="nav-link" href="/elimpage">Report Elimination</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="/">Leaderboard</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/rules">Rules</a>
                         </li>
                     </ul>
                     <li class="nav-item">
