@@ -99,15 +99,15 @@ function Create() {
       {user != null && user.role === "admin" && (
           <>
             {success ?
-                <div className="alert alert-success col-4 mt-3 mb-2" style={{margin: "auto"}} role="alert">
-                    Confirmation request was successfully sent to target!
+                <div className="alert alert-success mt-3 mb-2 mx-5" style={{margin: "auto"}} role="alert">
+                    Game was successfully created!
                 </div>
             :
                 <div></div>
             }   
 
             {error ?
-                <div className="alert alert-danger col-4 mt-3 mb-2" style={{margin: "auto"}} role="alert">
+                <div className="alert alert-danger mt-3 mb-2 mx-5" style={{margin: "auto"}} role="alert">
                     An error occurred
                 </div>
             :
