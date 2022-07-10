@@ -8,8 +8,8 @@ const URL_PREFIX = process.env.NEXT_PUBLIC_REACT_APP_URL;
 const endPoint = process.env.NEXT_PUBLIC_REACT_APP_URL + "/games/";
 
 export default function Gamehistory() {
-  const [gamehistory, setGamehistory] = useState(); //the info about the game
-  const [gameEdit, setGameEdit] = useState(); //the game object that will be edited
+  const [gamehistory, setGamehistory] = useState({}); //the info about the game
+  const [gameEdit, setGameEdit] = useState({}); //the game object that will be edited
   const [user, setUser] = useState({});
   const [disableJoin, setDisableJoin] = useState(false); //will be used to disable the join button if the game has already started
 
@@ -31,6 +31,7 @@ export default function Gamehistory() {
   async function fetchGamehistory() {
     try {
       const response = await axios.get(endPoint + _id);
+
       /*switch (response.data.startDate[5] + response.data.startDate[6]) {
         case "01":
           response.data.startDate =
@@ -303,9 +304,18 @@ export default function Gamehistory() {
       }*/ 
       response.data.shortStartDate = response.data.startDate.substring(0, 10)
       response.data.shortEndDate = response.data.endDate.substring(0, 10)
-      console.log(response.data)
-      setGamehistory(response.data);
-      setGameEdit(response.data);
+      const g = response.data
+      console.log(g)
+      setGamehistory(g);
+      setGameEdit(g);
+      // setGamehistory(gamehistory => ({
+      //   ...gamehistory,
+      //   ...g
+      // }));
+      // setGameEdit(gamehistory => ({
+      //   ...gamehistory,
+      //   ...g
+      // }));
       var current = new Date();
       var gameStart = new Date(response.data.startDate);
       const disable = gameStart < current;
@@ -329,17 +339,57 @@ export default function Gamehistory() {
       });
   };
 
-  const handleChange = (e, key) => {
-    console.log(gamehistory)
+  const handleDateChange = (e, key) => {
+    //console.log(gamehistory)
     setGameEdit((prevState) => ({
       ...prevState,
       [key]: e.target.value,
     }));
   }
 
+  const addImmunity = (value) => { 
+    setGameEdit((prevState) => ({
+      ...prevState,
+      immunities: [...prevState.immunities, value]
+    }));
+  }
+
+  const editImmunity = (e, i) => { //i to track which immunity to edit
+    const immunities = gameEdit.immunities.map((imm, idx) => {
+      if(idx === i)
+        return e.target.value
+      else 
+        return imm
+    })
+    setGameEdit((prevState) => ({
+      ...prevState,
+      immunities: immunities
+    }))
+  }
+
+  const removeImmunity = (i) => {
+    // console.log(i)
+    // setGameEdit(prevState => {
+    //   const copy = prevState
+    //   copy.immunities.splice(i, 1)
+    //   console.log(copy)
+    //   return copy
+    // })
+    const immunities = gameEdit.immunities.filter((imm, idx) => idx !== i)
+    console.log(immunities)
+    setGameEdit((prevState) => ({
+        ...prevState,
+        immunities: immunities
+    }))
+  }
+
+  const submitEdits = () => {
+    console.log(gameEdit)
+  }
+
   return (
     <div>
-      {gamehistory && gameEdit ? (
+      {(Object.keys(gamehistory).length !== 0 && Object.keys(gameEdit).length !== 0) ? (
         <div
           class="container d-flex justify-content-center align-items-center"
           style={{ paddingTop: "50px" }}
@@ -352,7 +402,11 @@ export default function Gamehistory() {
           >
             <EditModal
               gameEdit={gameEdit}
-              handleChange={handleChange}
+              handleDateChange={handleDateChange}
+              addImmunity={addImmunity}
+              editImmunity={editImmunity}
+              removeImmunity={removeImmunity}
+              submitEdits={submitEdits}
             />
             <button
               type="button"

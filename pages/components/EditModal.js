@@ -1,11 +1,18 @@
 import { useState, useEffect } from "react";
 
 export default function EditModal(props) {
-    // const [currTab, setCurrTab] = useState(1); 
-
+    const [immunity, setImmunity] = useState(""); //the immunity to be added
+    //const [gameEdit, setGameEdit] = useState(props.gameEdit)
     // const onTabClick = (currentTab) => {
     //     setCurrTab(currentTab)
     // }
+    // useEffect(() => {
+    //     setGameEdit(gameEdit);
+    // }, [gameEdit]);
+
+    const immunityTextHandler = (event) => {
+        setImmunity(event.target.value)
+    }
 
     return (
         <div>
@@ -41,9 +48,15 @@ export default function EditModal(props) {
                         <div class="tab-content">
                             <div role="tabpanel" class="tab-pane active" id="immunities">
                                 <p></p>
-                                <textarea placeholder="Add immunity here" class="form-control" id="immunity" rows="2" ></textarea>
+                                <textarea placeholder="Add immunity here" class="form-control" id="immunity" rows="2" onChange={immunityTextHandler} value={immunity}></textarea>
                                 <div>
-                                    <button className="btn btn-primary btn-sm" style={{marginTop:"5px", float:"right"}}>Add</button>
+                                    <button className="btn btn-primary btn-sm" style={{marginTop:"5px", float:"right"}} 
+                                    onClick={() => {
+                                        props.addImmunity(immunity);
+                                        setImmunity("");
+                                    }}>
+                                        Add
+                                    </button>
                                     <div style={{clear:"both"}}></div>
                                 </div>
                                 <label>Edit/Remove Immunities</label>
@@ -52,13 +65,10 @@ export default function EditModal(props) {
                                         <input
                                             type="text"
                                             value={imm}
-                                            //onChange={e => handleChangeInput(i, e)}
+                                            onChange={e => props.editImmunity(e, i)}
                                             style={{width:"70%"}}
                                         />
-                                        <button className="btn btn-outline-success btn-sm" style={{marginLeft:"5px", float:"right"}}>
-                                            Add
-                                        </button>
-                                        <button className="btn btn-outline-danger btn-sm" style={{marginLeft:"5px", float:"right"}}>
+                                        <button className="btn btn-outline-danger btn-sm" style={{marginLeft:"5px", float:"right"}} onClick={()=>{props.removeImmunity(i)}}>
                                             Del
                                         </button> 
                                     </div>
@@ -70,7 +80,7 @@ export default function EditModal(props) {
                                     <input type="date" className="form-control" id="startDate" 
                                         //value={props.data ? props.data.startDate : ""}
                                         defaultValue={props.gameEdit ? props.gameEdit.shortStartDate : ""}
-                                        onChange={(e) => props.handleChange(e, 'shortStartDate')}
+                                        onChange={(e) => props.handleDateChange(e, 'shortStartDate')}
                                     />
                                 </div>
                                 <div className="col-7">
@@ -78,7 +88,7 @@ export default function EditModal(props) {
                                     <input type="date" className="form-control" id="endDate" 
                                         //value={props.data ? props.data.endDate : ""}
                                         defaultValue={props.gameEdit ? props.gameEdit.shortEndDate : ""}
-                                        onChange={(e) => props.handleChange(e, 'shortEndDate')}
+                                        onChange={(e) => props.handleDateChange(e, 'shortEndDate')}
                                     />
                                 </div>
                             </div>
@@ -100,9 +110,6 @@ export default function EditModal(props) {
                                             //onChange={e => handleChangeInput(i, e)}
                                             style={{width:"70%"}}
                                         />
-                                        <button className="btn btn-outline-success btn-sm" style={{marginLeft:"5px", float:"right"}}>
-                                            Add
-                                        </button>
                                         <button className="btn btn-outline-danger btn-sm" style={{marginLeft:"5px", float:"right"}}>
                                             Del
                                         </button> 
@@ -125,9 +132,6 @@ export default function EditModal(props) {
                                             //onChange={e => handleChangeInput(i, e)}
                                             style={{width:"70%"}}
                                         />
-                                        <button className="btn btn-outline-success btn-sm" style={{marginLeft:"5px", float:"right"}}>
-                                            Add
-                                        </button>
                                         <button className="btn btn-outline-danger btn-sm" style={{marginLeft:"5px", float:"right"}}>
                                             Del
                                         </button> 
@@ -139,7 +143,7 @@ export default function EditModal(props) {
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                        <button type="button" class="btn btn-primary">Save changes</button>
+                        <button type="button" class="btn btn-primary" onClick={props.submitEdits}>Save changes</button>
                     </div>
                     </div>
                 </div>
