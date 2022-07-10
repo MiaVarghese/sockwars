@@ -10,6 +10,7 @@ function Create() {
   const [allUsers, setUsers] = useState([]);
   const [startDate, setStartDate] = useState('');
   const [endDate, setEndDate] = useState('');
+  const [title, setTitle] = useState();
   const [user, setUser] = useState({});
   const [immunities, setImmunities] = useState([]);
   const [success, setSuccess] = useState(false);
@@ -39,6 +40,7 @@ function Create() {
       setSuccess(false);
       setError(false);
       axios.post(URL_PREFIX + "/games/create", {
+          title: title,
           activePlayers: [],
           eliminatedPlayers: [],
           startDate: startDate + ':00',
@@ -93,19 +95,19 @@ function Create() {
   }
 
   return (
-      <>
+      <div className="col-4" style={{margin:"auto"}}>
       {user != null && user.role === "admin" && (
           <>
-          {success ?
-            <div className="alert alert-success col-4 mt-3 mb-2" style={{margin: "auto"}} role="alert">
-                Confirmation request was successfully sent to target!
-            </div>
-          :
-            <div></div>
-          }   
+            {success ?
+                <div className="alert alert-success col-4 mt-3 mb-2" style={{margin: "auto"}} role="alert">
+                    Confirmation request was successfully sent to target!
+                </div>
+            :
+                <div></div>
+            }   
 
             {error ?
-                <div class="alert alert-danger col-4 mt-3 mb-2" style={{margin: "auto"}} role="alert">
+                <div className="alert alert-danger col-4 mt-3 mb-2" style={{margin: "auto"}} role="alert">
                     An error occurred
                 </div>
             :
@@ -115,9 +117,20 @@ function Create() {
           <h1 style={{textAlign: "center", paddingLeft:"20px", paddingRight: "20px", color:"rgb(239, 229, 189)"}}>Create a new game:</h1>
           <p></p>
 
-          <div style={{ margin:"auto", color:"rgb(239, 229, 189)", width: "fit-content"}}>
+          <div className="col-6" style={{ color:"rgb(239, 229, 189)", margin: "auto"}}>
+              <label>Game Title: </label>
+              <input className="form-control"
+                  type='text'
+                  onChange={e => {
+                      setTitle(e.target.value)
+                  }}
+              />
+          </div>
+
+          <div className="col-6" style={{ color:"rgb(239, 229, 189)", margin: "auto"}}>
               <label>Start Date: </label>
               <input
+                  className="form-control"
                   type='datetime-local'
                   onChange={e => {
                       console.log(typeof(e.target.value))
@@ -127,9 +140,10 @@ function Create() {
               />
           </div>
           <p></p>
-          <div style={{ margin:"auto", color:"rgb(239, 229, 189)", width: "fit-content"}}>
+          <div className="col-6" style={{ color:"rgb(239, 229, 189)", margin: "auto"}}>
               <label>End Date: </label>
               <input
+                  className="form-control"
                   type='datetime-local'
                   onChange={e => {
                       console.log(typeof(e.target.value))
@@ -141,9 +155,10 @@ function Create() {
           <p></p>
           <h5 style={{textAlign: "center", paddingLeft:"20px", paddingRight: "20px", color:"rgb(239, 229, 189)"}}>You may add immunities below:</h5>
           {fields.map((field, i) => (
-            <div key={field.id} style={{ color:"rgb(239, 229, 189)", margin:"auto", width: "fit-content"}}>
+            <div key={field.id} className="col-6" style={{ color:"rgb(239, 229, 189)", margin: "auto"}}>
               <label>Immunity {i+1}:</label>
               <input
+                className="form-control"
                 type="text"
                 placeholder="Enter First Name"
                 name="firstName"
@@ -179,8 +194,8 @@ function Create() {
               <h2 style={{textAlign: "center", color: "rgb(241, 196, 15)"}}>You are not authorized to access this page</h2>
           </div>
       )}
-      </>
+      </div>
   )
 }
 
-export default Create
+export default Create;
