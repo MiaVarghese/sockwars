@@ -59,7 +59,7 @@ export default function Gamehistory() {
                 </div>
                 <div class="mt-5 text-center">
                   <h4 class="mb-0">
-                    {each.startDate}- {each.endDate}
+                    {each.startDate}
                   </h4>
                   <span class="text-muted d-block mb-2">
                     Active Players:

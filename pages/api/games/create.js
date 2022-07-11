@@ -7,16 +7,16 @@ export default async function handler(req, res){
         // console.log(req.body)
         await dbConnect();
         //console.log(req.body)
-        const { activePlayers, eliminatedPlayers, startDate, endDate, immunities, title } = req.body;
+        const { activePlayers, eliminatedPlayers, startDate, immunities, title } = req.body;
         const sDate = new Date(startDate) //convert the date strings into Date object
-        const eDate = new Date(endDate)
+        // const eDate = new Date(endDate)
         const game = new Game({
             title: title,
             status: "pending",
             activePlayers: activePlayers,
             eliminatedPlayers: eliminatedPlayers,
             startDate: sDate,
-            endDate: eDate,
+            // endDate: eDate,
             immunities: immunities
         })
         try {
@@ -26,7 +26,7 @@ export default async function handler(req, res){
                 {},
                 { $push: {"gamesPlayed": {
                     gameId: game._id.toString(),
-                    targets: [],
+                    targets: [], 
                     eliminated: 0,
                     isActive: true,
                     isWinner: false

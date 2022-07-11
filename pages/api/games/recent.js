@@ -6,15 +6,25 @@ export default async function handler(req, res) {
     await dbConnect();
     var result = [];
 
-    const games = await Game.find().sort({startDate: 1});
-    const recent = games[games.length-1];
+    const games = await Game.find().sort({startDate: -1});
+    // const recent = games[games.length-1];
 
-    if (recent.startDate <= new Date() && recent.endDate >= new Date()) {
-        result.push(recent);
-    } else if (games[games.length-2].startDate <= new Date() && games[games.length-2].endDate >= new Date()) {
-        result.push(games[games.length-2]);
-        result.push(recent);
+    for (var i=0; i<games.length; i++) {
+      if (games[i].status=="ongoing") {
+        result.push(games[i]);
+        if (i<games.length-1 && games[i+1].status=="pending") {
+          result.push(games[i+1]);
+        }
+        break;
+      }
     }
+
+    // if (recent.startDate <= new Date() && recent.endDate >= new Date()) {
+    //     result.push(recent);
+    // } else if (games[games.length-2].startDate <= new Date() && games[games.length-2].status == "ongoing") {
+    //     result.push(games[games.length-2]);
+    //     result.push(recent);
+    // }
 
     res.json(result);
   } catch (err) {

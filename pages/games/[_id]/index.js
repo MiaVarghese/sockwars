@@ -149,7 +149,7 @@ export default function Gamehistory() {
             </div>
             <div className="mt-5 text-center">
               <h4 className="mb-0">
-                {new Date(game.startDate).toLocaleString()} - {new Date(game.endDate).toLocaleString()}
+                {new Date(game.startDate).toLocaleString()}
               </h4>
               <span className="text-muted d-block mb-2">
                 Active Players:

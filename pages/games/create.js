@@ -9,7 +9,7 @@ const notifEndPoint = process.env.NEXT_PUBLIC_REACT_APP_URL + "/notifications/se
 function Create() {
   const [allUsers, setUsers] = useState([]);
   const [startDate, setStartDate] = useState('');
-  const [endDate, setEndDate] = useState('');
+//   const [endDate, setEndDate] = useState('');
   const [title, setTitle] = useState();
   const [user, setUser] = useState({});
   const [immunities, setImmunities] = useState([]);
@@ -44,7 +44,7 @@ function Create() {
           activePlayers: [],
           eliminatedPlayers: [],
           startDate: startDate + ':00',
-          endDate: endDate + ':00',
+        //   endDate: endDate + ':00',
           immunities: []
       })
       .then((response) => {
@@ -140,7 +140,7 @@ function Create() {
               />
           </div>
           <p></p>
-          <div className="col-6" style={{ color:"rgb(239, 229, 189)", margin: "auto"}}>
+          {/* <div className="col-6" style={{ color:"rgb(239, 229, 189)", margin: "auto"}}>
               <label>End Date: </label>
               <input
                   className="form-control"
@@ -152,7 +152,7 @@ function Create() {
                   }}
               />
           </div>
-          <p></p>
+          <p></p> */}
           <h5 style={{textAlign: "center", paddingLeft:"20px", paddingRight: "20px", color:"rgb(239, 229, 189)"}}>You may add immunities below:</h5>
           {fields.map((field, i) => (
             <div key={field.id} className="col-6" style={{ color:"rgb(239, 229, 189)", margin: "auto"}}>

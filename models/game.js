@@ -9,7 +9,6 @@ const gameSchema = new mongoose.Schema(
       { id: String, username: String, section: String, eliminator: String },
     ],
     startDate: Date,
-    endDate: Date,
     immunities: [String],
     winner: String,
   },
