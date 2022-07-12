@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import DetailsTab from "./components/DetailsTab";
 import NotificationsTab from "./components/NotificationsTab";
 import PasswordTab from "./components/PasswordTab";
+import Spinner from "./components/Spinner";
 
 import axios from "axios";
 const endPoint = process.env.NEXT_PUBLIC_REACT_APP_URL + "/users/accountInfo";
@@ -67,7 +68,7 @@ export default function Settings() {
   return (
     <div class="container p-5">
       {!userInfo ? (
-        <div> Loading </div>
+        <Spinner />
       ) : (
         <div
           class="p-3 pb-5"

@@ -3,11 +3,13 @@ import styles from '../styles/login.module.css'
 import { useState } from "react";
 import Router from "next/router";
 import axios from "axios";
+import LoadButton from "./components/LoadButton";
 
 const endPoint = process.env.NEXT_PUBLIC_REACT_APP_URL + "/auth/login";
 
 export default function Login() {
     const [error, setError] = useState();
+    const [btnLoading, setBtnLoading] = useState(false);
     const [formData, setFormData] = useState({
       username: "",
       password: ""
@@ -24,6 +26,7 @@ export default function Login() {
     async function loginUser(e) {
       e.preventDefault();
       setError(null);
+      setBtnLoading(true);
 
       try {
         const response = await axios.post(endPoint, formData);
@@ -31,6 +34,7 @@ export default function Login() {
         localStorage.setItem("token", response.data.token);
         localStorage.setItem("user", JSON.stringify(response.data.user));
       } catch(err) {
+          setBtnLoading(false);
           console.log(err.response.data.message);
           setError(err.response.data.message);
       }
@@ -63,7 +67,17 @@ export default function Login() {
                     </div>
 
                     <div className={styles.submit}>
-                        <button className="btn btn-primary" type="submit">Login</button>
+                        {/* <button className="btn btn-primary" style={{position: "relative"}} type="submit">
+                            Login
+                            { btnLoading ?
+                                <div style={{position: "absolute", left: "30%", top: "5%"}} className="spinner-border text-light" role="status">
+                                    <span className="visually-hidden">Loading...</span>
+                                </div>
+                                :
+                                <div></div>
+                            }
+                        </button> */}
+                        <LoadButton className="btn btn-primary" type="submit" btnLoading={btnLoading}>Login</LoadButton>
                     </div>
 
                     <div className={styles.notRegistered}>

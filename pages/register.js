@@ -3,12 +3,14 @@ import styles from "../styles/registrationpage.module.css";
 import axios from "axios";
 import Router from "next/router";
 import { useState, useEffect } from "react";
+import LoadButton from "./components/LoadButton";
 
 const endPoint = process.env.NEXT_PUBLIC_REACT_APP_URL + "/auth/register";
 
 export default function Register() {
 
   const [error, setError] = useState();
+  const [btnLoading, setBtnLoading] = useState(false);
   const [confirmPw, setConfirmPw] = useState();
   const [formData, setFormData] = useState({
     userName: "",
@@ -36,6 +38,7 @@ export default function Register() {
   async function createUser(e) {
     e.preventDefault();
     setError(null);
+    setBtnLoading(true);
 
     if (formData.password===confirmPw) {
       try {
@@ -43,9 +46,11 @@ export default function Register() {
         Router.push("/");
       } catch(err) {
         setError(err.response.data.message);
+        setBtnLoading(false);
       }
     } else {
       setError("Passwords do not match");
+      setBtnLoading(false);
     }
     // console.log(formData);
   }
@@ -164,7 +169,7 @@ export default function Register() {
         </div>
 
         <div style={{textAlign: "center"}}>
-          <button className="btn btn-warning col-6" type="submit">Join!</button>
+          <LoadButton className="btn btn-warning col-6" type="submit" btnLoading={btnLoading}>Join!</LoadButton>
         </div>
       </form>
     </div>

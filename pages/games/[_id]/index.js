@@ -3,6 +3,8 @@ import { useState, useEffect, useContext } from "react";
 import { UserContext } from "../../hooks/UserContext";
 import axios from "axios";
 
+import Spinner from "../../components/Spinner";
+
 const URL_PREFIX = process.env.NEXT_PUBLIC_REACT_APP_URL;
 const endPoint = process.env.NEXT_PUBLIC_REACT_APP_URL + "/games/";
 const matchEndPoint = process.env.NEXT_PUBLIC_REACT_APP_URL + "/match";
@@ -187,7 +189,7 @@ export default function Gamehistory() {
           </div>
         </div>
       ) : (
-        <div>Loading</div>
+        <Spinner/>
       )}
     </div>
   );

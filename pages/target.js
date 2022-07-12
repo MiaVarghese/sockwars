@@ -3,6 +3,7 @@ import { useState, useEffect, useContext } from 'react';
 import axios from "axios";
 import {GameContext} from "./hooks/GameContext";
 import {UserContext} from "./hooks/UserContext";
+import Spinner from "./components/Spinner";
 
 const URL_PREFIX = process.env.NEXT_PUBLIC_REACT_APP_URL;
 const endPoint = process.env.NEXT_PUBLIC_REACT_APP_URL + "/notifications/elimination";
@@ -66,7 +67,7 @@ export default function Target() {
     return (
         <div style={{paddingTop:"10px"}}>
             {!target ?
-            <div>Loading </div>
+            <Spinner />
             :
             <div>        
                 {success ?

@@ -3,6 +3,7 @@ import { useRouter } from "next/router";
 import axios from "axios";
 import Notification from "./components/Notification";
 import Pagination from "./components/Pagination";
+import Spinner from "./components/Spinner";
 
 const endPoint = process.env.NEXT_PUBLIC_REACT_APP_URL + "/users/accountInfo";
 
@@ -49,7 +50,7 @@ export default function Notifications() {
     return (
         <div className="container p-5">
             {!notifs ? 
-            <div> Loading </div>
+            <Spinner/>
             :
             <div className="mx-5 p-3 pb-5" style={{borderRadius: "10px"}}>
                 <h2 style={{color: "white"}}>Notifications</h2>
