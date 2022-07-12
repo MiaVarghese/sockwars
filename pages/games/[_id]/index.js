@@ -27,7 +27,7 @@ export default function Gamehistory() {
   const { _id } = router.query;
 
   useEffect(() => {
-    setUser(JSON.parse(localStorage.user))
+    //setUser(JSON.parse(localStorage.user))
     try {
       if (_id) {
         if (user) {
@@ -51,20 +51,16 @@ export default function Gamehistory() {
   async function fetchGame() {
     try {
       const response = await axios.get(endPoint + _id);
-      response.data.shortStartDate = response.data.startDate.substring(0, 10)
-      response.data.shortEndDate = response.data.endDate.substring(0, 10)
+      //response.data.shortStartDate = response.data.startDate.substring(0, 10)
+      //response.data.shortEndDate = response.data.endDate.substring(0, 10)
       const g = response.data
+      if(g.startDate.slice(-1) === 'Z') //remove timezone character
+        g.startDate = g.startDate.slice(0, -1)
+      if(g.endDate.slice(-1) === 'Z')
+        g.endDate = g.endDate.slice(0, -1)
       console.log(g)
       setGamehistory(g);
       setGameEdit(g);
-      // setGamehistory(gamehistory => ({
-      //   ...gamehistory,
-      //   ...g
-      // }));
-      // setGameEdit(gamehistory => ({
-      //   ...gamehistory,
-      //   ...g
-      // }));
       var current = new Date();
       var gameStart = new Date(response.data.startDate);
       const disable = gameStart < current;
@@ -202,8 +198,10 @@ export default function Gamehistory() {
     }))
   }
 
-  const submitEdits = () => {
+  const submitEdits = async () => {
     console.log(gameEdit)
+    //Promise.all
+  }
     
   async function unjoin() {
     try {
@@ -340,5 +338,5 @@ export default function Gamehistory() {
         <div>Loading</div>
       )}
     </div>
-  );
+  )
 }

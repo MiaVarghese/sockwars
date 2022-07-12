@@ -80,18 +80,18 @@ export default function EditModal(props) {
                             <div role="tabpanel" class="tab-pane" id="dates">
                                 <div className="col-7">
                                     <label for="startDate" class="form-label">Start Date</label>
-                                    <input type="date" className="form-control" id="startDate" 
-                                        //value={props.data ? props.data.startDate : ""}
-                                        defaultValue={props.gameEdit ? props.gameEdit.shortStartDate : ""}
-                                        onChange={(e) => props.handleDateChange(e, 'shortStartDate')}
+                                    <input type="datetime-local" className="form-control" id="startDate" 
+                                        //defaultValue="2022-06-09T05:09:00.00"
+                                        defaultValue={props.gameEdit ? props.gameEdit.startDate : ""}
+                                        onChange={(e) => props.handleDateChange(e, 'startDate')}
                                     />
                                 </div>
                                 <div className="col-7">
                                     <label for="endDate" class="form-label">End Date</label>
-                                    <input type="date" className="form-control" id="endDate" 
+                                    <input type="datetime-local" className="form-control" id="endDate" 
                                         //value={props.data ? props.data.endDate : ""}
-                                        defaultValue={props.gameEdit ? props.gameEdit.shortEndDate : ""}
-                                        onChange={(e) => props.handleDateChange(e, 'shortEndDate')}
+                                        defaultValue={props.gameEdit ? props.gameEdit.endDate : ""}
+                                        onChange={(e) => props.handleDateChange(e, 'endDate')}
                                     />
                                 </div>
                             </div>
