@@ -383,8 +383,74 @@ export default function Gamehistory() {
     }))
   }
 
+  const addActivePlayer = (value) => { 
+    const el = gameEdit.eliminatedPlayers.filter((plyr, idx) => plyr.userName === value) 
+    if(el.length === 0) { //if player doesnt exist in activePlayers
+      const newPlayer = {userName: value}
+      setGameEdit((prevState) => ({
+        ...prevState,
+        activePlayers: [...prevState.activePlayers, newPlayer]
+      }));
+    }
+  }
+
+  const editActivePlayer = (e, i) => { //i to track which player to edit
+    const ac = gameEdit.activePlayers.map((plyr, idx) => {
+      if(idx === i)
+        return {userName: e.target.value}
+      else 
+        return plyr
+    })
+    console.log(ac)
+    setGameEdit((prevState) => ({
+      ...prevState,
+      activePlayers: ac
+    }))
+  }
+
+  const removeActivePlayer = (i) => {
+    const ac = gameEdit.activePlayers.filter((plyr, idx) => idx !== i)
+    console.log(ac)
+    setGameEdit((prevState) => ({
+        ...prevState,
+        activePlayers: ac
+    }))
+  }
+
+  const addElimPlayer = (value) => {
+    const ac = gameEdit.activePlayers.filter((plyr, idx) => plyr.userName === value) 
+    if(ac.length === 0) { //if player doesnt exist in activePlayers
+      setGameEdit((prevState) => ({
+        ...prevState,
+        eliminatedPlayers: [...prevState.eliminatedPlayers, {userName: value}]
+      }));
+    }
+  }
+
+  const editElimPlayer = (e, i) => { //i to track which player to edit
+    const el = gameEdit.eliminatedPlayers.map((plyr, idx) => {
+      if(idx === i)
+        return {userName: e.target.value}
+      else 
+        return plyr
+    })
+    setGameEdit((prevState) => ({
+      ...prevState,
+      eliminatedPlayers: el
+    }))
+  }
+
+  const removeElimPlayer = (i) => {
+    const el = gameEdit.eliminatedPlayers.filter((plyr, idx) => idx !== i)
+    setGameEdit((prevState) => ({
+        ...prevState,
+        eliminatedPlayers: el
+    }))
+  }
+
   const submitEdits = () => {
     console.log(gameEdit)
+    
   }
 
   return (
@@ -407,6 +473,12 @@ export default function Gamehistory() {
               editImmunity={editImmunity}
               removeImmunity={removeImmunity}
               submitEdits={submitEdits}
+              addActivePlayer={addActivePlayer}
+              editActivePlayer={editActivePlayer}
+              removeActivePlayer={removeActivePlayer}
+              addElimPlayer={addElimPlayer}
+              editElimPlayer={editElimPlayer}
+              removeElimPlayer={removeElimPlayer}
             />
             <button
               type="button"

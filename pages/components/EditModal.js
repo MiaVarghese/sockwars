@@ -2,16 +2,19 @@ import { useState, useEffect } from "react";
 
 export default function EditModal(props) {
     const [immunity, setImmunity] = useState(""); //the immunity to be added
-    //const [gameEdit, setGameEdit] = useState(props.gameEdit)
-    // const onTabClick = (currentTab) => {
-    //     setCurrTab(currentTab)
-    // }
-    // useEffect(() => {
-    //     setGameEdit(gameEdit);
-    // }, [gameEdit]);
+    const [activePlayer, setActivePlayer] = useState("");
+    const [elimPlayer, setElimPlayer] = useState("");
 
     const immunityTextHandler = (event) => {
         setImmunity(event.target.value)
+    }
+
+    const activePlayerHandler = (event) => {
+        setActivePlayer(event.target.value)
+    }
+
+    const elimPlayerHandler = (event) => {
+        setElimPlayer(event.target.value)
     }
 
     return (
@@ -96,9 +99,14 @@ export default function EditModal(props) {
                                 <p></p>
                                 <label>Add user to active players</label>
                                 <div class="input-group mb-3">
-                                    <input type="text" class="form-control" placeholder="Enter username" />
+                                    <input type="text" class="form-control" placeholder="Enter username" onChange={activePlayerHandler} value={activePlayer}/>
                                     <div class="input-group-append">
-                                        <button class="btn btn-primary" type="button">Add</button>
+                                        <button class="btn btn-primary" type="button"
+                                        onClick={() => {
+                                            props.addActivePlayer(activePlayer);
+                                            setActivePlayer("");
+                                        }}>
+                                        Add</button>
                                     </div>
                                 </div>
                                 <label>Edit/Remove Active Player</label>
@@ -107,10 +115,10 @@ export default function EditModal(props) {
                                         <input
                                             type="text"
                                             value={usr.userName}
-                                            //onChange={e => handleChangeInput(i, e)}
+                                            onChange={e => props.editActivePlayer(e, i)}
                                             style={{width:"70%"}}
                                         />
-                                        <button className="btn btn-outline-danger btn-sm" style={{marginLeft:"5px", float:"right"}}>
+                                        <button className="btn btn-outline-danger btn-sm" style={{marginLeft:"5px", float:"right"}} onClick={()=>{props.removeActivePlayer(i)}}>
                                             Del
                                         </button> 
                                     </div>
@@ -118,21 +126,26 @@ export default function EditModal(props) {
                                 <p></p>
                                 <label>Add user to eliminated players</label>
                                 <div class="input-group mb-3">
-                                    <input type="text" class="form-control" placeholder="Enter username" />
+                                    <input type="text" class="form-control" placeholder="Enter username" onChange={elimPlayerHandler} value={elimPlayer}/>
                                     <div class="input-group-append">
-                                        <button class="btn btn-primary" type="button">Add</button>
+                                        <button class="btn btn-primary" type="button"
+                                        onClick={() => {
+                                            props.addElimPlayer(elimPlayer);
+                                            setElimPlayer("");
+                                        }}>
+                                        Add</button>
                                     </div>
                                 </div>
-                                <label>Edit/Remove eliminated    Player</label>
+                                <label>Edit/Remove eliminated player</label>
                                 {props.gameEdit && props.gameEdit.eliminatedPlayers.map((usr, i) => (
                                     <div style={{marginTop:"5px"}}>
                                         <input
                                             type="text"
                                             value={usr.userName}
-                                            //onChange={e => handleChangeInput(i, e)}
+                                            onChange={e => props.editElimPlayer(e, i)}
                                             style={{width:"70%"}}
                                         />
-                                        <button className="btn btn-outline-danger btn-sm" style={{marginLeft:"5px", float:"right"}}>
+                                        <button className="btn btn-outline-danger btn-sm" style={{marginLeft:"5px", float:"right"}} onClick={()=>{props.removeElimPlayer(i)}}>
                                             Del
                                         </button> 
                                     </div>
