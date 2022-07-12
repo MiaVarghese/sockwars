@@ -3,6 +3,9 @@ import { useState, useEffect, useContext } from "react";
 import { UserContext } from "../../hooks/UserContext";
 import axios from "axios";
 
+import styles from "../../../styles/profile.module.css";
+import EditModal from "../../components/EditModal.js";
+
 const URL_PREFIX = process.env.NEXT_PUBLIC_REACT_APP_URL;
 const endPoint = process.env.NEXT_PUBLIC_REACT_APP_URL + "/games/";
 const matchEndPoint = process.env.NEXT_PUBLIC_REACT_APP_URL + "/match";
@@ -10,6 +13,10 @@ const assignEndPoint = process.env.NEXT_PUBLIC_REACT_APP_URL + "/users/assignTar
 const unjoinEndPoint = process.env.NEXT_PUBLIC_REACT_APP_URL + "/games/unjoin";
 
 export default function Gamehistory() {
+  const [gamehistory, setGamehistory] = useState({}); //the info about the game
+  const [gameEdit, setGameEdit] = useState({}); //the game object that will be edited
+ 
+  const [disableJoin, setDisableJoin] = useState(false); //will be used to disable the join button if the game has already started
   const [game, setGame] = useState();
   const [hasJoined, setHasJoined] = useState(false);
   const [lockDate, setLockDate] = useState();
@@ -20,6 +27,7 @@ export default function Gamehistory() {
   const { _id } = router.query;
 
   useEffect(() => {
+    setUser(JSON.parse(localStorage.user))
     try {
       if (_id) {
         if (user) {
@@ -37,11 +45,30 @@ export default function Gamehistory() {
     } catch (err) {
       console.log(err);
     }
-  }, [_id, user]);
+  }, [_id, user]); //https://stackoverflow.com/questions/53601931/custom-useeffect-second-argument
+    //if _id has changed then get new user
 
   async function fetchGame() {
     try {
       const response = await axios.get(endPoint + _id);
+      response.data.shortStartDate = response.data.startDate.substring(0, 10)
+      response.data.shortEndDate = response.data.endDate.substring(0, 10)
+      const g = response.data
+      console.log(g)
+      setGamehistory(g);
+      setGameEdit(g);
+      // setGamehistory(gamehistory => ({
+      //   ...gamehistory,
+      //   ...g
+      // }));
+      // setGameEdit(gamehistory => ({
+      //   ...gamehistory,
+      //   ...g
+      // }));
+      var current = new Date();
+      var gameStart = new Date(response.data.startDate);
+      const disable = gameStart < current;
+      setDisableJoin(disable); 
       var date = new Date(response.data.startDate);
       date.setDate( date.getDate() - 1 );
       setLockDate(date);
@@ -66,6 +93,118 @@ export default function Gamehistory() {
       });
   };
 
+  const handleDateChange = (e, key) => {
+    //console.log(gamehistory)
+    setGameEdit((prevState) => ({
+      ...prevState,
+      [key]: e.target.value,
+    }));
+  }
+
+  const addImmunity = (value) => { 
+    setGameEdit((prevState) => ({
+      ...prevState,
+      immunities: [...prevState.immunities, value]
+    }));
+  }
+
+  const editImmunity = (e, i) => { //i to track which immunity to edit
+    const immunities = gameEdit.immunities.map((imm, idx) => {
+      if(idx === i)
+        return e.target.value
+      else 
+        return imm
+    })
+    setGameEdit((prevState) => ({
+      ...prevState,
+      immunities: immunities
+    }))
+  }
+
+  const removeImmunity = (i) => {
+    // console.log(i)
+    // setGameEdit(prevState => {
+    //   const copy = prevState
+    //   copy.immunities.splice(i, 1)
+    //   console.log(copy)
+    //   return copy
+    // })
+    const immunities = gameEdit.immunities.filter((imm, idx) => idx !== i)
+    console.log(immunities)
+    setGameEdit((prevState) => ({
+        ...prevState,
+        immunities: immunities
+    }))
+  }
+
+  const addActivePlayer = (value) => { 
+    const el = gameEdit.eliminatedPlayers.filter((plyr, idx) => plyr.userName === value) 
+    if(el.length === 0) { //if player doesnt exist in activePlayers
+      const newPlayer = {userName: value}
+      setGameEdit((prevState) => ({
+        ...prevState,
+        activePlayers: [...prevState.activePlayers, newPlayer]
+      }));
+    }
+  }
+
+  const editActivePlayer = (e, i) => { //i to track which player to edit
+    const ac = gameEdit.activePlayers.map((plyr, idx) => {
+      if(idx === i)
+        return {userName: e.target.value}
+      else 
+        return plyr
+    })
+    console.log(ac)
+    setGameEdit((prevState) => ({
+      ...prevState,
+      activePlayers: ac
+    }))
+  }
+
+  const removeActivePlayer = (i) => {
+    const ac = gameEdit.activePlayers.filter((plyr, idx) => idx !== i)
+    console.log(ac)
+    setGameEdit((prevState) => ({
+        ...prevState,
+        activePlayers: ac
+    }))
+  }
+
+  const addElimPlayer = (value) => {
+    const ac = gameEdit.activePlayers.filter((plyr, idx) => plyr.userName === value) 
+    if(ac.length === 0) { //if player doesnt exist in activePlayers
+      setGameEdit((prevState) => ({
+        ...prevState,
+        eliminatedPlayers: [...prevState.eliminatedPlayers, {userName: value}]
+      }));
+    }
+  }
+
+  const editElimPlayer = (e, i) => { //i to track which player to edit
+    const el = gameEdit.eliminatedPlayers.map((plyr, idx) => {
+      if(idx === i)
+        return {userName: e.target.value}
+      else 
+        return plyr
+    })
+    setGameEdit((prevState) => ({
+      ...prevState,
+      eliminatedPlayers: el
+    }))
+  }
+
+  const removeElimPlayer = (i) => {
+    const el = gameEdit.eliminatedPlayers.filter((plyr, idx) => idx !== i)
+    setGameEdit((prevState) => ({
+        ...prevState,
+        eliminatedPlayers: el
+    }))
+  }
+
+  const submitEdits = () => {
+    console.log(gameEdit)
+    
   async function unjoin() {
     try {
       const response = await axios.patch(unjoinEndPoint, {gameId: _id, userName: user.userName});
@@ -98,11 +237,12 @@ export default function Gamehistory() {
     } catch(err) {
       console.log(err.response.data);
     }
+
   }
 
   return (
     <div>
-      {game && lockDate && user ? (
+      {game && lockDate && user && (Object.keys(gamehistory).length !== 0 && Object.keys(gameEdit).length !== 0) ? (
         <div
           className="container d-flex justify-content-center align-items-center"
           style={{ paddingTop: "50px" }}
@@ -112,8 +252,22 @@ export default function Gamehistory() {
             className="card"
             border="0"
             width="300px"
-            style={{ backgroundColor: "rgb(239, 229, 189)" }}
+            style={{ backgroundColor: "rgb(239, 229, 189)"}}
           >
+            <EditModal
+              gameEdit={gameEdit}
+              handleDateChange={handleDateChange}
+              addImmunity={addImmunity}
+              editImmunity={editImmunity}
+              removeImmunity={removeImmunity}
+              submitEdits={submitEdits}
+              addActivePlayer={addActivePlayer}
+              editActivePlayer={editActivePlayer}
+              removeActivePlayer={removeActivePlayer}
+              addElimPlayer={addElimPlayer}
+              editElimPlayer={editElimPlayer}
+              removeElimPlayer={removeElimPlayer}
+            />
             {user.role==="user" ?
               <>
                 {hasJoined ?
