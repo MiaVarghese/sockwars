@@ -1,17 +1,27 @@
 import { useRouter } from "next/router";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
+import { UserContext } from "../../hooks/UserContext";
 import axios from "axios";
 
 import styles from "../../../styles/profile.module.css";
 import EditModal from "../../components/EditModal.js";
+
 const URL_PREFIX = process.env.NEXT_PUBLIC_REACT_APP_URL;
 const endPoint = process.env.NEXT_PUBLIC_REACT_APP_URL + "/games/";
+const matchEndPoint = process.env.NEXT_PUBLIC_REACT_APP_URL + "/match";
+const assignEndPoint = process.env.NEXT_PUBLIC_REACT_APP_URL + "/users/assignTarget";
+const unjoinEndPoint = process.env.NEXT_PUBLIC_REACT_APP_URL + "/games/unjoin";
 
 export default function Gamehistory() {
   const [gamehistory, setGamehistory] = useState({}); //the info about the game
   const [gameEdit, setGameEdit] = useState({}); //the game object that will be edited
-  const [user, setUser] = useState({});
+ 
   const [disableJoin, setDisableJoin] = useState(false); //will be used to disable the join button if the game has already started
+  const [game, setGame] = useState();
+  const [hasJoined, setHasJoined] = useState(false);
+  const [lockDate, setLockDate] = useState();
+
+  const { user } = useContext(UserContext);
 
   const router = useRouter();
   const { _id } = router.query;
@@ -19,289 +29,28 @@ export default function Gamehistory() {
   useEffect(() => {
     setUser(JSON.parse(localStorage.user))
     try {
-      console.log(_id)
-      fetchGamehistory();
-      //   fetchEliminatedPlyrs();
+      if (_id) {
+        if (user) {
+          for (var i=0; i<user.gamesPlayed.length; i++) {
+            if (user.gamesPlayed[i].gameId===_id) {
+              setHasJoined(true);
+              console.log("here");
+              break;
+            }
+          }
+        }
+
+        fetchGame();
+      }
     } catch (err) {
       console.log(err);
     }
-  }, [_id]); //https://stackoverflow.com/questions/53601931/custom-useeffect-second-argument
+  }, [_id, user]); //https://stackoverflow.com/questions/53601931/custom-useeffect-second-argument
     //if _id has changed then get new user
 
-  async function fetchGamehistory() {
+  async function fetchGame() {
     try {
       const response = await axios.get(endPoint + _id);
-
-      /*switch (response.data.startDate[5] + response.data.startDate[6]) {
-        case "01":
-          response.data.startDate =
-            "Jan. " +
-            response.data.startDate[8] +
-            response.data.startDate[9] +
-            ", " +
-            response.data.startDate[0] +
-            response.data.startDate[1] +
-            response.data.startDate[2] +
-            response.data.startDate[3];
-          break;
-        case "02":
-          response.data.startDate =
-            "Feb. " +
-            response.data.startDate[8] +
-            response.data.startDate[9] +
-            ", " +
-            response.data.startDate[0] +
-            response.data.startDate[1] +
-            response.data.startDate[2] +
-            response.data.startDate[3];
-          break;
-        case "03":
-          response.data.startDate =
-            "Mar. " +
-            response.data.startDate[8] +
-            response.data.startDate[9] +
-            ", " +
-            response.data.startDate[0] +
-            response.data.startDate[1] +
-            response.data.startDate[2] +
-            response.data.startDate[3];
-          break;
-        case "04":
-          response.data.startDate =
-            "Apr. " +
-            response.data.startDate[8] +
-            response.data.startDate[9] +
-            ", " +
-            response.data.startDate[0] +
-            response.data.startDate[1] +
-            response.data.startDate[2] +
-            response.data.startDate[3];
-          break;
-        case "05":
-          response.data.startDate =
-            "May " +
-            response.data.startDate[8] +
-            response.data.startDate[9] +
-            ", " +
-            response.data.startDate[0] +
-            response.data.startDate[1] +
-            response.data.startDate[2] +
-            response.data.startDate[3];
-          break;
-        case "06":
-          response.data.startDate =
-            "Jun. " +
-            response.data.startDate[8] +
-            response.data.startDate[9] +
-            ", " +
-            response.data.startDate[0] +
-            response.data.startDate[1] +
-            response.data.startDate[2] +
-            response.data.startDate[3];
-          break;
-        case "07":
-          response.data.startDate =
-            "Jul. " +
-            response.data.startDate[8] +
-            response.data.startDate[9] +
-            ", " +
-            response.data.startDate[0] +
-            response.data.startDate[1] +
-            response.data.startDate[2] +
-            response.data.startDate[3];
-          break;
-        case "08":
-          response.data.startDate =
-            "Aug. " +
-            response.data.startDate[8] +
-            response.data.startDate[9] +
-            ", " +
-            response.data.startDate[0] +
-            response.data.startDate[1] +
-            response.data.startDate[2] +
-            response.data.startDate[3];
-          break;
-        case "09":
-          response.data.startDate =
-            "Sep " +
-            response.data.startDate[8] +
-            response.data.startDate[9] +
-            ", " +
-            response.data.startDate[0] +
-            response.data.startDate[1] +
-            response.data.startDate[2] +
-            response.data.startDate[3];
-          break;
-        case "10":
-          response.data.startDate =
-            "Oct. " +
-            response.data.startDate[8] +
-            response.data.startDate[9] +
-            ", " +
-            response.data.startDate[0] +
-            response.data.startDate[1] +
-            response.data.startDate[2] +
-            response.data.startDate[3];
-        case "11":
-          response.data.startDate =
-            "Nov. " +
-            response.data.startDate[8] +
-            response.data.startDate[9] +
-            ", " +
-            response.data.startDate[0] +
-            response.data.startDate[1] +
-            response.data.startDate[2] +
-            response.data.startDate[3];
-          break;
-        case "12":
-          response.data.startDate =
-            "Dec. " +
-            response.data.startDate[8] +
-            response.data.startDate[9] +
-            ", " +
-            response.data.startDate[0] +
-            response.data.startDate[1] +
-            response.data.startDate[2] +
-            response.data.startDate[3];
-          break;
-        default:
-          break;
-      }
-      switch (response.data.endDate[5] + response.data.endDate[6]) {
-        case "01":
-          response.data.endDate =
-            "Jan. " +
-            response.data.endDate[8] +
-            response.data.endDate[9] +
-            ", " +
-            response.data.endDate[0] +
-            response.data.endDate[1] +
-            response.data.endDate[2] +
-            response.data.endDate[3];
-          break;
-        case "02":
-          response.data.endDate =
-            "Feb. " +
-            response.data.endDate[8] +
-            response.data.endDate[9] +
-            ", " +
-            response.data.endDate[0] +
-            response.data.endDate[1] +
-            response.data.endDate[2] +
-            response.data.endDate[3];
-          break;
-        case "03":
-          response.data.endDate =
-            "Mar. " +
-            response.data.endDate[8] +
-            response.data.endDate[9] +
-            ", " +
-            response.data.endDate[0] +
-            response.data.endDate[1] +
-            response.data.endDate[2] +
-            response.data.endDate[3];
-          break;
-        case "04":
-          response.data.endDate =
-            "Apr. " +
-            response.data.endDate[8] +
-            response.data.endDate[9] +
-            ", " +
-            response.data.endDate[0] +
-            response.data.endDate[1] +
-            response.data.endDate[2] +
-            response.data.endDate[3];
-          break;
-        case "05":
-          response.data.endDate =
-            "May " +
-            response.data.endDate[8] +
-            response.data.endDate[9] +
-            ", " +
-            response.data.endDate[0] +
-            response.data.endDate[1] +
-            response.data.endDate[2] +
-            response.data.endDate[3];
-          break;
-        case "06":
-          response.data.endDate =
-            "Jun. " +
-            response.data.endDate[8] +
-            response.data.endDate[9] +
-            ", " +
-            response.data.endDate[0] +
-            response.data.endDate[1] +
-            response.data.endDate[2] +
-            response.data.endDate[3];
-          break;
-        case "07":
-          response.data.endDate =
-            "Jul. " +
-            response.data.endDate[8] +
-            response.data.endDate[9] +
-            ", " +
-            response.data.endDate[0] +
-            response.data.endDate[1] +
-            response.data.endDate[2] +
-            response.data.endDate[3];
-          break;
-        case "08":
-          response.data.endDate =
-            "Aug. " +
-            response.data.endDate[8] +
-            response.data.endDate[9] +
-            ", " +
-            response.data.endDate[0] +
-            response.data.endDate[1] +
-            response.data.endDate[2] +
-            response.data.endDate[3];
-          break;
-        case "09":
-          response.data.endDate =
-            "Sep " +
-            response.data.endDate[8] +
-            response.data.endDate[9] +
-            ", " +
-            response.data.endDate[0] +
-            response.data.endDate[1] +
-            response.data.endDate[2] +
-            response.data.endDate[3];
-          break;
-        case "10":
-          response.data.endDate =
-            "Oct. " +
-            response.data.endDate[8] +
-            response.data.endDate[9] +
-            ", " +
-            response.data.endDate[0] +
-            response.data.endDate[1] +
-            response.data.endDate[2] +
-            response.data.endDate[3];
-        case "11":
-          response.data.endDate =
-            "Nov. " +
-            response.data.endDate[8] +
-            response.data.endDate[9] +
-            ", " +
-            response.data.endDate[0] +
-            response.data.endDate[1] +
-            response.data.endDate[2] +
-            response.data.endDate[3];
-          break;
-        case "12":
-          response.data.endDate =
-            "Dec. " +
-            response.data.endDate[8] +
-            response.data.endDate[9] +
-            ", " +
-            response.data.endDate[0] +
-            response.data.endDate[1] +
-            response.data.endDate[2] +
-            response.data.endDate[3];
-          break;
-        default:
-          break;
-      }*/ 
       response.data.shortStartDate = response.data.startDate.substring(0, 10)
       response.data.shortEndDate = response.data.endDate.substring(0, 10)
       const g = response.data
@@ -320,6 +69,11 @@ export default function Gamehistory() {
       var gameStart = new Date(response.data.startDate);
       const disable = gameStart < current;
       setDisableJoin(disable); 
+      var date = new Date(response.data.startDate);
+      date.setDate( date.getDate() - 1 );
+      setLockDate(date);
+      setGame(response.data);
+      console.log(response.data);
     } catch (err) {
       console.log(err);
     }
@@ -451,17 +205,51 @@ export default function Gamehistory() {
   const submitEdits = () => {
     console.log(gameEdit)
     
+  async function unjoin() {
+    try {
+      const response = await axios.patch(unjoinEndPoint, {gameId: _id, userName: user.userName});
+      setHasJoined(false);
+      console.log(response.data);
+    } catch(err) {
+      console.log(err.response.data);
+    }
+  }
+
+  async function matchPlayers() {
+    try {
+        console.log(_id);
+        const response = await axios.post(matchEndPoint, {gameId: _id});
+        if (response.data[0]===false) {
+            console.log("Could not find a match. Try again later or enter a new distance value.")
+        }
+        console.log(response.data);
+        assignTargets(response.data);
+    } catch(err) {
+        console.log(err);
+        console.log(err.response);
+    }
+  }
+
+  async function assignTargets(matches) {
+    try {
+      const response = await axios.patch(assignEndPoint, {matches: matches, gameId: _id});
+      console.log(response.data);
+    } catch(err) {
+      console.log(err.response.data);
+    }
+
   }
 
   return (
     <div>
-      {(Object.keys(gamehistory).length !== 0 && Object.keys(gameEdit).length !== 0) ? (
+      {game && lockDate && user && (Object.keys(gamehistory).length !== 0 && Object.keys(gameEdit).length !== 0) ? (
         <div
-          class="container d-flex justify-content-center align-items-center"
+          className="container d-flex justify-content-center align-items-center"
           style={{ paddingTop: "50px" }}
         >
+
           <div
-            class="card"
+            className="card"
             border="0"
             width="300px"
             style={{ backgroundColor: "rgb(239, 229, 189)"}}
@@ -480,57 +268,70 @@ export default function Gamehistory() {
               editElimPlayer={editElimPlayer}
               removeElimPlayer={removeElimPlayer}
             />
-            <button
-              type="button"
-              class="btn btn-primary btn-sm"
-              onClick={joinGame}
-              style={{
-                backgroundColor: "rgb(45, 64, 83)",
-                marginTop: "3px",
-                marginBottom: "10px",
-                width: "100px"
-              }}
-              disabled={disableJoin}
-            >
-              Join Game
-            </button>
-            <div class="upper"></div>
-            <span class="text-muted d-block mb-2 text-center">
-              <p>Game #: {gamehistory._id}</p>
+            {user.role==="user" ?
+              <>
+                {hasJoined ?
+                <button type="button" className="btn btn-danger" onClick={unjoin} style={{marginTop: "3px", marginBottom: "10px",}} disabled = {new Date() > lockDate}>
+                  Leave Game
+                </button>
+                :
+                <button type="button" className="btn btn-primary" onClick={joinGame} style={{backgroundColor: "rgb(45, 64, 83)", marginTop: "3px", marginBottom: "10px",}} disabled = {new Date() > lockDate}>
+                  Join Game
+                </button>
+                }
+              </>
+            :
+              <button type="button" className="btn btn-primary" onClick={matchPlayers} style={{backgroundColor: "rgb(45, 64, 83)", marginTop: "3px", marginBottom: "10px",}} disabled = {new Date() < lockDate || game.status!=="pending"}>
+                Match Targets
+              </button>
+            }
+            <div className="upper"></div>
+            <span className="text-muted d-block mb-2 text-center">
+              <p>Game #: {game._id}</p>
             </span>
-            <div class="user text-center">
-              <div class="profile" style={{ paddingTop: "10px" }}>
+            <div className="user text-center">
+              <div className="profile" style={{ paddingTop: "10px" }}>
                 <img
                   src="https://www.bootdey.com/app/webroot/img/Content/icons/64/PNG/64/tactics.png"
                   width="75"
                 />
               </div>
             </div>
-            <div class="mt-5 text-center">
-              <h4 class="mb-0">
-                {gamehistory.shortStartDate} - {gamehistory.shortEndDate}
+            <div className="mt-5 text-center">
+              <h4 className="mb-0">
+                {new Date(game.startDate).toLocaleString()} - {new Date(game.endDate).toLocaleString()}
               </h4>
-              <span class="text-muted d-block mb-2">
+              <span className="text-muted d-block mb-2">
                 Active Players:
-                {gamehistory.activePlayers.map((gh) => (
-                  <div>{gh.username}</div>
-                ))}{" "}
+                {game.activePlayers.map((player) => (
+                  <div key={player.userName}>{player.userName}</div>
+                ))}
+                {game.activePlayers.length===0 ?
+                  <div>None</div>
+                  :
+                  <div></div>
+                }
               </span>
 
-              <span class="text-muted d-block mb-2">
+              <span className="text-muted d-block mb-2">
                 Eliminated Players:
-                {gamehistory.eliminatedPlayers.map((gh) => (
-                  <div>{gh.username}</div>
-                ))}{" "}
+                {game.eliminatedPlayers.map((player) => (
+                  <div key={player.userName}>{player.userName}</div>
+                ))}
+                {game.eliminatedPlayers.length===0 ?
+                  <div>None</div>
+                  :
+                  <div></div>
+                }
               </span>
-              <div class="d-flex justify-content-between align-items-center mt-4 px-4"></div>
+              <div className="d-flex justify-content-between align-items-center mt-4 px-4"></div>
             </div>
             <div
-              class="card"
+              className="card"
               border="20"
               style={{ backgroundColor: "rgb(119, 136, 153)" }}
             >
-              <h6 class="mb-0">Immunities: </h6>
+              <h6 className="mb-0">Immunities: </h6>
               {/* <span>{gamehistory.immunities}</span> */}
             </div>
           </div>

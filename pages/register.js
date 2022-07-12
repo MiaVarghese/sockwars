@@ -22,6 +22,7 @@ export default function Register() {
   });
 
   function handleChange(e) {
+    console.log(formData);
     setFormData((prevState) => ({
       ...prevState,
       [e.target.name]: e.target.value,
@@ -66,13 +67,13 @@ export default function Register() {
             <label for="firstName" class="form-label">
               First name
             </label>
-            <input type="text" className="form-control" id="firstName" onChange={(e) => handleChange(e)} required />
+            <input type="text" className="form-control" name="firstName" onChange={(e) => handleChange(e)} required />
           </div>
           <div className="col-md-6">
             <label for="lastName" class="form-label">
               Last name
             </label>
-            <input type="text" className="form-control" id="lastName" onChange={(e) => handleChange(e)} required />
+            <input type="text" className="form-control" name="lastName" onChange={(e) => handleChange(e)} required />
           </div>
         </div>
 
@@ -81,13 +82,13 @@ export default function Register() {
             <label for="userName" class="form-label">
               Username
             </label>
-            <input type="text" className="form-control" id="userName" onChange={(e) => handleChange(e)} required />
+            <input type="text" className="form-control" name="userName" onChange={(e) => handleChange(e)} required />
           </div>
           <div className="col-md-6">
             <label for="email" class="form-label">
               Email
             </label>
-            <input type="email" className="form-control" id="email" onChange={(e) => handleChange(e)} required />
+            <input type="email" className="form-control" name="email" onChange={(e) => handleChange(e)} required />
           </div>
         </div>
 
@@ -96,13 +97,13 @@ export default function Register() {
             <label for="password" class="form-label">
               Password
             </label>
-            <input type="password" className="form-control" id="password" onChange={(e) => handleChange(e)} required />
+            <input type="password" className="form-control" name="password" onChange={(e) => handleChange(e)} required />
           </div>
           <div className="col-md-6">
             <label for="confirmPassword" class="form-label">
               Confirm password
             </label>
-            <input type="password" className="form-control" id="confirmPassword" onChange={(e) => onConfirmPwChanged(e)} required />
+            <input type="password" className="form-control" name="confirmPassword" onChange={(e) => onConfirmPwChanged(e)} required />
           </div>
         </div>
 
@@ -111,7 +112,7 @@ export default function Register() {
             <label for="gender" class="form-label">
               Gender
             </label>
-            <select className="form-control" id="gender" onChange={(e) => handleChange(e)} required>
+            <select className="form-control" name="gender" onChange={(e) => handleChange(e)} required>
               <option value="" disabled selected hidden>
                 Select a gender...
               </option>
@@ -121,10 +122,10 @@ export default function Register() {
             </select>
           </div>
           <div className="col-md-6">
-            <label for="year" class="form-label">
+            <label for="year" className="form-label">
               Year
             </label>
-            <select className="form-control" id="year" onChange={(e) => handleChange(e)} required>
+            <select className="form-control" name="year" onChange={(e) => handleChange(e)} required>
               <option value="" disabled selected hidden>
                 Select a year...
               </option>
@@ -139,10 +140,10 @@ export default function Register() {
 
         <div className="row pb-3">
           <div className="col-md-6">
-            <label for="section" class="form-label">
+            <label for="section" className="form-label">
             Section
             </label>
-            <select className="form-control" id="section" onChange={(e) => handleChange(e)} required>
+            <select className="form-control" name="section" onChange={(e) => handleChange(e)} required>
               <option value="" disabled selected hidden>
                 Select a section...
               </option>

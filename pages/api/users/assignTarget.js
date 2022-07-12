@@ -1,5 +1,6 @@
 import dbConnect from '../../../lib/dbConnect'
 const User = require("../../../models/user");
+const Game = require("../../../models/game");
 
 export default async function handler(req, res){
     const { gameId, matches } = req.body;
@@ -9,40 +10,23 @@ export default async function handler(req, res){
 
         for (var i=0; i<matches.length; i++) {
             var userName = matches[i].userName;
-            var targets = [matches[(i+1)%matches.length].userName];
-            var u;
+            var targets = matches[(i+1)%matches.length].userName;
 
-            try {
-                u = await User.findOne({userName: userName});
-            } catch(err) {
-                return res.status(500).json({message: err.message});
-            }
+            var u = await User.findOne({userName: userName});
 
-            var game = {
-                gameId: gameId,
-                targets: targets,
-                eliminated: 0,
-                isActive: true,
-                isWinner: false
-            }
-
-            try {
-                u.gamesPlayed.push(game);
-                const updatedUser = await u.save();
-            } catch(err) {
-                return res.status(400).json({message: err.message});
+            for (var j=0; j<u.gamesPlayed.length; j++) {
+                if (u.gamesPlayed[j].gameId===gameId) {
+                    u.gamesPlayed[j].targets.push(targets);
+                    const updatedUser = await u.save();
+                    break;
+                }
             }
         }
 
-        // const result = await PlayerStatus.insertMany(players);
-        // User.updateMany({userName: {$in: names}}, {$push: {gamesPlayed: {
-        //     gameId: gameId,
-        //     targets: [matches[(matches.find(userName)+1)%matches.length].userName],
-        //     eliminated: 0,
-        //     isActive: true,
-        //     isWinner: false
-        // }}});
-        // // console.log(result);
+        const game = await Game.findOne({_id: gameId});
+        game.status = "ongoing";
+        await game.save();
+
         res.status(201).json("Successfully assigned targets");
     } catch (err) {
         res.status(500).json({message: err});

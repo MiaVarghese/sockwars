@@ -1,5 +1,6 @@
 import dbConnect from '../../lib/dbConnect'
 const User = require("../../models/user");
+const Game = require("../../models/game");
 
 function findPosition(players, matches, d) {
     for (let i=0; i<players.length; i++) {
@@ -78,13 +79,31 @@ function shuffle(array) {
   }
 
 export default async function handler(req, res){
-    for (var i=0; i<10; i++) {
-        var matches = matchTargets(req.body.players, 2);
-        if (matches!==[false]) {
-            break;
-        } else {
-            req.body.players = shuffle(req.body.players);
+    try {
+        await dbConnect();
+        const game = await Game.findOne({_id: req.body.gameId});
+        if (game.status!=="pending") {
+            throw Error("Targets already matched");
         }
+
+        console.log(req.body.gameId);
+        var players = game.activePlayers;
+
+        for (var i=0; i<10; i++) {
+            var matches = matchTargets(players, 2);
+            if (matches!==[false]) {
+                break;
+            } else {
+                players = shuffle(players);
+            }
+        }
+
+        if (matches===[false]) {
+            throw Error("Match could not be found. Please try again.");
+        }
+
+        res.json(matches);
+    } catch(err) {
+        res.status(500).json({ message: err.message });
     }
-    res.json(matches);
 }
