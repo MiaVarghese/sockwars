@@ -35,11 +35,11 @@ function ListGames() {
                     <Link style={{color:"white"}} href={`/games/${encodeURIComponent(game._id)}`}>
                         <a>Game {idx}</a>
                     </Link> 
-                    {user != null && user.role === "admin" && (
+                    {/* {user != null && user.role === "admin" && (
                         <Link style={{marginLeft:"10px"}} href={`/games/${encodeURIComponent(game._id)}/immunities`}>
                             <a>Add Immunity</a>
                         </Link> 
-                    )}
+                    )} */}
                 </div>
                 )
             })
