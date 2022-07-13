@@ -1,8 +1,13 @@
 import styles from '../styles/App.module.css'
+import { useContext } from "react";
+import {UserContext} from "./hooks/UserContext";
 
 export default function Home() {
+    const { user } = useContext(UserContext);
+
     return (
         <div>
+            {user ? (
             <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
                 <div class="container-fluid">
                     <a class="navbar-brand">Sock Wars</a>
@@ -14,7 +19,45 @@ export default function Home() {
                     
                     <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                         <li class="nav-item">
-                            <a class="nav-link" href="/immunity">Immunities</a>
+                          <a class="nav-link" href="/immunity">Immunities</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/target">Target</a>
+                        </li>
+                        <li class="nav-item">
+                        <a class="nav-link" href="/elimpage">Report Elimination</a>
+                        </li>
+                        <li class="nav-item">
+                        <a class="nav-link" href="/">Leaderboard</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link active" aria-current="page" href="#">Rules</a>
+                        </li>
+                    </ul>
+                    
+                    <li class="nav-item">
+                        <a class="nav-link" href="/settings">Settings</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Logout</a>
+                    </li>
+                    
+
+                  
+                </div>
+            </nav>) : (
+            <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+                <div class="container-fluid">
+                    <a class="navbar-brand">Sock Wars</a>
+                    
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    
+                    
+                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                        <li class="nav-item">
+                          <a class="nav-link" href="/immunity">Immunities</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="/target">Target</a>
@@ -23,12 +66,13 @@ export default function Home() {
                             <a class="nav-link" href="/elimpage">Report Elimination</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="/">Leaderboard</a>
+                        <a class="nav-link active" aria-current="page" href="#">Leaderboard</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link active" aria-current="page" href="#">Rules</a>
+                            <a class="nav-link" href="/rules">Rules</a>
                         </li>
                     </ul>
+                    
                     <li class="nav-item">
                         <a class="nav-link" href="/register">Register</a>
                     </li>
@@ -36,8 +80,11 @@ export default function Home() {
                     <li class="nav-item">
                         <a class="nav-link" href="/login">Login</a>
                     </li>
+                    
+                    
+                  
                 </div>
-            </nav>
+            </nav>)}
 
             <h1 className={styles.h1}>SOCK WARS</h1>
 
