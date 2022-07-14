@@ -69,7 +69,7 @@ export default function Gamehistory() {
       date.setDate( date.getDate() - 1 );
       setLockDate(date);
       setGame(response.data);
-      console.log(response.data);
+      console.log(typeof(response.data.startDate));
     } catch (err) {
       console.log(err);
     }
@@ -199,8 +199,57 @@ export default function Gamehistory() {
   }
 
   const submitEdits = async () => {
-    console.log(gameEdit)
-    //Promise.all
+    let ap_urls = [] //urls for Active Players
+    for(const ap of gameEdit.activePlayers) {
+      const req = axios.get(URL_PREFIX + "/users/" + ap.userName);
+      ap_urls.push(req)
+    }
+    let ep_urls = [] //urls for Eliminated Players
+    for(const ep of gameEdit.eliminatedPlayers) {
+      const req = axios.get(URL_PREFIX + "/users/" + ep.userName);
+      ep_urls.push(req)
+    }
+    let actives = [];
+    await Promise.all(ap_urls)
+      .then((players) => {
+        for(const p of players) {
+          actives.push({
+            id: p.data._id,
+            userName: p.data.userName,
+            section: p.data.section
+          })
+        }
+      })
+      .catch((error) => {
+        console.log(error)
+      });
+    let elims = [];
+    await Promise.all(ep_urls)
+      .then((players) => {
+        for(const p of players) {
+          elims.push({
+            id: p.data._id,
+            userName: p.data.userName,
+            section: p.data.section
+          })
+        }
+      })
+      .catch((error) => {
+        console.log(error)
+      });
+    try {
+      const response = await axios.patch(URL_PREFIX + "/games/editgame", {
+        _id: _id,
+        activePlayers: actives,
+        eliminatedPlayers: elims,
+        startDate: gameEdit.startDate,
+        endDate: gameEdit.endDate,
+        immunities: gameEdit.immunities,
+      });
+      console.log(response.data);
+    } catch(err) {
+      console.log(err.response.data);
+    }
   }
     
   async function unjoin() {
