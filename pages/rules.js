@@ -66,10 +66,10 @@ export default function Home() {
                             <a class="nav-link" href="/elimpage">Report Elimination</a>
                         </li>
                         <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="#">Leaderboard</a>
+                        <a class="nav-link" href="/">Leaderboard</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="/rules">Rules</a>
+                        <a class="nav-link active" aria-current="page" href="#">Rules</a>
                         </li>
                     </ul>
                     

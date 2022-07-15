@@ -71,9 +71,6 @@ export default function Gamehistory() {
                     <li class="nav-item">
                         <a class="nav-link" href="#">Logout</a>
                     </li>
-                    
-
-                  
                 </div>
             </nav>) : (
             <nav class="navbar navbar-expand-lg navbar-dark bg-dark">

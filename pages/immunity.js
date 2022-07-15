@@ -58,7 +58,7 @@ export default function Home() {
                     
                     <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                         <li class="nav-item">
-                          <a class="nav-link" href="/immunity">Immunities</a>
+                            <a class="nav-link active" aria-current="page" href="#">Immunities</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="/target">Target</a>
@@ -67,7 +67,7 @@ export default function Home() {
                             <a class="nav-link" href="/elimpage">Report Elimination</a>
                         </li>
                         <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="#">Leaderboard</a>
+                        <a class="nav-link" href="/">Leaderboard</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="/rules">Rules</a>

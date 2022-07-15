@@ -120,13 +120,13 @@ export default function Target() {
                           <a class="nav-link" href="/immunity">Immunities</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="/target">Target</a>
+                            <a class="nav-link active" aria-current="page" href="#">Target</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="/elimpage">Report Elimination</a>
                         </li>
                         <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="#">Leaderboard</a>
+                        <a class="nav-link" href="/">Leaderboard</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="/rules">Rules</a>
