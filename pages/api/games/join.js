@@ -3,17 +3,15 @@ const User = require("../../../models/user");
 const Game = require("../../../models/game");
 
 export default async function handler(req, res) {
-  const { _id, userString } = req.body;
+  const { _id, user } = req.body;
   if(req.method === "PATCH") {
     try {
       await dbConnect();
-      const user = JSON.parse(userString)
-      const username = user.userName;
-      console.log(typeof(user._id))
       await User.updateOne(
-        { userName: username },
+        { userName: user.userName },
         { $push: {"gamesPlayed": {
             gameId: _id,
+            gameTitle: "",
             targets: [],
             eliminated: 0,
             isActive: true,
@@ -23,13 +21,15 @@ export default async function handler(req, res) {
             "statistics.gamesPlayed" : 1
           }
         }
-      )
+      );
+
       await Game.updateOne(
         { _id: _id },
         { $push: {"activePlayers": {
             id: user._id,
-            userName: username,
-            section: user.section
+            userName: user.userName,
+            section: user.section,
+            friends: user.friends
         }}}
       );
       res.status(201).json("Successfully opted into game");

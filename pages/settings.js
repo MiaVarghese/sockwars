@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import DetailsTab from "./components/DetailsTab";
 import NotificationsTab from "./components/NotificationsTab";
 import PasswordTab from "./components/PasswordTab";
+import GameTab from "./components/GameTab";
 import Spinner from "./components/Spinner";
 
 import axios from "axios";
@@ -10,19 +11,13 @@ const endPoint = process.env.NEXT_PUBLIC_REACT_APP_URL + "/users/accountInfo";
 
 export default function Settings() {
   const [userInfo, setUserInfo] = useState(null);
+  const [friends, setFriends] = useState([]);
 
   async function fetchAccountInfo() {
-    // const config = {
-    //     headers:{
-    //         authorization: window.localStorage.getItem("token")
-    //     }
-    // };
-
     try {
       const response = await axios.get(endPoint);
       setUserInfo(response.data);
-      console.log(response.data);
-      console.log(userInfo);
+      setFriends(response.data.friends);
     } catch (err) {
       console.log(err);
     }
@@ -47,12 +42,6 @@ export default function Settings() {
   };
 
   async function updateAccountInfo() {
-    // const config = {
-    //     headers:{
-    //         authorization: window.localStorage.getItem("token")
-    //     }
-    // };
-
     try {
       const response = await axios.patch(endPoint, {
         userInfo,
@@ -66,15 +55,15 @@ export default function Settings() {
   }
 
   return (
-    <div class="container p-5">
+    <div className="container p-5">
       {!userInfo ? (
         <Spinner />
       ) : (
         <div
-          class="p-3 pb-5"
+          className="p-3 pb-5"
           style={{ borderRadius: "10px", backgroundColor: "#2A3B4B" }}
         >
-          <h2 class="px-3 mb-1" style={{ color: "white" }}>
+          <h2 className="px-3 mb-1" style={{ color: "white" }}>
             Settings
           </h2>
           <hr className="mt-0" style={{ color: "white" }}></hr>
@@ -88,7 +77,7 @@ export default function Settings() {
               aria-orientation="vertical"
             >
               <button
-                class="nav-link active"
+                className="nav-link active"
                 id="account-tab"
                 data-bs-toggle="pill"
                 data-bs-target="#pills-account"
@@ -100,7 +89,7 @@ export default function Settings() {
                 Account Details
               </button>
               <button
-                class="nav-link"
+                className="nav-link"
                 id="profile-tab"
                 data-bs-toggle="pill"
                 data-bs-target="#pills-profile"
@@ -112,7 +101,7 @@ export default function Settings() {
                 Password
               </button>
               <button
-                class="nav-link"
+                className="nav-link"
                 id="messages-tab"
                 data-bs-toggle="pill"
                 data-bs-target="#pills-messages"
@@ -123,12 +112,24 @@ export default function Settings() {
               >
                 Notifications
               </button>
+              <button
+                className="nav-link"
+                id="game-tab"
+                data-bs-toggle="pill"
+                data-bs-target="#pills-game"
+                type="button"
+                role="tab"
+                aria-controls="pills-game"
+                aria-selected="false"
+              >
+                Game
+              </button>
             </div>
 
             {/* Tab Content */}
             <div
               style={{ backgroundColor: "", color: "white" }}
-              class="col-md-10 tab-content"
+              className="col-md-10 tab-content"
               id="pills-tabContent"
             >
               {/* Account Details Tab */}
@@ -145,6 +146,8 @@ export default function Settings() {
               {/* Notifications Tab */}
 
               <NotificationsTab />
+
+              <GameTab userName={userInfo.userName} friends={friends} setFriends={setFriends}/>
             </div>
           </div>
         </div>

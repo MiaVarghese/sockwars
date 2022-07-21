@@ -29,7 +29,6 @@ export default function Gamehistory() {
           for (var i=0; i<user.gamesPlayed.length; i++) {
             if (user.gamesPlayed[i].gameId===_id) {
               setHasJoined(true);
-              console.log("here");
               break;
             }
           }
@@ -59,9 +58,10 @@ export default function Gamehistory() {
     axios
       .patch(URL_PREFIX + "/games/join", {
         _id: _id,
-        userString: localStorage.user,
+        user: user,
       })
       .then((response) => {
+        setHasJoined(true);
         console.log(response);
       })
       .catch((error) => {
@@ -84,7 +84,7 @@ export default function Gamehistory() {
         setError(null);
         const response = await axios.post(matchEndPoint, {gameId: _id});
         console.log(response.data);
-        assignTargets(response.data);
+        // assignTargets(response.data);
     } catch(err) {
         setError(err.response.data.message);
         console.log(err.response);

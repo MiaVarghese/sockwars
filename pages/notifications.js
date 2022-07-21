@@ -3,6 +3,7 @@ import { useRouter } from "next/router";
 import axios from "axios";
 import Notification from "./components/Notification";
 import Pagination from "./components/Pagination";
+import ModalPagination from "./components/ModalPagination";
 import Spinner from "./components/Spinner";
 
 const endPoint = process.env.NEXT_PUBLIC_REACT_APP_URL + "/users/accountInfo";
@@ -73,7 +74,8 @@ export default function Notifications() {
                         <hr className="m-0" style={{color: "lightgrey"}}></hr> */}
                     </ul>
                 </div>
-                <Pagination numNotifs={numNotifs} perPage={10} page={page} />
+                {/* <Pagination numNotifs={numNotifs} perPage={10} page={page} /> */}
+                <Pagination numItems={numNotifs} perPage={10} page={page} type="page" />
             </div>
             }
     </div>

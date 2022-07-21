@@ -25,9 +25,21 @@ function findPosition(players, matches, d) {
                         back = matches.length + back;
                     }
 
-                    if (currUser.section===matches[back].section) {
+                    const userFriends = currUser.friends.map((friend)=> {
+                        return friend.userName;
+                    });
+
+                    const backFriends = matches[back].friends.map((friend)=> {
+                        return friend.userName;
+                    });
+
+                    const forwardFriends = matches[forward].friends.map((friend)=> {
+                        return friend.userName;
+                    });
+
+                    if (currUser.section===matches[back].section || userFriends.indexOf(matches[back].userName)!==-1 || backFriends.indexOf(currUser.userName)!==-1) {
                         break;
-                    } else if (currUser.section===matches[forward].section) {
+                    } else if (currUser.section===matches[forward].section || userFriends.indexOf(matches[forward].userName)!==-1 || forwardFriends.indexOf(currUser.userName)!==-1) {
                         break
                     }
 
@@ -49,11 +61,12 @@ function findPosition(players, matches, d) {
 
 function matchTargets(players, d) {
     var matches = [];
+    console.log("here");
     while(matches.length!==players.length) {
         var size = matches.length;
         var result = findPosition(players, matches, d);
         matches = result[1];
-        // console.log(matches);
+        console.log(matches);
         if (size==result[1].length) {
             return false;
         }
@@ -86,14 +99,15 @@ export default async function handler(req, res){
             throw Error("Targets already matched");
         }
 
-        var players = game.activePlayers;
+        var players = JSON.parse(JSON.stringify(game.activePlayers));
 
-        for (var i=0; i<10; i++) {
+        for (var i=0; i<1; i++) {
             var matches = matchTargets(players, 2);
             if (matches!==false) {
                 break;
             } else {
-                players = shuffle(players);
+                players = shuffle(JSON.parse(JSON.stringify(game.activePlayers)));
+                // console.log(players);
             }
         }
 

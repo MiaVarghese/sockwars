@@ -10,6 +10,12 @@ const userSchema = new mongoose.Schema({
     year: {type: String, required: true, enum: ["first", "second", "third", "fourth", "other"]},
     section: {type: String, required: true},
     role: {type: String,required: true, enum: ["user", "admin"], default: "user"},
+    friends: {
+        userName: {type: String},
+        firstName: {type: String},
+        lastName: {type: String},
+        section: {type: String}
+    },
     notifications: [{
         header: {type: String},
         message: {type: String},

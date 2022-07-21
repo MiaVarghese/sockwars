@@ -27,7 +27,7 @@ export default function Pagination(props) {
             {Math.ceil(numItems/perPage) <= 1 ?
             ""
             :
-            <ul className="pagination p-0 m-0">
+            <ul className="pagination">
 
                 <li className="page-item">
                     {props.type!=="modal" ?
@@ -49,7 +49,7 @@ export default function Pagination(props) {
                     :
                         <button className="page-link" onClick={()=>getItems(props.page+1)} disabled={props.page==Math.ceil(numItems/perPage)}>&raquo;</button>
                     }
-                </li> 
+                </li>
             </ul>
             }
         </nav>

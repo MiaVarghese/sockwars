@@ -95,7 +95,7 @@ export default function GeneralNotif(props) {
                                     <div>
                                         <button className={styles.confirmBtn}>
                                             <Link href={"./games/" + props.gameId}>
-                                                View
+                                                <a style={{textDecoration: "none", color: "white"}}>View</a>
                                             </Link>
                                         </button>
                                     </div>
