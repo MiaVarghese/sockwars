@@ -34,5 +34,22 @@ export default function middleware(req) {
         }
     }
 
+    if (url.includes("/games/create")) {
+        if (jwt) {
+            try {
+                const decoded = jwt.verify(token, process.env.JWT_SECRET_KEY);
+                if (decoded.permission=="admin") {
+                    return NextResponse.next();
+                } else {
+                    return NextResponse.redirect(baseUrl);
+                }
+            } catch(err) {
+                return NextResponse.redirect(baseUrl);
+            }
+        } else {
+            return NextResponse.redirect(baseUrl);
+        }
+    }
+
     return NextResponse.next();
 }

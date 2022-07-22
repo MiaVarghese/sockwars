@@ -34,7 +34,7 @@ export default async function handler(req, res){
             };
             const newUser = await user.save();
 
-            const token = jwt.sign({ id: newUser._id }, process.env.JWT_SECRET_KEY);
+            const token = jwt.sign({ id: newUser._id, permission: "user" }, process.env.JWT_SECRET_KEY);
 
             const serialised = serialize("token", token, {
                 httpOnly: true,
