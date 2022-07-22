@@ -9,17 +9,11 @@ const notifEndPoint = process.env.NEXT_PUBLIC_REACT_APP_URL + "/notifications/se
 function Create() {
   const [allUsers, setUsers] = useState([]);
   const [startDate, setStartDate] = useState('');
-//   const [endDate, setEndDate] = useState('');
-  const [title, setTitle] = useState();
+  const [title, setTitle] = useState("");
   const [user, setUser] = useState({});
-  const [immunities, setImmunities] = useState([]);
+  const [immunities, setImmunities] = useState([""]);
   const [success, setSuccess] = useState(false);
   const [error, setError] = useState(false);
-  const [fields, setFields] = useState([{
-    id: 1,
-    firstName: "",
-    lastName: ""
-  }]);
 
   useEffect(() => {
       /*axios.get(URL_PREFIX + "/users").then((response) => {
@@ -45,10 +39,11 @@ function Create() {
           eliminatedPlayers: [],
           startDate: startDate + ':00',
         //   endDate: endDate + ':00',
-          immunities: []
+          immunities: immunities.length === 1 & immunities[0] === "" ? [] : immunities
       })
       .then((response) => {
           console.log(response);
+          resetForm();
           try {
               sendNotification(response.data._id);
               setSuccess(true);
@@ -60,6 +55,12 @@ function Create() {
           console.log(error.response);
           setError(true);
       });
+  }
+
+  function resetForm() {
+    setTitle("");
+    setStartDate("");
+    setImmunities([""]);
   }
 
   async function sendNotification(id) {
@@ -77,21 +78,21 @@ function Create() {
   }
 
   const handleChangeInput = (i, e) => {
-    console.log(e.target.value);
-    const values = [...fields]
-    values[i][e.target.name] = e.target.value
-    setFields(values)
+    //console.log(e.target.value);
+    const values = [...immunities];
+    values[i] = e.target.value;
+    setImmunities(values);
   }
   
   
   const handleAdd = (id) => {
-    setFields([...fields, { id: id + 2, firstName: '', lastName: '' }])
+    setImmunities([...immunities, ""]);
   }
   
   const handleSubtract = (i) => {
-    const values = [...fields]
-    values.splice(i, 1)
-    setFields([...values])
+    const values = [...immunities];
+    values.splice(i, 1);
+    setImmunities(values);
   }
 
   return (
@@ -119,7 +120,7 @@ function Create() {
 
           <div className="col-6" style={{ color:"rgb(239, 229, 189)", margin: "auto"}}>
               <label>Game Title: </label>
-              <input className="form-control"
+              <input className="form-control" value={title}
                   type='text'
                   onChange={e => {
                       setTitle(e.target.value)
@@ -131,6 +132,7 @@ function Create() {
               <label>Start Date: </label>
               <input
                   className="form-control"
+                  value = {startDate}
                   type='datetime-local'
                   onChange={e => {
                       console.log(typeof(e.target.value))
@@ -140,36 +142,23 @@ function Create() {
               />
           </div>
           <p></p>
-          {/* <div className="col-6" style={{ color:"rgb(239, 229, 189)", margin: "auto"}}>
-              <label>End Date: </label>
-              <input
-                  className="form-control"
-                  type='datetime-local'
-                  onChange={e => {
-                      console.log(typeof(e.target.value))
-                      console.log(e.target.value)
-                      setEndDate(e.target.value)
-                  }}
-              />
-          </div>
-          <p></p> */}
           <h5 style={{textAlign: "center", paddingLeft:"20px", paddingRight: "20px", color:"rgb(239, 229, 189)"}}>You may add immunities below:</h5>
-          {fields.map((field, i) => (
-            <div key={field.id} className="col-6" style={{ color:"rgb(239, 229, 189)", margin: "auto"}}>
+          {immunities.map((field, i) => (
+            <div key={i} className="col-6" style={{ color:"rgb(239, 229, 189)", margin: "auto"}}>
               <label>Immunity {i+1}:</label>
               <input
                 className="form-control"
                 type="text"
                 placeholder="Enter First Name"
                 name="firstName"
-                value={field.firstName}
+                value={field}
                 onChange={e => handleChangeInput(i, e)}
                 style={{marginLeft:"3px"}}
               />
               <button onClick={() => handleAdd(i)} className="btn btn-outline-success btn-sm" style={{marginLeft:"5px"}}>
                 Add
               </button>
-              <button disabled={field.id === 1} onClick={() => handleSubtract(i)} className="btn btn-outline-danger btn-sm" style={{marginLeft:"5px"}}>
+              <button disabled={i === 1} onClick={() => handleSubtract(i)} className="btn btn-outline-danger btn-sm" style={{marginLeft:"5px"}}>
                 Del
               </button>
             </div>
@@ -180,7 +169,7 @@ function Create() {
                   <div>{field.id}</div>
                   <div>{field.firstName}</div>
                   <div>{field.lastName}</div>
-              </div>
+              </div> 
               </>
           )} */}
           <p></p>
