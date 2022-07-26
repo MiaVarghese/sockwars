@@ -5,6 +5,7 @@ export const GameContext = React.createContext();
 const endPoint = process.env.NEXT_PUBLIC_REACT_APP_URL + "/games/recent";
 
 export function GameProvider({ children }) {
+    const [prevGame, setPrevGame] = useState();
     const [currGame, setCurrGame] = useState();
     const [nextGame, setNextGame] = useState();
   
@@ -15,15 +16,11 @@ export function GameProvider({ children }) {
     async function fetchRecentGames() {
       try {
         const response = await axios.get(endPoint);
-        if (response.data.length===1) {
-            setCurrGame(response.data[0]);
-        } else if (response.data.length==2) {
-            setCurrGame(response.data[0]);
-            setNextGame(response.data[1]);
-        }
+        setPrevGame(response.data.prev);
+        setCurrGame(response.data.curr);
+        setNextGame(response.data.next);
 
         console.log(response.data);
-
       } catch(err) {
         console.log(err);
         if (err.response) {

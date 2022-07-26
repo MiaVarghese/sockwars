@@ -2,7 +2,7 @@ import dbConnect from '../../../lib/dbConnect'
 const User = require("../../../models/user");
 
 export default async function handler(req, res){
-    const { userName, targetId, gameId } = req.body;
+    const { userName, target, gameId } = req.body;
 
     try {
         await dbConnect();
@@ -15,7 +15,7 @@ export default async function handler(req, res){
             gameId: gameId
         }
 
-        const results = await User.updateOne({_id: targetId}, {$push: {notifications: obj}});
+        const results = await User.updateOne({userName: target}, {$push: {notifications: obj}});
         res.status(201).json(results);
     } catch (err) {
         res.status(500).json({message: err});

@@ -10,13 +10,17 @@ export default async function handler(req, res){
 
         for (var i=0; i<matches.length; i++) {
             var userName = matches[i].userName;
-            var targets = matches[(i+1)%matches.length].userName;
+            var target = matches[(i+1)%matches.length];
 
             var u = await User.findOne({userName: userName});
 
             for (var j=0; j<u.gamesPlayed.length; j++) {
                 if (u.gamesPlayed[j].gameId===gameId) {
-                    u.gamesPlayed[j].targets.push(targets);
+                    u.gamesPlayed[j].targets.push({
+                        userName: target.userName,
+                        firstName: target.firstName,
+                        lastName: target.lastName
+                    });
                     const updatedUser = await u.save();
                     break;
                 }

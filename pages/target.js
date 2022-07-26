@@ -7,6 +7,7 @@ import Spinner from "./components/Spinner";
 
 const URL_PREFIX = process.env.NEXT_PUBLIC_REACT_APP_URL;
 const endPoint = process.env.NEXT_PUBLIC_REACT_APP_URL + "/notifications/elimination";
+const userEndPoint = process.env.NEXT_PUBLIC_REACT_APP_URL + "/auth/verify";
 
 export default function Target() {
     const [eliminated, setEliminated] = useState(false);
@@ -14,17 +15,24 @@ export default function Target() {
     const [error, setError] = useState(false);
     const [target, setTarget] = useState();
     const [prevTargets, setPrevTargets] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [user, setUser] = useState();
     const { currGame } = useContext(GameContext);
-    const { user } = useContext(UserContext);
+    // const { user } = useContext(UserContext);
 
     useEffect(() => {
-        if (user && currGame) {
+        setLoading(true);
+        if (currGame && currGame.status==="ongoing") {
             getTarget();
         }
-    }, [user, currGame]);
+        setLoading(false);
+    }, [currGame]);
 
     async function getTarget() {
         try {
+            const response = await axios.get(userEndPoint);
+            var user = response.data;
+            setUser(user);
             var userGame;
             for (var i=0; i<user.gamesPlayed.length; i++) {
                 if (user.gamesPlayed[i].gameId===currGame._id) {
@@ -33,12 +41,11 @@ export default function Target() {
             }
 
             if (userGame && userGame.isActive) {
-                const targetName = userGame.targets.pop();
+                const curr = userGame.targets.pop();
                 setPrevTargets(userGame.targets)
-                const response = await axios.get(URL_PREFIX + "/users/" + targetName);
-                setTarget(response.data);
+                setTarget(curr);
             } else {
-                setTarget({firstName: "N/A"});
+                setTarget(null);
             }
         } catch (err) {
             console.log(err);
@@ -51,7 +58,7 @@ export default function Target() {
             setError(false);
             if (eliminated) {
                 const response = await axios.patch(endPoint, {
-                    targetId: target._id,
+                    target: target.userName,
                     userName: user.userName,
                     gameId: currGame._id
                 });
@@ -66,7 +73,7 @@ export default function Target() {
 
     return (
         <div style={{paddingTop:"10px"}}>
-            {!target ?
+            {loading ?
             <Spinner />
             :
             <div>        
@@ -89,14 +96,23 @@ export default function Target() {
                 <div className={styles.rulesContainer}>
                     <h1 style={{textAlign: "center", paddingLeft:"20px", paddingRight: "20px"}}>Current Target:</h1>
 
-                    <h2 style={{textAlign: "center", paddingLeft:"20px", paddingRight: "20px", paddingBottom: "10px"}}>{target.firstName} {target.lastName}</h2>
+                    {target?
+                    <h2 style={{textAlign: "center", paddingLeft:"20px", paddingRight: "20px", paddingBottom: "10px"}}>
+                        {target.firstName} {target.lastName}
+                    </h2>
+                    :
+                    <h2 style={{textAlign: "center", paddingLeft:"20px", paddingRight: "20px", paddingBottom: "10px"}}>
+                    N/A
+                </h2>
+                    }   
+                    
                     <div className="form-check" style={{width: "fit-content", margin:"auto"}}>
                         <input type="checkbox" className="form-check-input" checked={eliminated} onChange={e => {setEliminated(!eliminated)}}/>
                         <label className="form-check-label" htmlFor="exampleCheck1">I have eliminated my target</label>
                     </div>
                     <div style={{textAlign:"center"}}>
                         {/*<button type="submit" className="btn btn-secondary btn-sm" style={{backgroundColor:"rgb(45, 64, 83)", marginTop:"10px", marginBottom:"10px"}}>Submit</button>*/}
-                        <button disabled={target.firstName==="N/A"} type="button" className="btn btn-primary" data-bs-toggle="modal" data-bs-target="#confirmModal"
+                        <button disabled={!target} type="button" className="btn btn-primary" data-bs-toggle="modal" data-bs-target="#confirmModal"
                             style={{backgroundColor:"rgb(45, 64, 83)", marginTop:"10px", marginBottom:"10px"}}>
                             Submit
                         </button>

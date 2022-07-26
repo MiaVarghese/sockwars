@@ -25,7 +25,11 @@ const userSchema = new mongoose.Schema({
     }],
     gamesPlayed: [{
         gameId: String,
-        targets: [String],
+        targets: [{
+            userName: {type: String},
+            firstName: {type: String},
+            lastName: {type: String}
+        }],
         eliminated: Number,
         isActive: Boolean,
         isWinner: Boolean

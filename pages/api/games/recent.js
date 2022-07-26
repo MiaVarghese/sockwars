@@ -7,13 +7,18 @@ export default async function handler(req, res) {
     var result = [];
 
     const games = await Game.find().sort({startDate: -1});
-    // const recent = games[games.length-1];
+    var prev;
+    var curr;
+    var next;
 
     for (var i=0; i<games.length; i++) {
-      if (games[i].status=="ongoing") {
-        result.push(games[i]);
-        if (i<games.length-1 && games[i+1].status=="pending") {
-          result.push(games[i+1]);
+      if (games[i].startDate<new Date() && games[i].status!="ended") {
+        curr = games[i];
+        if (i<games.length-1 && games[i+1].startDate>new Date()) {
+          next = (games[i+1]);
+        }
+        if (i>0 && games[i-1].status==="ended") {
+          prev = games[i-1];
         }
         break;
       }
@@ -26,7 +31,7 @@ export default async function handler(req, res) {
     //     result.push(recent);
     // }
 
-    res.json(result);
+    res.json({prev: prev, curr: curr, next: next});
   } catch (err) {
     res.status(500).json({ message: err.message });
   }

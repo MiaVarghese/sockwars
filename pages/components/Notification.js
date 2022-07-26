@@ -58,7 +58,7 @@ export default function GeneralNotif(props) {
             const response = await axios.patch(confirmEndPoint, params);
             deleteNotification();
         } catch(err) {
-            console.log(err);
+            console.log(err.response);
         }
     }
 
