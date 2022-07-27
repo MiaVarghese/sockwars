@@ -8,6 +8,7 @@ import Spinner from "./components/Spinner";
 const URL_PREFIX = process.env.NEXT_PUBLIC_REACT_APP_URL;
 const endPoint = process.env.NEXT_PUBLIC_REACT_APP_URL + "/notifications/elimination";
 const userEndPoint = process.env.NEXT_PUBLIC_REACT_APP_URL + "/auth/verify";
+const targetEndPoint = process.env.NEXT_PUBLIC_REACT_APP_URL + "/users/target?gameId=";
 
 export default function Target() {
     const [eliminated, setEliminated] = useState(false);
@@ -16,9 +17,8 @@ export default function Target() {
     const [target, setTarget] = useState();
     const [prevTargets, setPrevTargets] = useState([]);
     const [loading, setLoading] = useState(true);
-    const [user, setUser] = useState();
     const { currGame } = useContext(GameContext);
-    // const { user } = useContext(UserContext);
+    const { user } = useContext(UserContext);
 
     useEffect(() => {
         setLoading(true);
@@ -30,19 +30,13 @@ export default function Target() {
 
     async function getTarget() {
         try {
-            const response = await axios.get(userEndPoint);
-            var user = response.data;
-            setUser(user);
-            var userGame;
-            for (var i=0; i<user.gamesPlayed.length; i++) {
-                if (user.gamesPlayed[i].gameId===currGame._id) {
-                    userGame = user.gamesPlayed[i];
-                }
-            }
+            const res = await axios.get(targetEndPoint + currGame._id);
+            console.log(res);
+            var userGame = res.data.gamesPlayed[0];
 
             if (userGame && userGame.isActive) {
                 const curr = userGame.targets.pop();
-                setPrevTargets(userGame.targets)
+                setPrevTargets(userGame.targets);
                 setTarget(curr);
             } else {
                 setTarget(null);
@@ -151,7 +145,7 @@ export default function Target() {
                     :
                         <ol>
                         {prevTargets.map((target) => (
-                            <li>{target}</li>
+                            <li key={target.userName}>{target.userName}</li>
                         ))}
                         </ol>
                     }
